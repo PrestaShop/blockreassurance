@@ -1,0 +1,24 @@
+/* BLOCK #reassurance_block ******************************************************************** */
+#reassurance_block {background:url(../blockreassurance/img/bg_reassurance_block.gif) repeat-x 0 0 #c3c7cb}
+#reassurance_block li {
+	float:left;
+	padding:15px 10px !important;
+	font-size:13px;
+	color:#333;
+	text-transform:uppercase;
+	text-shadow:0 1px 0 #fff
+}
+#reassurance_block .width1 li {width:960px}
+#reassurance_block .width2 li {width:470px}
+#reassurance_block .width3 li {width:305px}
+#reassurance_block .width4 li {width:224px}
+#reassurance_block .width5 li {width:175px}
+#reassurance_block li img{
+	float:left;
+	margin-right:10px;
+}
+#reassurance_block li span {
+	float:left;
+	padding-top:12px;
+	width:65%;
+}
