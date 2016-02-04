@@ -22,14 +22,12 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{if $infos|@count > 0}
-<!-- MODULE Block reassurance -->
-<div id="reassurance_block" class="clearfix">
-	<ul class="width{$nbblocks}">
-		{foreach from=$infos item=info}
-			<li><img src="{$link->getMediaLink("`$module_dir`img/`$info.file_name|escape:'htmlall':'UTF-8'`")}" alt="{$info.text|escape:html:'UTF-8'}" /> <span>{$info.text|escape:html:'UTF-8'}</span></li>
-		{/foreach}
-	</ul>
-</div>
-<!-- /MODULE Block reassurance -->
+{if $elements}
+  <div id="block-reassurance">
+    <ul>
+      {foreach from=$elements item=element}
+        <li><img src="{$element.image}" /> <span>{$element.text}</span></li>
+      {/foreach}
+    </ul>
+  </div>
 {/if}
