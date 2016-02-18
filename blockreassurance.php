@@ -171,7 +171,7 @@ class Blockreassurance extends Module implements WidgetInterface
                     $reassurance = new reassuranceClass((int)$id_reassurance);
                     $helper->fields_value['text'][(int)$lang['id_lang']] = $reassurance->text[(int)$lang['id_lang']];
                     $image = dirname(__FILE__).DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$reassurance->file_name;
-                    $this->fields_form[0]['form']['input'][0]['image'] = '<img src="'.$this->getImageURL($reassurance->file_name).'" width="60" />';
+                    $this->fields_form[0]['form']['input'][0]['image'] = '<img src="'.$this->getImageURL($reassurance->file_name).'" />';
                 } else {
                     $helper->fields_value['text'][(int)$lang['id_lang']] = Tools::getValue('text_'.(int)$lang['id_lang'], '');
                 }
@@ -350,11 +350,9 @@ class Blockreassurance extends Module implements WidgetInterface
     {
         $return = true;
         $tab_texts = array(
-            array('text' => $this->l('Money back guarantee.'), 'file_name' => 'reassurance-1-1.jpg'),
-            array('text' => $this->l('In-store exchange.'), 'file_name' => 'reassurance-2-1.jpg'),
-            array('text' => $this->l('Payment upon shipment.'), 'file_name' => 'reassurance-3-1.jpg'),
-            array('text' => $this->l('Free Shipping.'), 'file_name' => 'reassurance-4-1.jpg'),
-            array('text' => $this->l('100% secure payment processing.'), 'file_name' => 'reassurance-5-1.jpg')
+            array('text' => $this->l('100% Secure Payment'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
+            array('text' => $this->l('Free delivery - 5 business days'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
+            array('text' => $this->l('Free returns - 30 days to change your mind'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
         );
 
         foreach ($tab_texts as $tab) {
