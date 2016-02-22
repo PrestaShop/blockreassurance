@@ -369,6 +369,6 @@ class Blockreassurance extends Module implements WidgetInterface
 
     private function getImageURL($image)
     {
-        return $this->context->link->getMediaLink(DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->name.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$image);
+        return $this->context->link->getMediaLink(__PS_BASE_URI__.'modules'.DIRECTORY_SEPARATOR.$this->name.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$image);
     }
 }
