@@ -44,7 +44,7 @@ class Blockreassurance extends Module implements WidgetInterface
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->l('Customer reassurance block');
+        $this->displayName = $this->l('Customer reassurance');
         $this->description = $this->l('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.');
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
