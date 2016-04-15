@@ -66,7 +66,8 @@ class Blockreassurance extends Module implements WidgetInterface
                 `id_shop` int(10) unsigned NOT NULL ,
                 `file_name` VARCHAR(100) NOT NULL,
                 PRIMARY KEY (`id_reassurance`)
-            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
+            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;
+        ');
 
         $return &= Db::getInstance()->execute('
             CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'reassurance_lang` (
@@ -74,7 +75,8 @@ class Blockreassurance extends Module implements WidgetInterface
                 `id_lang` int(10) unsigned NOT NULL ,
                 `text` VARCHAR(300) NOT NULL,
                 PRIMARY KEY (`id_reassurance`, `id_lang`)
-            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
+            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;
+        ');
 
         return $return;
     }
@@ -98,7 +100,7 @@ class Blockreassurance extends Module implements WidgetInterface
             for ($i = 1; $i <= (int)$_POST['nbblocks']; $i++)
             {
                 $filename = explode('.', $_FILES['info'.$i.'_file']['name']);
-                
+
                 if (isset($_FILES['info'.$i.'_file']) && isset($_FILES['info'.$i.'_file']['tmp_name']) && !empty($_FILES['info'.$i.'_file']['tmp_name']))
                 {
                     if ($error = ImageManager::validateUpload($_FILES['info'.$i.'_file']))
@@ -111,13 +113,17 @@ class Blockreassurance extends Module implements WidgetInterface
                     unlink($tmpName);
                 }
 
-                Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'reassurance` (`filename`,`text`)
-                                            VALUES ("'.((isset($filename[0]) && $filename[0] != '') ? pSQL($filename[0]) : '').
-                    '", "'.((isset($_POST['info'.$i.'_text']) && $_POST['info'.$i.'_text'] != '') ? pSQL($_POST['info'.$i.'_text']) : '').'")');
+                Db::getInstance()->execute('
+                    INSERT INTO `'._DB_PREFIX_.'reassurance` (`filename`,`text`)
+                    VALUES ("'.((isset($filename[0]) && $filename[0] != '') ? pSQL($filename[0]) : '').
+                    '", "'.((isset($_POST['info'.$i.'_text']) && $_POST['info'.$i.'_text'] != '') ? pSQL($_POST['info'.$i.'_text']) : '').'")
+                ');
             }
 
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
@@ -157,9 +163,10 @@ class Blockreassurance extends Module implements WidgetInterface
             if ($reassurance->validateFields(false) && $reassurance->validateFieldsLang(false))
             {
                 $reassurance->save();
-                
+
                 if (isset($_FILES['image']) && isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name']))
-                    if ($error = ImageManager::validateUpload($_FILES['image'])) {
+                {
+                    if ($error = ImageManager::validateUpload($_FILES['image']))
                         return false;
                     elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['image']['tmp_name'], $tmpName))
                         return false;
@@ -172,7 +179,9 @@ class Blockreassurance extends Module implements WidgetInterface
                 }
 
                 $this->_clearCache('blockreassurance.tpl');
-            } else {
+            }
+            else
+            {
                 $html .= '<div class="conf error">'.$this->l('An error occurred while attempting to save.').'</div>';
             }
         }
@@ -180,7 +189,7 @@ class Blockreassurance extends Module implements WidgetInterface
         if (Tools::isSubmit('updateblockreassurance') || Tools::isSubmit('addblockreassurance'))
         {
             $helper = $this->initForm();
-            
+
             foreach (Language::getLanguages(false) as $lang)
             {
                 if ($id_reassurance)
@@ -189,7 +198,7 @@ class Blockreassurance extends Module implements WidgetInterface
                     $helper->fields_value['text'][(int)$lang['id_lang']] = $reassurance->text[(int)$lang['id_lang']];
                     $image = dirname(__FILE__).DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$reassurance->file_name;
                     $this->fields_form[0]['form']['input'][0]['image'] = '<img src="'.$this->getImageURL($reassurance->file_name).'" />';
-                } 
+                }
                 else
                 {
                     $helper->fields_value['text'][(int)$lang['id_lang']] = Tools::getValue('text_'.(int)$lang['id_lang'], '');
@@ -229,7 +238,7 @@ class Blockreassurance extends Module implements WidgetInterface
         if (isset($_POST['submitModule']))
         {
             Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((isset($_POST['nbblocks']) && $_POST['nbblocks'] != '') ? (int)$_POST['nbblocks'] : ''));
-            
+
             if ($this->removeFromDB() && $this->addToDB())
             {
                 $this->_clearCache('blockreassurance.tpl');
@@ -305,15 +314,15 @@ class Blockreassurance extends Module implements WidgetInterface
         $helper->submit_action = 'saveblockreassurance';
         $helper->toolbar_btn =  array(
             'save' =>
-            array(
-                'desc' => $this->l('Save'),
-                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&save'.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
-            ),
+                array(
+                    'desc' => $this->l('Save'),
+                    'href' => AdminController::$currentIndex.'&configure='.$this->name.'&save'.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
+                ),
             'back' =>
-            array(
-                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
-                'desc' => $this->l('Back to list')
-            )
+                array(
+                    'href' => AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
+                    'desc' => $this->l('Back to list')
+                )
         );
 
         return $helper;
