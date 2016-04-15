@@ -25,9 +25,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-if (!defined('_CAN_LOAD_FILES_')) {
+if (!defined('_CAN_LOAD_FILES_'))
     exit;
-}
 
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 include_once _PS_MODULE_DIR_.'blockreassurance/reassuranceClass.php';
@@ -60,13 +59,15 @@ class Blockreassurance extends Module implements WidgetInterface
     public function installDB()
     {
         $return = true;
+
         $return &= Db::getInstance()->execute('
             CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'reassurance` (
                 `id_reassurance` INT UNSIGNED NOT NULL AUTO_INCREMENT,
                 `id_shop` int(10) unsigned NOT NULL ,
                 `file_name` VARCHAR(100) NOT NULL,
                 PRIMARY KEY (`id_reassurance`)
-            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
+            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;
+        ');
 
         $return &= Db::getInstance()->execute('
             CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'reassurance_lang` (
@@ -74,7 +75,8 @@ class Blockreassurance extends Module implements WidgetInterface
                 `id_lang` int(10) unsigned NOT NULL ,
                 `text` VARCHAR(300) NOT NULL,
                 PRIMARY KEY (`id_reassurance`, `id_lang`)
-            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
+            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;
+        ');
 
         return $return;
     }
@@ -93,25 +95,35 @@ class Blockreassurance extends Module implements WidgetInterface
 
     public function addToDB()
     {
-        if (isset($_POST['nbblocks'])) {
-            for ($i = 1; $i <= (int)$_POST['nbblocks']; $i++) {
+        if (isset($_POST['nbblocks']))
+        {
+            for ($i = 1; $i <= (int)$_POST['nbblocks']; $i++)
+            {
                 $filename = explode('.', $_FILES['info'.$i.'_file']['name']);
-                if (isset($_FILES['info'.$i.'_file']) && isset($_FILES['info'.$i.'_file']['tmp_name']) && !empty($_FILES['info'.$i.'_file']['tmp_name'])) {
-                    if ($error = ImageManager::validateUpload($_FILES['info'.$i.'_file'])) {
+
+                if (isset($_FILES['info'.$i.'_file']) && isset($_FILES['info'.$i.'_file']['tmp_name']) && !empty($_FILES['info'.$i.'_file']['tmp_name']))
+                {
+                    if ($error = ImageManager::validateUpload($_FILES['info'.$i.'_file']))
                         return false;
-                    } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['info'.$i.'_file']['tmp_name'], $tmpName)) {
+                    elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['info'.$i.'_file']['tmp_name'], $tmpName))
                         return false;
-                    } elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/'.$filename[0].'.jpg')) {
+                    elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/'.$filename[0].'.jpg'))
                         return false;
-                    }
+
                     unlink($tmpName);
                 }
-                Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'reassurance` (`filename`,`text`)
-                                            VALUES ("'.((isset($filename[0]) && $filename[0] != '') ? pSQL($filename[0]) : '').
-                    '", "'.((isset($_POST['info'.$i.'_text']) && $_POST['info'.$i.'_text'] != '') ? pSQL($_POST['info'.$i.'_text']) : '').'")');
+
+                Db::getInstance()->execute('
+                    INSERT INTO `'._DB_PREFIX_.'reassurance` (`filename`,`text`)
+                    VALUES ("'.((isset($filename[0]) && $filename[0] != '') ? pSQL($filename[0]) : '').
+                    '", "'.((isset($_POST['info'.$i.'_text']) && $_POST['info'.$i.'_text'] != '') ? pSQL($_POST['info'.$i.'_text']) : '').'")
+                ');
             }
+
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
@@ -119,12 +131,15 @@ class Blockreassurance extends Module implements WidgetInterface
     public function removeFromDB()
     {
         $dir = opendir(dirname(__FILE__).'/img');
-        while (false !== ($file = readdir($dir))) {
+
+        while (false !== ($file = readdir($dir)))
+        {
             $path = dirname(__FILE__).'/img/'.$file;
-            if ($file != '..' && $file != '.' && !is_dir($file)) {
+
+            if ($file != '..' && $file != '.' && !is_dir($file))
                 unlink($path);
-            }
         }
+
         closedir($dir);
 
         return Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'reassurance`');
@@ -135,74 +150,102 @@ class Blockreassurance extends Module implements WidgetInterface
         $html = '';
         $id_reassurance = (int)Tools::getValue('id_reassurance');
 
-        if (Tools::isSubmit('saveblockreassurance')) {
-            if ($id_reassurance = Tools::getValue('id_reassurance')) {
+        if (Tools::isSubmit('saveblockreassurance'))
+        {
+            if ($id_reassurance = Tools::getValue('id_reassurance'))
                 $reassurance = new reassuranceClass((int)$id_reassurance);
-            } else {
+            else
                 $reassurance = new reassuranceClass();
-            }
+
             $reassurance->copyFromPost();
             $reassurance->id_shop = $this->context->shop->id;
 
-            if ($reassurance->validateFields(false) && $reassurance->validateFieldsLang(false)) {
+            if ($reassurance->validateFields(false) && $reassurance->validateFieldsLang(false))
+            {
                 $reassurance->save();
-                if (isset($_FILES['image']) && isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
-                    if ($error = ImageManager::validateUpload($_FILES['image'])) {
+
+                if (isset($_FILES['image']) && isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name']))
+                {
+                    if ($error = ImageManager::validateUpload($_FILES['image']))
                         return false;
-                    } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['image']['tmp_name'], $tmpName)) {
+                    elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['image']['tmp_name'], $tmpName))
                         return false;
-                    } elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg')) {
+                    elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg'))
                         return false;
-                    }
+
                     unlink($tmpName);
                     $reassurance->file_name = 'reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg';
                     $reassurance->save();
                 }
+
                 $this->_clearCache('blockreassurance.tpl');
-            } else {
+            }
+            else
+            {
                 $html .= '<div class="conf error">'.$this->l('An error occurred while attempting to save.').'</div>';
             }
         }
 
-        if (Tools::isSubmit('updateblockreassurance') || Tools::isSubmit('addblockreassurance')) {
+        if (Tools::isSubmit('updateblockreassurance') || Tools::isSubmit('addblockreassurance'))
+        {
             $helper = $this->initForm();
-            foreach (Language::getLanguages(false) as $lang) {
-                if ($id_reassurance) {
+
+            foreach (Language::getLanguages(false) as $lang)
+            {
+                if ($id_reassurance)
+                {
                     $reassurance = new reassuranceClass((int)$id_reassurance);
                     $helper->fields_value['text'][(int)$lang['id_lang']] = $reassurance->text[(int)$lang['id_lang']];
                     $image = dirname(__FILE__).DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$reassurance->file_name;
                     $this->fields_form[0]['form']['input'][0]['image'] = '<img src="'.$this->getImageURL($reassurance->file_name).'" />';
-                } else {
+                }
+                else
+                {
                     $helper->fields_value['text'][(int)$lang['id_lang']] = Tools::getValue('text_'.(int)$lang['id_lang'], '');
                 }
             }
-            if ($id_reassurance = Tools::getValue('id_reassurance')) {
+
+            if ($id_reassurance = Tools::getValue('id_reassurance'))
+            {
                 $this->fields_form[0]['form']['input'][] = array('type' => 'hidden', 'name' => 'id_reassurance');
                 $helper->fields_value['id_reassurance'] = (int)$id_reassurance;
             }
 
             return $html.$helper->generateForm($this->fields_form);
-        } elseif (Tools::isSubmit('deleteblockreassurance')) {
+        }
+        elseif (Tools::isSubmit('deleteblockreassurance'))
+        {
             $reassurance = new reassuranceClass((int)$id_reassurance);
-            if (file_exists(dirname(__FILE__).'/img/'.$reassurance->file_name)) {
+
+            if (file_exists(dirname(__FILE__).'/img/'.$reassurance->file_name))
+            {
                 unlink(dirname(__FILE__).'/img/'.$reassurance->file_name);
             }
+
             $reassurance->delete();
             $this->_clearCache('blockreassurance.tpl');
             Tools::redirectAdmin(AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'));
-        } else {
+        }
+        else
+        {
             $content = $this->getListContent((int)Configuration::get('PS_LANG_DEFAULT'));
             $helper = $this->initList();
             $helper->listTotal = count($content);
+
             return $html.$helper->generateList($content, $this->fields_list);
         }
 
-        if (isset($_POST['submitModule'])) {
+        if (isset($_POST['submitModule']))
+        {
             Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((isset($_POST['nbblocks']) && $_POST['nbblocks'] != '') ? (int)$_POST['nbblocks'] : ''));
-            if ($this->removeFromDB() && $this->addToDB()) {
+
+            if ($this->removeFromDB() && $this->addToDB())
+            {
                 $this->_clearCache('blockreassurance.tpl');
                 $output = '<div class="conf confirm">'.$this->l('The block configuration has been updated.').'</div>';
-            } else {
+            }
+            else
+            {
                 $output = '<div class="conf error"><img src="../img/admin/disabled.gif"/>'.$this->l('An error occurred while attempting to save.').'</div>';
             }
         }
@@ -252,7 +295,9 @@ class Blockreassurance extends Module implements WidgetInterface
         $helper->name_controller = 'blockreassurance';
         $helper->identifier = $this->identifier;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
-        foreach (Language::getLanguages(false) as $lang) {
+
+        foreach (Language::getLanguages(false) as $lang)
+        {
             $helper->languages[] = array(
                 'id_lang' => $lang['id_lang'],
                 'iso_code' => $lang['iso_code'],
@@ -269,16 +314,17 @@ class Blockreassurance extends Module implements WidgetInterface
         $helper->submit_action = 'saveblockreassurance';
         $helper->toolbar_btn =  array(
             'save' =>
-            array(
-                'desc' => $this->l('Save'),
-                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&save'.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
-            ),
+                array(
+                    'desc' => $this->l('Save'),
+                    'href' => AdminController::$currentIndex.'&configure='.$this->name.'&save'.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
+                ),
             'back' =>
-            array(
-                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
-                'desc' => $this->l('Back to list')
-            )
+                array(
+                    'href' => AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
+                    'desc' => $this->l('Back to list')
+                )
         );
+
         return $helper;
     }
 
@@ -301,9 +347,8 @@ class Blockreassurance extends Module implements WidgetInterface
             ),
         );
 
-        if (Shop::isFeatureActive()) {
+        if (Shop::isFeatureActive())
             $this->fields_list['id_shop'] = array('title' => $this->l('ID Shop'), 'align' => 'center', 'width' => 25, 'type' => 'int');
-        }
 
         $helper = new HelperList();
         $helper->shopLinkType = '';
@@ -321,14 +366,14 @@ class Blockreassurance extends Module implements WidgetInterface
         $helper->table = $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
         $helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
+
         return $helper;
     }
 
     public function renderWidget($hookName = null, array $configuration = [])
     {
-        if (!$this->isCached('blockreassurance.tpl', $this->getCacheId())) {
+        if (!$this->isCached('blockreassurance.tpl', $this->getCacheId()))
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
-        }
 
         return $this->display(__FILE__, 'blockreassurance.tpl', $this->getCacheId());
     }
@@ -337,9 +382,8 @@ class Blockreassurance extends Module implements WidgetInterface
     {
         $elements = $this->getListContent($this->context->language->id);
 
-        foreach ($elements as &$element) {
+        foreach ($elements as &$element)
             $element['image'] = $this->getImageURL($element['file_name']);
-        }
 
         return [
             'elements' => $elements,
@@ -349,21 +393,25 @@ class Blockreassurance extends Module implements WidgetInterface
     public function installFixtures()
     {
         $return = true;
+
         $tab_texts = array(
             array('text' => $this->l('100% Secure Payment'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
             array('text' => $this->l('Free delivery - 5 business days'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
             array('text' => $this->l('Free returns - 30 days to change your mind'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
         );
 
-        foreach ($tab_texts as $tab) {
+        foreach ($tab_texts as $tab)
+        {
             $reassurance = new reassuranceClass();
-            foreach (Language::getLanguages(false) as $lang) {
+
+            foreach (Language::getLanguages(false) as $lang)
                 $reassurance->text[$lang['id_lang']] = $tab['text'];
-            }
+
             $reassurance->file_name = $tab['file_name'];
             $reassurance->id_shop = $this->context->shop->id;
             $return &= $reassurance->save();
         }
+
         return $return;
     }
 

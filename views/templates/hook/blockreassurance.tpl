@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {if $elements}
-  <div id="block-reassurance">
+  <div class="block-reassurance">
     <ul>
       {foreach from=$elements item=element}
         <li><img src="{$element.image}" /> <span>{$element.text}</span></li>
