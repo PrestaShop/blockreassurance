@@ -350,9 +350,9 @@ class Blockreassurance extends Module implements WidgetInterface
     {
         $return = true;
         $tab_texts = array(
-            array('text' => $this->l('100% Secure Payment'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
-            array('text' => $this->l('Free delivery - 5 business days'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
-            array('text' => $this->l('Free returns - 30 days to change your mind'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
+            array('text' => $this->l('Security policy (edit it with module "Customer reassurance")'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
+            array('text' => $this->l('Delivery policy (edit it with module "Customer reassurance")'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
+            array('text' => $this->l('Return policy (edit it with module "Customer reassurance")'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
         );
 
         foreach ($tab_texts as $tab) {
