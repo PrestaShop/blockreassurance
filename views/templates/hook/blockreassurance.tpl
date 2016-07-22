@@ -26,7 +26,7 @@
   <div id="block-reassurance">
     <ul>
       {foreach from=$elements item=element}
-        <li><img src="{$element.image}" alt="{$element.text|escape:'quotes'}" /> <span>{$element.text nofilter}</span></li>
+        <li><img src="{$element.image}" alt="{$element.text|escape:'quotes'}" /> <span>{$element.text}</span></li>
       {/foreach}
     </ul>
   </div>
