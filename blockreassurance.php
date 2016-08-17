@@ -358,7 +358,7 @@ class Blockreassurance extends Module implements WidgetInterface
         foreach ($tab_texts as $tab) {
             $reassurance = new reassuranceClass();
             foreach (Language::getLanguages(false) as $lang) {
-                $reassurance->text[$lang['id_lang']] = $tab['text'];
+                $reassurance->text[$lang['id_lang']] = htmlspecialchars_decode($tab['text'], ENT_QUOTES);
             }
             $reassurance->file_name = $tab['file_name'];
             $reassurance->id_shop = $this->context->shop->id;
