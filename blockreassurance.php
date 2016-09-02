@@ -51,10 +51,12 @@ class Blockreassurance extends Module implements WidgetInterface
 
     public function install()
     {
-        return parent::install() &&
-            $this->installDB() &&
-            Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', 5) &&
-            $this->installFixtures();
+        return parent::install()
+            && $this->installDB()
+            && Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', 5)
+            && $this->installFixtures()
+            && $this->registerHook('displayOrderConfirmation2')
+        ;
     }
 
     public function installDB()
