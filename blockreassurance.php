@@ -333,11 +333,9 @@ class Blockreassurance extends Module implements WidgetInterface
 
     public function renderWidget($hookName = null, array $configuration = [])
     {
-        if (!$this->isCached('blockreassurance.tpl', $this->getCacheId())) {
-            $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
-        }
+        $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
 
-        return $this->display(__FILE__, 'blockreassurance.tpl', $this->getCacheId());
+        return $this->fetch('module:blockreassurance/blockreassurance.tpl', $this->getCacheId());
     }
 
     public function getWidgetVariables($hookName = null, array $configuration = [])
