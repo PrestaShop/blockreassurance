@@ -5,7 +5,6 @@
     <version><![CDATA[1.0.4]]></version>
     <description><![CDATA[Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.]]></description>
     <author><![CDATA[PrestaShop]]></author>
-    <tab><![CDATA[front_office_features]]></tab>
     <is_configurable>1</is_configurable>
     <need_instance>1</need_instance>
 	<limited_countries></limited_countries>
