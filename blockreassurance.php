@@ -30,23 +30,28 @@ if (!defined('_CAN_LOAD_FILES_')) {
 }
 
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+
 include_once _PS_MODULE_DIR_.'blockreassurance/reassuranceClass.php';
 
 class Blockreassurance extends Module implements WidgetInterface
 {
+    private $templateFile;
+
     public function __construct()
     {
         $this->name = 'blockreassurance';
-        $this->tab = 'front_office_features';
-        $this->version = '1.0.4';
         $this->author = 'PrestaShop';
+        $this->version = '1.0.4';
 
         $this->bootstrap = true;
         parent::__construct();
 
         $this->displayName = $this->trans('Customer reassurance', array(), 'Modules.BlockReassurance');
         $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.BlockReassurance');
+
         $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
+
+        $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
     public function install()
@@ -143,11 +148,13 @@ class Blockreassurance extends Module implements WidgetInterface
             } else {
                 $reassurance = new reassuranceClass();
             }
+
             $reassurance->copyFromPost();
             $reassurance->id_shop = $this->context->shop->id;
 
             if ($reassurance->validateFields(false) && $reassurance->validateFieldsLang(false)) {
                 $reassurance->save();
+
                 if (isset($_FILES['image']) && isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
                     if ($error = ImageManager::validateUpload($_FILES['image'])) {
                         return false;
@@ -156,11 +163,12 @@ class Blockreassurance extends Module implements WidgetInterface
                     } elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg')) {
                         return false;
                     }
+
                     unlink($tmpName);
                     $reassurance->file_name = 'reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg';
                     $reassurance->save();
                 }
-                $this->_clearCache('blockreassurance.tpl');
+                $this->_clearCache('*');
             } else {
                 $html .= '<div class="conf error">'.$this->trans('An error occurred while attempting to save.', array(), 'Admin.Notifications.Error').'</div>';
             }
@@ -190,7 +198,7 @@ class Blockreassurance extends Module implements WidgetInterface
                 unlink(dirname(__FILE__).'/img/'.$reassurance->file_name);
             }
             $reassurance->delete();
-            $this->_clearCache('blockreassurance.tpl');
+            $this->_clearCache('*');
             Tools::redirectAdmin(AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'));
         } else {
             $content = $this->getListContent((int)Configuration::get('PS_LANG_DEFAULT'));
@@ -331,11 +339,18 @@ class Blockreassurance extends Module implements WidgetInterface
         return $helper;
     }
 
+    protected function _clearCache($template, $cacheId = null, $compileId = null)
+    {
+        parent::_clearCache($this->templateFile);
+    }
+
     public function renderWidget($hookName = null, array $configuration = [])
     {
-        $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
+        if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
+            $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
+        }
 
-        return $this->fetch('module:blockreassurance/views/templates/hook/blockreassurance.tpl', $this->getCacheId());
+        return $this->fetch($this->templateFile, $this->getCacheId('blockreassurance'));
     }
 
     public function getWidgetVariables($hookName = null, array $configuration = [])
@@ -346,9 +361,9 @@ class Blockreassurance extends Module implements WidgetInterface
             $element['image'] = $this->getImageURL($element['file_name']);
         }
 
-        return [
+        return array(
             'elements' => $elements,
-        ];
+        );
     }
 
     public function installFixtures()

@@ -26,49 +26,53 @@
 
 class reassuranceClass extends ObjectModel
 {
-	/** @var integer reassurance id*/
-	public $id;
+    /** @var integer reassurance id*/
+    public $id;
 
-	/** @var integer reassurance id shop*/
-	public $id_shop;
+    /** @var integer reassurance id shop*/
+    public $id_shop;
 
-	/** @var string reassurance file name icon*/
-	public $file_name;
+    /** @var string reassurance file name icon*/
+    public $file_name;
 
-	/** @var string reassurance text*/
-	public $text;
+    /** @var string reassurance text*/
+    public $text;
 
 
-	/**
-	 * @see ObjectModel::$definition
-	 */
-	public static $definition = array(
-		'table' => 'reassurance',
-		'primary' => 'id_reassurance',
-		'multilang' => true,
-		'fields' => array(
-			'id_shop' =>				array('type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => true),
-			'file_name' =>				array('type' => self::TYPE_STRING, 'validate' => 'isFileName'),
-			// Lang fields
-			'text' =>					array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isGenericName', 'required' => true),
-		)
-	);
+    /**
+     * @see ObjectModel::$definition
+     */
+    public static $definition = array(
+        'table' => 'reassurance',
+        'primary' => 'id_reassurance',
+        'multilang' => true,
+        'fields' => array(
+            'id_shop' => array('type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => true),
+            'file_name' => array('type' => self::TYPE_STRING, 'validate' => 'isFileName'),
+            // Lang fields
+            'text' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isGenericName', 'required' => true),
+        )
+    );
 
-	public function copyFromPost()
-	{
-		/* Classical fields */
-		foreach ($_POST AS $key => $value)
-			if (array_key_exists($key, $this) AND $key != 'id_'.$this->table)
-				$this->{$key} = $value;
+    public function copyFromPost()
+    {
+        /* Classical fields */
+        foreach ($_POST as $key => $value) {
+            if (array_key_exists($key, $this) and $key != 'id_'.$this->table) {
+                $this->{$key} = $value;
+            }
+        }
 
-		/* Multilingual fields */
-		if (sizeof($this->fieldsValidateLang))
-		{
-			$languages = Language::getLanguages(false);
-			foreach ($languages AS $language)
-				foreach ($this->fieldsValidateLang AS $field => $validation)
-					if (isset($_POST[$field.'_'.(int)($language['id_lang'])]))
-						$this->{$field}[(int)($language['id_lang'])] = $_POST[$field.'_'.(int)($language['id_lang'])];
-		}
-	}
+        /* Multilingual fields */
+        if (sizeof($this->fieldsValidateLang)) {
+            $languages = Language::getLanguages(false);
+            foreach ($languages as $language) {
+                foreach ($this->fieldsValidateLang as $field => $validation) {
+                    if (isset($_POST[$field.'_'.(int)($language['id_lang'])])) {
+                        $this->{$field}[(int)($language['id_lang'])] = $_POST[$field.'_'.(int)($language['id_lang'])];
+                    }
+                }
+            }
+        }
+    }
 }
