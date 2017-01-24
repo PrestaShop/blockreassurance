@@ -61,6 +61,7 @@ class Blockreassurance extends Module implements WidgetInterface
             && Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', 5)
             && $this->installFixtures()
             && $this->registerHook('displayOrderConfirmation2')
+            && $this->registerHook('actionUpdateLangAfter')
         ;
     }
 
@@ -135,6 +136,15 @@ class Blockreassurance extends Module implements WidgetInterface
         closedir($dir);
 
         return Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'reassurance`');
+    }
+
+    public function hookActionUpdateLangAfter($params)
+    {
+        if (!empty($params['lang']) && $params['lang'] instanceOf Language) {
+            include_once _PS_MODULE_DIR_ . $this->name . '/lang/ReassuranceLang.php';
+
+            Language::updateMultilangFromClass(_DB_PREFIX_ . 'reassurance_lang', 'ReassuranceLang', $params['lang']);
+        }
     }
 
     public function getContent()
