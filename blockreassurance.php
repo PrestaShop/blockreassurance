@@ -46,8 +46,8 @@ class Blockreassurance extends Module implements WidgetInterface
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->trans('Customer reassurance', array(), 'Modules.BlockReassurance');
-        $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.BlockReassurance');
+        $this->displayName = $this->trans('Customer reassurance', array(), 'Modules.Blockreassurance.Admin');
+        $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.Blockreassurance.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
 
@@ -211,7 +211,7 @@ class Blockreassurance extends Module implements WidgetInterface
             Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((isset($_POST['nbblocks']) && $_POST['nbblocks'] != '') ? (int)$_POST['nbblocks'] : ''));
             if ($this->removeFromDB() && $this->addToDB()) {
                 $this->_clearCache('blockreassurance.tpl');
-                $output = '<div class="conf confirm">'.$this->trans('The block configuration has been updated.', array(), 'Modules.BlockReassurance').'</div>';
+                $output = '<div class="conf confirm">'.$this->trans('The block configuration has been updated.', array(), 'Modules.Blockreassurance.Admin').'</div>';
             } else {
                 $output = '<div class="conf error"><img src="../img/admin/disabled.gif"/>'.$this->trans('An error occurred while attempting to save.', array(), 'Admin.Notifications.Error').'</div>';
             }
@@ -233,7 +233,7 @@ class Blockreassurance extends Module implements WidgetInterface
 
         $this->fields_form[0]['form'] = array(
             'legend' => array(
-                'title' => $this->trans('New reassurance block', array(), 'Modules.BlockReassurance'),
+                'title' => $this->trans('New reassurance block', array(), 'Modules.Blockreassurance.Admin'),
             ),
             'input' => array(
                 array(
@@ -313,7 +313,7 @@ class Blockreassurance extends Module implements WidgetInterface
 
         if (Shop::isFeatureActive()) {
             $this->fields_list['id_shop'] = array(
-                'title' => $this->trans('ID Shop', array(), 'Modules.BlockReassurance'),
+                'title' => $this->trans('ID Shop', array(), 'Modules.Blockreassurance.Admin'),
                 'align' => 'center',
                 'width' => 25,
                 'type' => 'int'
@@ -370,9 +370,9 @@ class Blockreassurance extends Module implements WidgetInterface
     {
         $return = true;
         $tab_texts = array(
-            array('text' => $this->trans('Security policy (edit with module Customer reassurance)', array(), 'Modules.BlockReassurance'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
-            array('text' => $this->trans('Delivery policy (edit with module Customer reassurance)', array(), 'Modules.BlockReassurance'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
-            array('text' => $this->trans('Return policy (edit with module Customer reassurance)', array(), 'Modules.BlockReassurance'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
+            array('text' => $this->trans('Security policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
+            array('text' => $this->trans('Delivery policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
+            array('text' => $this->trans('Return policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
         );
 
         foreach ($tab_texts as $tab) {
