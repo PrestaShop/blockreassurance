@@ -27,7 +27,7 @@
 class ReassuranceLang extends DataLangCore
 {
     // Don't replace domain in init() with $this->domain for translation parsing
-    protected $domain = 'Modules.Blockreassurance';
+    protected $domain = 'Modules.Blockreassurance.Admin';
 
     protected $keys = array('id_reassurance');
 
@@ -38,13 +38,13 @@ class ReassuranceLang extends DataLangCore
         $this->fieldNames = array(
             'text' => array(
                 md5('Security policy (edit with module Customer reassurance)') =>
-                    $this->translator->trans('Security policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance', $this->locale),
+                    $this->translator->trans('Security policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin', $this->locale),
 
                 md5('Delivery policy (edit with module Customer reassurance)') =>
-                    $this->translator->trans('Delivery policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance', $this->locale),
+                    $this->translator->trans('Delivery policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin', $this->locale),
 
                 md5('Return policy (edit with module Customer reassurance)') =>
-                    $this->translator->trans('Return policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance', $this->locale),
+                    $this->translator->trans('Return policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin', $this->locale),
 
             ),
         );
