@@ -49,7 +49,7 @@ class Blockreassurance extends Module implements WidgetInterface
         $this->displayName = $this->trans('Customer reassurance', array(), 'Modules.Blockreassurance.Admin');
         $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.Blockreassurance.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
 
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
@@ -61,6 +61,7 @@ class Blockreassurance extends Module implements WidgetInterface
             && Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', 5)
             && $this->installFixtures()
             && $this->registerHook('displayOrderConfirmation2')
+            && $this->registerHook('actionUpdateLangAfter')
         ;
     }
 
@@ -135,6 +136,15 @@ class Blockreassurance extends Module implements WidgetInterface
         closedir($dir);
 
         return Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'reassurance`');
+    }
+
+    public function hookActionUpdateLangAfter($params)
+    {
+        if (!empty($params['lang']) && $params['lang'] instanceOf Language) {
+            include_once _PS_MODULE_DIR_ . $this->name . '/lang/ReassuranceLang.php';
+
+            Language::updateMultilangFromClass(_DB_PREFIX_ . 'reassurance_lang', 'ReassuranceLang', $params['lang']);
+        }
     }
 
     public function getContent()
