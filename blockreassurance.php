@@ -380,9 +380,9 @@ class Blockreassurance extends Module implements WidgetInterface
     {
         $return = true;
         $tab_texts = array(
-            array('text' => $this->trans('Security policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
-            array('text' => $this->trans('Delivery policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
-            array('text' => $this->trans('Return policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Admin'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
+            array('text' => $this->trans('Security policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Shop'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
+            array('text' => $this->trans('Delivery policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Shop'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
+            array('text' => $this->trans('Return policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Shop'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
         );
 
         foreach ($tab_texts as $tab) {
