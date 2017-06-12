@@ -49,7 +49,7 @@ class Blockreassurance extends Module implements WidgetInterface
         $this->displayName = $this->trans('Customer reassurance', array(), 'Modules.Blockreassurance.Admin');
         $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.Blockreassurance.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7.2.0', 'max' => _PS_VERSION_);
 
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
