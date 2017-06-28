@@ -38,13 +38,13 @@ class ReassuranceLang extends DataLangCore
         $this->fieldNames = array(
             'text' => array(
                 md5('Security policy (edit with module Customer reassurance)') =>
-                    $this->translator->trans('Security policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Shop', $this->locale),
+                    $this->translator->trans('Security policy (edit with Customer reassurance module)', array(), 'Modules.Blockreassurance.Shop', $this->locale),
 
                 md5('Delivery policy (edit with module Customer reassurance)') =>
-                    $this->translator->trans('Delivery policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Shop', $this->locale),
+                    $this->translator->trans('Delivery policy (edit with Customer reassurance module)', array(), 'Modules.Blockreassurance.Shop', $this->locale),
 
                 md5('Return policy (edit with module Customer reassurance)') =>
-                    $this->translator->trans('Return policy (edit with module Customer reassurance)', array(), 'Modules.Blockreassurance.Shop', $this->locale),
+                    $this->translator->trans('Return policy (edit with Customer reassurance module)', array(), 'Modules.Blockreassurance.Shop', $this->locale),
 
             ),
         );
