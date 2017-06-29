@@ -41,7 +41,7 @@ class Blockreassurance extends Module implements WidgetInterface
     {
         $this->name = 'blockreassurance';
         $this->author = 'PrestaShop';
-        $this->version = '3.0.0';
+        $this->version = '3.0.1';
 
         $this->bootstrap = true;
         parent::__construct();
