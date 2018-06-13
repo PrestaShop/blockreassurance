@@ -40,13 +40,14 @@ class Blockreassurance extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'blockreassurance';
+        $this->tab = 'front_office_features';
         $this->author = 'PrestaShop';
         $this->version = '3.0.1';
 
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->trans('Customer reassurance', array(), 'Modules.Blockreassurance.Admin');
+        $this->displayName = $this->trans('Customer reassurance block', array(), 'Modules.Blockreassurance.Admin');
         $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.Blockreassurance.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.7.2.0', 'max' => _PS_VERSION_);
