@@ -102,32 +102,67 @@ class Blockreassurance extends Module implements WidgetInterface
 
     public function addToDB()
     {
-        if (isset($_POST['nbblocks'])) {
-            for ($i = 1; $i <= (int)$_POST['nbblocks']; $i++) {
-                $filename = explode('.', $_FILES['info'.$i.'_file']['name']);
-                if (isset($_FILES['info'.$i.'_file']) && isset($_FILES['info'.$i.'_file']['tmp_name']) && !empty($_FILES['info'.$i.'_file']['tmp_name'])) {
-                    if ($error = ImageManager::validateUpload($_FILES['info'.$i.'_file'])) {
-                        return false;
-                    } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['info'.$i.'_file']['tmp_name'], $tmpName)) {
-                        return false;
-                    } elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/'.$filename[0].'.jpg')) {
-                        return false;
-                    }
-                    unlink($tmpName);
-                }
-                Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'reassurance` (`filename`,`text`)
-                                            VALUES ("'.((isset($filename[0]) && $filename[0] != '') ? pSQL($filename[0]) : '').
-                    '", "'.((isset($_POST['info'.$i.'_text']) && $_POST['info'.$i.'_text'] != '') ? pSQL($_POST['info'.$i.'_text']) : '').'")');
-            }
-            return true;
-        } else {
+        $nbBlocks = Tools::getValue('nbblocks');
+        if (false === $nbBlocks) {
             return false;
         }
+
+        for ($i = 1; $i <= (int)Tools::getValue('nbblocks'); $i++) {
+
+            $fileKey = 'info'.$i.'_file';
+            $filename = explode('.', $_FILES[$fileKey]['name']);
+
+            if (Tools::getIsset($_FILES[$fileKey]) && Tools::getIsset($_FILES[$fileKey]['tmp_name'])) {
+
+                $uploadError = ImageManager::validateUpload($_FILES[$fileKey]);
+
+                if (false !== $uploadError) {
+                    return false;
+                }
+
+                $tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS');
+
+                if (false === $tmpName) {
+                    return false;
+                }
+
+                $moveError = move_uploaded_file($_FILES[$fileKey]['tmp_name'], $tmpName);
+
+                if (false !== $moveError) {
+                    return false;
+                }
+
+                $resizeError = ImageManager::resize($tmpName, dirname(__FILE__).'/img/'.$filename[0].'.jpg');
+
+                if (false !== $resizeError) {
+                    return false;
+                }
+
+                unlink($tmpName);
+            }
+
+            $tableName = _DB_PREFIX_.'reassurance';
+            $filename = ((Tools::getIsset($filename[0]) && $filename[0] != '') ? pSQL($filename[0]) : '');
+            $textValue = Tools::getValue($fileKey);
+            $text = ($textValue && $textValue != '') ? pSQL($textValue) : '';
+
+            $sqlQuery = sprintf(
+                'INSERT INTO `%s` (`filename`,`text`) VALUES ("%s", "%s")',
+                $tableName,
+                $filename,
+                $text
+            );
+
+            Db::getInstance()->execute($sqlQuery);
+        }
+
+        return true;
     }
 
     public function removeFromDB()
     {
         $dir = opendir(dirname(__FILE__).'/img');
+
         while (false !== ($file = readdir($dir))) {
             $path = dirname(__FILE__).'/img/'.$file;
             if ($file != '..' && $file != '.' && !is_dir($file)) {
@@ -166,7 +201,7 @@ class Blockreassurance extends Module implements WidgetInterface
             if ($reassurance->validateFields(false) && $reassurance->validateFieldsLang(false)) {
                 $reassurance->save();
 
-                if (isset($_FILES['image']) && isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
+                if (Tools::getIsset($_FILES['image']) && Tools::getIsset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
                     if ($error = ImageManager::validateUpload($_FILES['image'])) {
                         return false;
                     } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['image']['tmp_name'], $tmpName)) {
@@ -176,6 +211,7 @@ class Blockreassurance extends Module implements WidgetInterface
                     }
 
                     unlink($tmpName);
+
                     $reassurance->file_name = 'reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg';
                     $reassurance->save();
                 }
@@ -218,8 +254,8 @@ class Blockreassurance extends Module implements WidgetInterface
             return $html.$helper->generateList($content, $this->fields_list);
         }
 
-        if (isset($_POST['submitModule'])) {
-            Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((isset($_POST['nbblocks']) && $_POST['nbblocks'] != '') ? (int)$_POST['nbblocks'] : ''));
+        if (Tools::getIsset(Tools::getValue('submitModule'))) {
+            Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((Tools::getIsset(Tools::getValue('nbblocks')) && Tools::getValue('nbblocks') != '') ? (int)Tools::getValue('nbblocks') : ''));
             if ($this->removeFromDB() && $this->addToDB()) {
                 $this->_clearCache('blockreassurance.tpl');
                 $output = '<div class="conf confirm">'.$this->trans('The block configuration has been updated.', array(), 'Modules.Blockreassurance.Admin').'</div>';

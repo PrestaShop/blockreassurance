@@ -66,10 +66,11 @@ class reassuranceClass extends ObjectModel
         /* Multilingual fields */
         if (sizeof($this->fieldsValidateLang)) {
             $languages = Language::getLanguages(false);
+
             foreach ($languages as $language) {
                 foreach ($this->fieldsValidateLang as $field => $validation) {
-                    if (isset($_POST[$field.'_'.(int)($language['id_lang'])])) {
-                        $this->{$field}[(int)($language['id_lang'])] = $_POST[$field.'_'.(int)($language['id_lang'])];
+                    if (Tools::getValue($field.'_'.(int)($language['id_lang']))) {
+                        $this->{$field}[(int)($language['id_lang'])] = Tools::getValue($field.'_'.(int)($language['id_lang']));
                     }
                 }
             }
