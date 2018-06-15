@@ -136,7 +136,7 @@ class Blockreassurance extends Module implements WidgetInterface
             $fileKey = 'info'.$i.'_file';
             $filename = explode('.', $_FILES[$fileKey]['name']);
 
-            if (Tools::getIsset($_FILES[$fileKey]) && Tools::getIsset($_FILES[$fileKey]['tmp_name'])) {
+            if (isset($_FILES[$fileKey]) && isset($_FILES[$fileKey]['tmp_name'])) {
 
                 $uploadError = ImageManager::validateUpload($_FILES[$fileKey]);
 
@@ -221,6 +221,8 @@ class Blockreassurance extends Module implements WidgetInterface
         $html = '';
         $id_reassurance = (int)Tools::getValue('id_reassurance');
 
+
+
         if (Tools::isSubmit('saveblockreassurance')) {
             if ($id_reassurance = Tools::getValue('id_reassurance')) {
                 $reassurance = new reassuranceClass((int)$id_reassurance);
@@ -234,7 +236,7 @@ class Blockreassurance extends Module implements WidgetInterface
             if ($reassurance->validateFields(false) && $reassurance->validateFieldsLang(false)) {
                 $reassurance->save();
 
-                if (Tools::getIsset($_FILES['image']) && Tools::getIsset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
+                if (isset($_FILES['image']) && isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
 
                     $error = ImageManager::validateUpload($_FILES['image']);
 
