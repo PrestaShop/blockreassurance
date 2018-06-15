@@ -50,8 +50,10 @@ class Blockreassurance extends Module implements WidgetInterface
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->trans('Customer reassurance block', array(), 'Modules.Blockreassurance.Admin');
-        $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.Blockreassurance.Admin');
+        $displayName = 'Customer reassurance block';
+        $description = 'Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.';
+        $this->displayName = $this->trans($displayName, array(), 'Modules.Blockreassurance.Admin');
+        $this->description = $this->trans($description, array(), 'Modules.Blockreassurance.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.7.2.0', 'max' => _PS_VERSION_);
 
@@ -113,7 +115,10 @@ class Blockreassurance extends Module implements WidgetInterface
      */
     public function uninstallDB()
     {
-        return Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance`') && Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance_lang`');
+        $drop1Result = Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance`');
+        $drop2Result = Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance_lang`');
+
+        return ($drop2Result && $drop2Result);
     }
 
     /**
@@ -201,7 +206,7 @@ class Blockreassurance extends Module implements WidgetInterface
      */
     public function hookActionUpdateLangAfter($params)
     {
-        if (!empty($params['lang']) && $params['lang'] instanceOf Language) {
+        if (!empty($params['lang']) && $params['lang'] instanceof Language) {
             include_once _PS_MODULE_DIR_ . $this->name . '/lang/ReassuranceLang.php';
 
             Language::updateMultilangFromClass(_DB_PREFIX_ . 'reassurance_lang', 'ReassuranceLang', $params['lang']);
@@ -209,7 +214,7 @@ class Blockreassurance extends Module implements WidgetInterface
     }
 
     /**
-     * @return string
+     * @return string|bool
      */
     public function getContent()
     {
@@ -235,9 +240,27 @@ class Blockreassurance extends Module implements WidgetInterface
 
                     if ($error) {
                         return false;
-                    } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['image']['tmp_name'], $tmpName)) {
+                    }
+
+                    if (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS'))) {
                         return false;
-                    } elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg')) {
+                    }
+
+                    if (!move_uploaded_file($_FILES['image']['tmp_name'], $tmpName)) {
+                        return false;
+                    }
+
+                    $destination = sprintf(
+                        '%s/img/reassurance-%d-%d.jpg',
+                        dirname(__FILE__),
+                        (int)$reassurance->id,
+                        (int)$reassurance->id_shop
+                    );
+
+
+                    $resizeOperationResult = ImageManager::resize($tmpName, $destination);
+
+                    if (false === $resizeOperationResult) {
                         return false;
                     }
 
@@ -289,7 +312,10 @@ class Blockreassurance extends Module implements WidgetInterface
         }
 
         if (Tools::getIsset(Tools::getValue('submitModule'))) {
-            Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((Tools::getIsset(Tools::getValue('nbblocks')) && Tools::getValue('nbblocks') != '') ? (int)Tools::getValue('nbblocks') : ''));
+            Configuration::updateValue(
+                'BLOCKREASSURANCE_NBBLOCKS',
+                ((Tools::getIsset(Tools::getValue('nbblocks')) && Tools::getValue('nbblocks') != '') ? (int)Tools::getValue('nbblocks') : '')
+            );
 
             if ($this->removeFromDB() && $this->addToDB()) {
                 $this->_clearCache('blockreassurance.tpl');
