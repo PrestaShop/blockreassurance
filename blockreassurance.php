@@ -35,6 +35,9 @@ include_once _PS_MODULE_DIR_.'blockreassurance/reassuranceClass.php';
 
 class Blockreassurance extends Module implements WidgetInterface
 {
+    /**
+     * @var string
+     */
     private $templateFile;
 
     public function __construct()
@@ -55,6 +58,9 @@ class Blockreassurance extends Module implements WidgetInterface
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function install()
     {
         return parent::install()
@@ -66,9 +72,13 @@ class Blockreassurance extends Module implements WidgetInterface
         ;
     }
 
+    /**
+     * @return bool
+     */
     public function installDB()
     {
         $return = true;
+
         $return &= Db::getInstance()->execute('
             CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'reassurance` (
                 `id_reassurance` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -88,6 +98,9 @@ class Blockreassurance extends Module implements WidgetInterface
         return $return;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function uninstall()
     {
         return Configuration::deleteByName('BLOCKREASSURANCE_NBBLOCKS') &&
@@ -95,11 +108,17 @@ class Blockreassurance extends Module implements WidgetInterface
             parent::uninstall();
     }
 
+    /**
+     * @return bool
+     */
     public function uninstallDB()
     {
         return Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance`') && Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance_lang`');
     }
 
+    /**
+     * @return bool
+     */
     public function addToDB()
     {
         $nbBlocks = Tools::getValue('nbblocks');
@@ -159,6 +178,9 @@ class Blockreassurance extends Module implements WidgetInterface
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function removeFromDB()
     {
         $dir = opendir(dirname(__FILE__).'/img');
@@ -174,6 +196,9 @@ class Blockreassurance extends Module implements WidgetInterface
         return Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'reassurance`');
     }
 
+    /**
+     * @param array $params
+     */
     public function hookActionUpdateLangAfter($params)
     {
         if (!empty($params['lang']) && $params['lang'] instanceOf Language) {
@@ -183,6 +208,9 @@ class Blockreassurance extends Module implements WidgetInterface
         }
     }
 
+    /**
+     * @return string
+     */
     public function getContent()
     {
         $html = '';
@@ -202,7 +230,10 @@ class Blockreassurance extends Module implements WidgetInterface
                 $reassurance->save();
 
                 if (Tools::getIsset($_FILES['image']) && Tools::getIsset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
-                    if ($error = ImageManager::validateUpload($_FILES['image'])) {
+
+                    $error = ImageManager::validateUpload($_FILES['image']);
+
+                    if ($error) {
                         return false;
                     } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['image']['tmp_name'], $tmpName)) {
                         return false;
@@ -223,11 +254,11 @@ class Blockreassurance extends Module implements WidgetInterface
 
         if (Tools::isSubmit('updateblockreassurance') || Tools::isSubmit('addblockreassurance')) {
             $helper = $this->initForm();
+
             foreach (Language::getLanguages(false) as $lang) {
                 if ($id_reassurance) {
                     $reassurance = new reassuranceClass((int)$id_reassurance);
                     $helper->fields_value['text'][(int)$lang['id_lang']] = $reassurance->text[(int)$lang['id_lang']];
-                    $image = dirname(__FILE__).DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$reassurance->file_name;
                     $this->fields_form[0]['form']['input'][0]['image'] = '<img src="'.$this->getImageURL($reassurance->file_name).'" />';
                 } else {
                     $helper->fields_value['text'][(int)$lang['id_lang']] = Tools::getValue('text_'.(int)$lang['id_lang'], '');
@@ -239,32 +270,38 @@ class Blockreassurance extends Module implements WidgetInterface
             }
 
             return $html.$helper->generateForm($this->fields_form);
+
         } elseif (Tools::isSubmit('deleteblockreassurance')) {
             $reassurance = new reassuranceClass((int)$id_reassurance);
             if (file_exists(dirname(__FILE__).'/img/'.$reassurance->file_name)) {
                 unlink(dirname(__FILE__).'/img/'.$reassurance->file_name);
             }
             $reassurance->delete();
+
             $this->_clearCache('*');
             Tools::redirectAdmin(AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'));
         } else {
             $content = $this->getListContent((int)Configuration::get('PS_LANG_DEFAULT'));
             $helper = $this->initList();
             $helper->listTotal = count($content);
+
             return $html.$helper->generateList($content, $this->fields_list);
         }
 
         if (Tools::getIsset(Tools::getValue('submitModule'))) {
             Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((Tools::getIsset(Tools::getValue('nbblocks')) && Tools::getValue('nbblocks') != '') ? (int)Tools::getValue('nbblocks') : ''));
+
             if ($this->removeFromDB() && $this->addToDB()) {
                 $this->_clearCache('blockreassurance.tpl');
-                $output = '<div class="conf confirm">'.$this->trans('The block configuration has been updated.', array(), 'Modules.Blockreassurance.Admin').'</div>';
-            } else {
-                $output = '<div class="conf error"><img src="../img/admin/disabled.gif"/>'.$this->trans('An error occurred while attempting to save.', array(), 'Admin.Notifications.Error').'</div>';
             }
         }
     }
 
+    /**
+     * @param int $id_lang
+     *
+     * @return mixed
+     */
     protected function getListContent($id_lang)
     {
         return  Db::getInstance()->executeS('
@@ -274,6 +311,9 @@ class Blockreassurance extends Module implements WidgetInterface
             WHERE `id_lang` = '.(int)$id_lang.' '.Shop::addSqlRestrictionOnLang());
     }
 
+    /**
+     * @return HelperForm
+     */
     protected function initForm()
     {
         $default_lang = (int)Configuration::get('PS_LANG_DEFAULT');
@@ -309,6 +349,7 @@ class Blockreassurance extends Module implements WidgetInterface
         $helper->name_controller = 'blockreassurance';
         $helper->identifier = $this->identifier;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
+
         foreach (Language::getLanguages(false) as $lang) {
             $helper->languages[] = array(
                 'id_lang' => $lang['id_lang'],
@@ -336,9 +377,13 @@ class Blockreassurance extends Module implements WidgetInterface
                 'desc' => $this->trans('Back to list', array(), 'Admin.Actions'),
             )
         );
+
         return $helper;
     }
 
+    /**
+     * @return HelperList
+     */
     protected function initList()
     {
         $this->fields_list = array(
@@ -383,14 +428,24 @@ class Blockreassurance extends Module implements WidgetInterface
         $helper->table = $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
         $helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
+
         return $helper;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _clearCache($template, $cacheId = null, $compileId = null)
     {
         parent::_clearCache($this->templateFile);
     }
 
+    /**
+     * @param string $hookName
+     * @param array $configuration
+     *
+     * @return mixed
+     */
     public function renderWidget($hookName = null, array $configuration = array())
     {
         if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
@@ -400,6 +455,12 @@ class Blockreassurance extends Module implements WidgetInterface
         return $this->fetch($this->templateFile, $this->getCacheId('blockreassurance'));
     }
 
+    /**
+     * @param string $hookName
+     * @param array $configuration
+     *
+     * @return array
+     */
     public function getWidgetVariables($hookName = null, array $configuration = array())
     {
         $elements = $this->getListContent($this->context->language->id);
@@ -413,6 +474,9 @@ class Blockreassurance extends Module implements WidgetInterface
         );
     }
 
+    /**
+     * @return bool
+     */
     public function installFixtures()
     {
         $return = true;
@@ -431,9 +495,15 @@ class Blockreassurance extends Module implements WidgetInterface
             $reassurance->id_shop = $this->context->shop->id;
             $return &= $reassurance->save();
         }
+
         return $return;
     }
 
+    /**
+     * @param string $image
+     *
+     * @return string
+     */
     private function getImageURL($image)
     {
         return $this->context->link->getMediaLink(__PS_BASE_URI__.'modules/'.$this->name.'/img/'.$image);
