@@ -391,7 +391,7 @@ class Blockreassurance extends Module implements WidgetInterface
         parent::_clearCache($this->templateFile);
     }
 
-    public function renderWidget($hookName = null, array $configuration = [])
+    public function renderWidget($hookName = null, array $configuration = array())
     {
         if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
@@ -400,7 +400,7 @@ class Blockreassurance extends Module implements WidgetInterface
         return $this->fetch($this->templateFile, $this->getCacheId('blockreassurance'));
     }
 
-    public function getWidgetVariables($hookName = null, array $configuration = [])
+    public function getWidgetVariables($hookName = null, array $configuration = array())
     {
         $elements = $this->getListContent($this->context->language->id);
 
