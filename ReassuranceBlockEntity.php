@@ -24,7 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-class reassuranceClass extends ObjectModel
+class ReassuranceBlockEntity extends ObjectModel
 {
     /** @var integer reassurance id*/
     public $id;
