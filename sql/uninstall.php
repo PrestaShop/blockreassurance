@@ -1,6 +1,6 @@
 <?php
 /**
-* 2007-2017 PrestaShop
+* 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,13 +18,24 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-* @author    PrestaShop SA <contact@prestashop.com>
-* @copyright 2007-2017 PrestaShop SA
-* @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-* International Registered Trademark & Property of PrestaShop SA
+*  @author    PrestaShop SA <contact@prestashop.com>
+*  @copyright 2007-2019 PrestaShop SA
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  International Registered Trademark & Property of PrestaShop SA
 */
 
-require(dirname(__FILE__).'/../../config/config.inc.php');
-require(dirname(__FILE__).'/../../init.php');
+/**
+* In some cases you should not drop the tables.
+* Maybe the merchant will just try to reset the module
+* but does not want to loose all of the data associated to the module.
+*/
 
-exit();
+$sql = array();
+
+$sql[] = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.'psreassurance`, `'._DB_PREFIX_.'psreassurance_lang`';
+
+foreach ($sql as $query) {
+    if (Db::getInstance()->execute($query) == false) {
+        return false;
+    }
+}
