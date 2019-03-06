@@ -1,5 +1,4 @@
-<?php
-/*
+{*
 * 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -18,13 +17,18 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2019 PrestaShop SA
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  @author    PrestaShop SA <contact@prestashop.com>
+*  @copyright 2007-2019 PrestaShop SA
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
-*/
-
-require(dirname(__FILE__).'/../../config/config.inc.php');
-require(dirname(__FILE__).'/../../init.php');
-
-exit();
+*}
+<div class="tag-default">
+    {foreach from=$blocks item=$block key=$key}
+        <div>
+            <span style="color:{$iconeColor};"><i class="material-icons psrea-color">{$block['icone']}</i></span>
+            <span style="color:{$textColor};font-weight:bold">{$block['title']}<span>
+            <p style="color:{$textColor};padding-left:26px;">{$block['description']}</p>
+        </div>
+    {/foreach}
+    <div class="clearfix"></div>
+</div>

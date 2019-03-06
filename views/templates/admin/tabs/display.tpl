@@ -48,8 +48,6 @@
 
 </div>
 
-
-{* Use this if you want to send php var to your js *}
 {literal}
 <script type="text/javascript">
     var currentPage = "{/literal}{$currentPage|escape:'htmlall':'UTF-8'}{literal}";

@@ -1,5 +1,5 @@
-/**
-* 2007-2018 PrestaShop
+/*
+* 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +17,9 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author    PrestaShop SA <contact@prestashop.com>
-*  @copyright 2007-2018 PrestaShop SA
-*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  @author PrestaShop SA <contact@prestashop.com>
+*  @copyright  2007-2019 PrestaShop SA
+*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
 $(window).ready(function() {
@@ -93,7 +93,7 @@ $(window).ready(function() {
                 value: value,
             },
             success: function(data) {
-                showSuccessMessage('yup');
+                showSuccessMessage(psre_success);
             },
             error: function(err) {
                 console.log(err);
@@ -113,7 +113,7 @@ $(window).ready(function() {
                 color2: $('#color_2').val(),
             },
             success: function(data) {
-                showSuccessMessage('yup');
+                showSuccessMessage(psre_success);
             },
             error: function(err) {
                 console.log(err);
@@ -121,4 +121,69 @@ $(window).ready(function() {
         });
     });
 
+    var image_psre;
+    $(document).on('change', '.slide_image', function (e) {
+        image_psre = e.target.files[0];
+    });
+
+    $(document).on('click', '#saveContentConfiguration', function () {
+        
+        var block = $('#saveContentConfiguration').attr('data-id');
+        let dataToSave = {};
+
+        // $('#reminder_listing').removeClass('inactive');
+        // $('#reminder_listing').addClass('active');
+
+        // $('#blockDisplay').removeClass('active');
+        // $('#blockDisplay').addClass('inactive');
+
+
+        $('.show-rea-block.active select[name="psr-language"] option').each( function( index, elem ) {
+            let lang = $(elem).val();
+            dataToSave[lang] = {};
+        });
+
+        $('.show-rea-block.active .content_by_lang').each( function( index, elem ) {
+            let lang = $(elem).attr('data-lang');
+            let type = $(elem).attr('data-type');
+
+            dataToSave[lang][type] = $('input',elem).val();
+        });
+
+        formData = new FormData();
+        formData.append('ajax', true);
+        formData.append('action', 'SaveBlockContent');
+        formData.append('file', image_psre);
+        formData.append('id_block', $('#saveContentConfiguration').attr('data-id'));
+        formData.append('lang_values', JSON.stringify(dataToSave));
+        formData.append('picto', $('.show-rea-block.active .psr-picto').attr('data-image'));
+        formData.append('typelink', $('input[name="PSR_REDIRECTION_'+block+'"]:checked').val());
+        formData.append('id_cms', $('select[name="ID_CMS_'+block+'"]').val());
+
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
+            url: psr_controller_block_url,
+            contentType: false,
+            processData: false,
+            data: formData,
+            // data: {
+            //     ajax: true,
+            //     action: 'SaveBlockContent',
+            //     id_block: $('#saveContentConfiguration').attr('data-id'),
+            //     lang_values: JSON.stringify(dataToSave),
+            //     picto: $('.show-rea-block.active .psr-picto').attr('data-image'),
+            //     typelink: $('input[name="PSR_REDIRECTION_'+block+'"]:checked').val(),
+            //     id_cms: $('select[name="ID_CMS_'+block+'"]').val(),
+            //     psre_file: bite,
+            // },
+            success: function(data) {
+                showSuccessMessage(psre_success);
+            },
+            error: function(err) {
+                // console.log(err);
+            }
+        });
+    });
 });

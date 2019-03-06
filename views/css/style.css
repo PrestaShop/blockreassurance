@@ -134,6 +134,10 @@
     border-color: rgb(37,185,215);
 }
 
+.customradiodesign{
+    cursor: pointer;
+}
+
 .customradiodesign input[type=radio]:not(old):checked + label > span > span{
     display          : block;
     width: 10px;
@@ -532,7 +536,7 @@ table.dataTable.no-footer {
       color: #6C868E;
       transition: all 0.5s; }
     .switch-input {
-      background: #FFBB00; }
+      background: #DA6E6E; }
     .switch-input > input {
       display: none; }
     .switch-input:after {
@@ -733,7 +737,7 @@ label > div > .input_img:checked ~ img{ /* (RADIO CHECKED) IMAGE STYLES */
 }
 
 .page-body-tabs {
-    width: 250px;
+    width: 258px;
     border: #BBCDD2 1px solid;
 }
 
@@ -757,7 +761,7 @@ label > div > .input_img:checked ~ img{ /* (RADIO CHECKED) IMAGE STYLES */
 
 #psr-icon-list{
     height:320px;
-    border: #BBCDD2 1px solid;
+    /*border: #BBCDD2 1px solid;*/
     padding:5px;
     text-align: center;
 }
@@ -765,11 +769,14 @@ label > div > .input_img:checked ~ img{ /* (RADIO CHECKED) IMAGE STYLES */
 .show_demo{
     font-size: 76px;
 }
-#show_icon{
+#show_icon_0, #show_icon_1, #show_icon_2{
     background-color: rgb(255, 255, 255);
     position:absolute;
     z-index: 99;
     width:260px;
+    padding:0;
+    height:395px;
+    border: #BBCDD2 1px solid;
 }
 
 .inactive{
@@ -791,10 +798,59 @@ label > div > .input_img:checked ~ img{ /* (RADIO CHECKED) IMAGE STYLES */
     display: flex !important;
 }
 
-#modify_icon{
+.modify_icon{
     cursor: pointer;
 }
 
-#modify_icon:hover{
+.modify_icon:hover{
     color: #25b9d7
+}
+.psre-edit{
+    cursor: pointer;
+}
+
+.select-none{
+    display:block;
+    margin-top: -17px;
+    margin-left: -181px;
+    cursor: pointer;
+}
+
+.select-icon:hover{
+    color: #25b9d7;
+    cursor: pointer;
+}
+
+.select-none:hover{
+    color: #25b9d7
+}
+
+.svg path {
+    fill: blue;
+}
+
+.first-body{
+    padding-bottom: 50px !important;
+}
+
+.help-block{
+    font-style: normal !important;
+}
+
+.block-title{
+    width:198px !important;
+}
+
+.first-block{
+    padding-top: 20px;
+}
+
+.picto-url{
+    padding-right: 2px !important;
+}
+.content-header{
+    font-weight: bold !important;
+}
+.picto-edit{
+    font-size:40px;
 }

@@ -36,9 +36,6 @@
                 <li>
                     <a href="#appearance" data-toggle="tab">{l s='Appearance' mod='psreassurance'}</a>
                 </li>
-                <li>
-                    <a href="#help" data-toggle="tab">{l s='Help' mod='psreassurance'}</a>
-                </li>
             </ul>
         </div>
     </div>	
@@ -63,10 +60,6 @@
                 <div class="tab_cap_listing">
                     {include file="./tabs/appearance.tpl"}
                 </div>
-            </div>
-
-            <div class="tab-pane" id="help">
-                {include file="./tabs/help.tpl"}
             </div>
         </div>
     </div>

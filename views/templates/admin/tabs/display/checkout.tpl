@@ -35,8 +35,8 @@
                 {if $psr_hook_checkout eq 1}checked="checked"{/if}
                 />
                  <label for="PSR_HOOK_CHECKOUT"><span><span></span></span>{l s='Main column' mod='psagechecker'}</label><br /><br />
-                <img src="{$img_path}displayHome_active.jpg" width="150" height="150" class="psr-checkout-color{if $psr_hook_checkout eq 1} active{/if}">
-                <img src="{$img_path}displayHome_inactive.jpg" width="150" height="150" class="psr-checkout-grey {if $psr_hook_checkout != 1} active{/if}">
+                <img src="{$img_path}displayReassurance_active.jpg" width="150" height="150" class="psr-checkout-color{if $psr_hook_checkout eq 1} active{/if}">
+                <img src="{$img_path}displayReassurance_inactive.jpg" width="150" height="150" class="psr-checkout-grey {if $psr_hook_checkout != 1} active{/if}">
             </div>
         </label>
         <label class="psr-float">
