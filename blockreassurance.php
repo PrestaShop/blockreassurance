@@ -62,6 +62,7 @@ class Blockreassurance extends Module implements WidgetInterface
             && $this->installFixtures()
             && $this->registerHook('displayOrderConfirmation2')
             && $this->registerHook('actionUpdateLangAfter')
+            && $this->registerHook('displayReassurance')
         ;
     }
 
