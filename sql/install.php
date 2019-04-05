@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 * 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -24,6 +24,11 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
+    
 $sql = array();
 
 $sql[] = ' CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'psreassurance` (
@@ -51,19 +56,19 @@ $sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'psreassurance_lang` (
     ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;';
 
 $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
-        VALUES (1, 'credit_card', null, 1, 1, 1, null, null, now())";
+        VALUES (1, '".$this->img_path."reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
 $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
-        VALUES (2, 'local_shipping', null, 1, 2, 1, null, null, now())";
+        VALUES (2, '".$this->img_path."reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
 $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
-        VALUES (3, 'loop', null, 1, 3, 1, null, null, now())";
+        VALUES (3, '".$this->img_path."reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
 
 foreach ($languages as $lang) {
     $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link)
-            VALUES (1, ".$lang['id_lang'].", 1, 'Secure payment', 'Payment methods accepted: Visa, Mastercard, American Express, Paypal', 0)";
+            VALUES (1, ".$lang['id_lang'].", 1, 'Security Policy', '(edit with Customer reassurance module)', '')";
     $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link)
-            VALUES (2, ".$lang['id_lang'].", 1, 'Free delivery', 'From 60 € of purchase, we deliver to you in Colissimo or Point Relais', 0)";
+            VALUES (2, ".$lang['id_lang'].", 1, 'Delivery Policy', '(edit with Customer reassurance module)', '')";
     $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link)
-            VALUES (3, ".$lang['id_lang'].", 1, 'Free returns', 'Very simple and free return in store', 0)";
+            VALUES (3, ".$lang['id_lang'].", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
 }
 
 foreach ($sql as $query) {

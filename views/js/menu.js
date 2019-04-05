@@ -102,6 +102,7 @@ $(window).ready(function() {
     }
 
     $(document).on('click', '#saveConfiguration', function () {
+        let color1 = $('#color_1').val();
         $.ajax({
             type: 'POST',
             dataType: 'JSON',
@@ -109,14 +110,17 @@ $(window).ready(function() {
             data: {
                 ajax: true,
                 action: 'SaveColor',
-                color1: $('#color_1').val(),
+                color1: color1,
                 color2: $('#color_2').val(),
             },
             success: function(data) {
+            //     $('.psr-picto').css('background', color1);
+            //     $('.psrea-color').css('background', color1);
+                $('.svg path').css('fill', color1);
                 showSuccessMessage(psre_success);
             },
             error: function(err) {
-                console.log(err);
+                showErrorMessage(err);
             }
         });
     });
@@ -130,13 +134,14 @@ $(window).ready(function() {
         
         var block = $('#saveContentConfiguration').attr('data-id');
         let dataToSave = {};
-
-        // $('#reminder_listing').removeClass('inactive');
-        // $('#reminder_listing').addClass('active');
-
-        // $('#blockDisplay').removeClass('active');
-        // $('#blockDisplay').addClass('inactive');
-
+        let picto = $('.psr_picto_showing:visible svg.replaced-svg').attr('data-img-url');
+        let replaced = $('.svg_chosed_here svg').attr('data-img-url');
+        if (typeof picto === 'undefined') {
+            picto =$('.psr_picto_showing:visible img.psr-picto').attr('src');
+        }
+        if(typeof replaced !== 'undefined') {
+            picto = replaced;
+        }
 
         $('.show-rea-block.active select[name="psr-language"] option').each( function( index, elem ) {
             let lang = $(elem).val();
@@ -147,7 +152,11 @@ $(window).ready(function() {
             let lang = $(elem).attr('data-lang');
             let type = $(elem).attr('data-type');
 
-            dataToSave[lang][type] = $('input',elem).val();
+            if( type == 'description') {
+                dataToSave[lang][type] = $('textarea',elem).val();
+            } else {
+                dataToSave[lang][type] = $('input',elem).val();
+            }
         });
 
         formData = new FormData();
@@ -156,10 +165,9 @@ $(window).ready(function() {
         formData.append('file', image_psre);
         formData.append('id_block', $('#saveContentConfiguration').attr('data-id'));
         formData.append('lang_values', JSON.stringify(dataToSave));
-        formData.append('picto', $('.show-rea-block.active .psr-picto').attr('data-image'));
+        formData.append('picto', picto);
         formData.append('typelink', $('input[name="PSR_REDIRECTION_'+block+'"]:checked').val());
         formData.append('id_cms', $('select[name="ID_CMS_'+block+'"]').val());
-
 
         $.ajax({
             type: 'POST',
@@ -168,22 +176,45 @@ $(window).ready(function() {
             contentType: false,
             processData: false,
             data: formData,
-            // data: {
-            //     ajax: true,
-            //     action: 'SaveBlockContent',
-            //     id_block: $('#saveContentConfiguration').attr('data-id'),
-            //     lang_values: JSON.stringify(dataToSave),
-            //     picto: $('.show-rea-block.active .psr-picto').attr('data-image'),
-            //     typelink: $('input[name="PSR_REDIRECTION_'+block+'"]:checked').val(),
-            //     id_cms: $('select[name="ID_CMS_'+block+'"]').val(),
-            //     psre_file: bite,
-            // },
+
             success: function(data) {
                 showSuccessMessage(psre_success);
+                setTimeout(
+                    location.reload()
+                , 1800);
             },
             error: function(err) {
                 // console.log(err);
             }
         });
     });
+
+    $(".listing-body").sortable({
+        update: function ()
+        {
+            var blocks = [];
+            $(".listing-general-rol").each(function() {
+                blocks.push($(this).attr('data-block'));
+            });
+
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'HTML',
+                url: psr_controller_block_url,
+                data: {
+                    ajax: true,
+                    action: 'UpdatePosition',
+                    blocks: blocks,
+                },
+                success: function(data) {
+                    showSuccessMessage(successPosition);
+                },
+                error: function(err) {
+                    showErrorMessage(errorPosition);
+                }
+            });
+        }
+    });
+
 });

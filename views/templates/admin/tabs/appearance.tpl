@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel panel-default col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-0" >
+<div class="panel panel-default col-lg-10 col-lg-offset-1 col-md-12 col-md-offset-0" >
     <div class="panel-heading">
         {l s='Customize Module Design' mod='psreassurance'}
     </div>
@@ -40,10 +40,10 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
-                    <div class="input-group">
-                        <input type="text" data-hex="true" class="color mColorPickerInput mColorPicker" name="PSR_ICON_COLOR" value="{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}" id="color_1" style="background-color:{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}; color: back;"><span style="cursor:pointer;" id="icp_color_1" class="mColorPickerTrigger input-group-addon" data-mcolorpicker="true"><img src="../img/admin/color.png" style="border:0;margin:0 0 0 3px" align="absmiddle"></span>
-                    </div>
+                    <div class="ps_colorpicker1"></div>
+                    <input type="hidden" class="psr_icon_color" name="PSR_ICON_COLOR" value="{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}" id="color_1" style="background-color:{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}; color: back;">
                 </div>
+
                 <div class="clearfix"></div>
             </div>
 
@@ -56,9 +56,8 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
-                    <div class="input-group">
-                        <input type="text" data-hex="true" class="color mColorPickerInput mColorPicker" name="PSR_TEXT_COLOR" value="{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}" id="color_2" style="background-color:{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}; color: back;"><span style="cursor:pointer;" id="icp_color_2" class="mColorPickerTrigger input-group-addon" data-mcolorpicker="true"><img src="../img/admin/color.png" style="border:0;margin:0 0 0 3px" align="absmiddle"></span>
-                    </div>
+                    <div class="ps_colorpicker2"></div>
+                    <input type="hidden" class="psr_text_color" name="PSR_TEXT_COLOR" value="{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}" id="color_2" style="background-color:{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}; color: back;">
                 </div>
             </div>
 

@@ -23,6 +23,8 @@
 * International Registered Trademark & Property of PrestaShop SA
 */
 $(window).ready(function() {
+    $('.landscape').hide();
+
     $(document).on('click', '.modify_icon', function () {
         var id = $(this).data('id');
         $('#show_icon_'+id).removeClass('inactive');
@@ -35,25 +37,6 @@ $(window).ready(function() {
         $('#show_icon_'+id).addClass('inactive');
         $('.show-rea-block.active .psr-picto').attr('data-image', $(e.target)[0]['innerHTML']);
         $('.show-rea-block.active .psr-picto i').html($(e.target)[0]['innerHTML']);
-    });
-
-    $(document).on('change', 'input[name="PSR_REDIRECTION_0"]', (e) => {
-        if($(e.target).val() == 0) {
-            $('.psr-cms').removeClass('active');
-            $('.psr-url').removeClass('active');
-            $('.psr-cms').addClass('inactive');
-            $('.psr-url').addClass('inactive');
-        } else if ($(e.target).val() == 1) {
-            $('.psr-url').removeClass('active');
-            $('.psr-url').addClass('inactive');
-            $('.psr-cms').removeClass('inactive');
-            $('.psr-cms').addClass('active');
-        } else if ($(e.target).val() == 2) {
-            $('.psr-cms').removeClass('active');
-            $('.psr-cms').addClass('inactive');
-            $('.psr-url').removeClass('inactive');
-            $('.psr-url').addClass('active');
-        }
     });
 
     $(document).on('change', 'input[name="PSR_REDIRECTION_1"]', (e) => {
@@ -94,6 +77,25 @@ $(window).ready(function() {
         }
     });
 
+    $(document).on('change', 'input[name="PSR_REDIRECTION_3"]', (e) => {
+        if($(e.target).val() == 0) {
+            $('.psr-cms').removeClass('active');
+            $('.psr-url').removeClass('active');
+            $('.psr-cms').addClass('inactive');
+            $('.psr-url').addClass('inactive');
+        } else if ($(e.target).val() == 1) {
+            $('.psr-url').removeClass('active');
+            $('.psr-url').addClass('inactive');
+            $('.psr-cms').removeClass('inactive');
+            $('.psr-cms').addClass('active');
+        } else if ($(e.target).val() == 2) {
+            $('.psr-cms').removeClass('active');
+            $('.psr-cms').addClass('inactive');
+            $('.psr-url').removeClass('inactive');
+            $('.psr-url').addClass('active');
+        }
+    });
+
     $(document).on('click', '.psre-edit', function () {
         
         $('#reminder_listing').removeClass('active');
@@ -105,10 +107,21 @@ $(window).ready(function() {
         $('.show-rea-block').removeClass('active');
         $('.show-rea-block').addClass('inactive');
         var id = $(this).data('id');
+        let landscape = $('.panel-body-'+ id+' .psr-picto').attr('data-img-url');
+        let landscape2 = $('.panel-body-'+ id+' .psr-picto').attr('src');
         $('.panel-body-' + id).removeClass('inactive');
         $('.panel-body-' + id).addClass('active');
 
         $('#saveContentConfiguration').attr('data-id', id);
+
+        $('.limiteur_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
+        $('.limiteur_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
+
+        if(typeof landscape === 'undefined' && landscape2 === 'undefined') {
+            $('.psr-picto:visible').hide();
+            $('.svg_chosed_here:visible').hide();
+            $('.landscape').show();
+        }
     });
 
     $(document).on('change', 'select[name="psr-language"]', (e) => {
@@ -117,6 +130,8 @@ $(window).ready(function() {
         $('.content_by_lang').removeClass('active');
         $('.content_by_lang').addClass('inactive');
         $('.content_by_lang.lang-'+lang).addClass('active');
+        $('.limiteur_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
+        $('.limiteur_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
     });
 
     $(function(){
@@ -139,6 +154,8 @@ $(window).ready(function() {
                     $svg = $svg.attr('class', imgClass+' replaced-svg');
                 }
         
+                $svg = $svg.attr('data-img-url', imgURL);
+
                 // Remove any invalid XML tags as per http://validator.w3.org
                 $svg = $svg.removeAttr('xmlns:a');
                 
@@ -149,16 +166,23 @@ $(window).ready(function() {
         
                 // Replace image with new SVG
                 $img.replaceWith($svg);
+
+                // set color of svg at load
+                $('.svg path').css('fill', psr_icon_color);
+
+                //$svg.attr('height', '35')
+                $('.resize svg').attr('height', '35')
+
+                $('.svg').show();
         
             }, 'xml');
-        
         });
     });
 
     $(document).on('click', '.refreshPage', function () {
-        console.log('nice');
         location.reload();
     });
+    
 });
 
 /** 
@@ -241,10 +265,9 @@ $(document).on('click', '.switch-input', (e) => {
 
 
 $(document).on('change', '.show-rea-block.active .slide_image', function (e) {
-
-    readURL(this, $(this).attr('data-preview'));
-});
-function readURL(input, id) {
+    let input = this;
+    let id = $(this).attr('data-preview');
+    
     if (input.files && input.files[0]) {
 
         var reader = new FileReader();
@@ -258,8 +281,10 @@ function readURL(input, id) {
 
         reader.readAsDataURL(input.files[0]);
         $(".show-rea-block.active .slide_url").attr('value', input.files[0].name);
+        $('.psr-picto').show();
+        $('.picto_by_module').hide();
     }
-}
+});
 
 $(".show-rea-block.active .slide_url").each(function() {
     var str = $(this).attr('value');
@@ -292,3 +317,130 @@ $(document).on('click', '.show-rea-block.active .select-none', function () {
     $('.show-rea-block.active .psr-picto i').html('landscape');
 });
 
+
+/**
+ *  Close popin Reassurance if click outside
+*/ 
+$(document).on('click', 'body', (e) => {
+    let isInside = $(e.target).closest('.modify_icon').length;
+    let isPopin = $(e.target).closest('#reassurance_block').length;
+
+    if (!isInside && !isPopin) {
+        $("#reassurance_block").fadeOut(300);
+    }
+});
+
+/**
+ *  Show popin Reassurance and move it into the right place
+ */
+$(document).on('click', '.modify_icon', (e) => {
+    let position = $(e.target).offset();
+    let offset = $(e.target).width();
+    let top = position.top/2;
+    let left = position.left/2 - offset;
+
+    $('#reassurance_block').show();
+    $('#reassurance_block').css('top', top+'px');
+    $('#reassurance_block').css('left', left+'px');
+});
+
+ /*
+*   Reassurance Block select category
+*/
+   $(document).on('click', '#reassurance_block .category_select div i', (e) => {
+    let category = $(e.target).attr('data-id');
+
+    $('#reassurance_block .category_select div').removeClass('active');
+    $(e.target).parent().addClass('active');
+
+    $('#reassurance_block .category_reassurance').removeClass('active');
+    $('#reassurance_block .cat_'+category).addClass('active');
+});
+
+/*
+*   Reassurance Block select picto
+*/
+$(document).on('click', '#reassurance_block .category_reassurance svg', (e) => {
+    let tagName = $(e.target)[0].tagName;
+    let svg = $(e.target)[0].outerHTML;
+    let imgUrl = $(e.target).attr('data-img-url');
+
+    if (tagName != 'SVG') {
+        svg = $(e.target).closest('svg')[0].outerHTML;
+    }
+
+    $('.svg_chosed_here svg').attr('data-img-url', imgUrl);
+
+    $('.picto_by_module').show();
+    $('#reassurance_block .category_reassurance svg').removeClass('selected');
+    $(e.target).addClass('selected');
+    // $('.psr-picto:visible').attr('src', icon);
+    $('.svg_chosed_here').show();
+    $('.landscape').hide();
+    $('.svg_chosed_here:visible').html(svg);
+    $('#reassurance_block').fadeOut(300);
+    $('.psr-picto').hide();
+});
+
+/*
+*   Reassurance Block select none
+*/
+$(document).on('click', '.select_none', (e) => {
+    $('#reassurance_block .category_reassurance svg').removeClass('selected');
+    $('.psr-picto:visible').attr('src', 'undefined');
+    $('.psr_picto_showing:visible svg.replaced-svg').attr('data-img-url', 'undefined');
+    $('.svg_chosed_here svg').attr('data-img-url', 'undefined');
+    $('.psr-picto:visible').hide();
+    $('.svg_chosed_here:visible').hide();
+    $('.landscape').show();
+    $('#reassurance_block').fadeOut(300);
+});
+
+/*
+* limiteur input text
+*/
+$(document).on('keydown', '.show-rea-block.active .content_by_lang input[type="text"]', function () {
+    maximum = 100;
+    var champ = $(this).val();
+    var indic = 0;
+    if (champ.length > maximum) {
+        $(this).val( $(this).val().substring(0, maximum-1));
+    } else {
+      indic = champ.length;
+    }
+    $('.limiteur_text:visible').text(indic);
+});
+
+/*
+* limiteur textarea text
+*/
+$(document).on('keydown', '.show-rea-block.active .content_by_lang textarea', function () {
+    maximum = 100;
+    var champ = $(this).val();
+    var indic = 0;
+    if (champ.length > maximum) {
+        $(this).val( $(this).val().substring(0, maximum-1));
+    } else {
+      indic = champ.length;
+    }
+    $('.limiteur_description:visible').text(indic);
+});
+
+/*
+* Add an http if it is missing from the URL
+*/
+$(document).on('keyup', '.block_url:visible', (e) => {
+    let url = $(e.target).val();
+    let pattern_for_url = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+    let pattern_for_http = /(http(s)?:\/\/)/g
+
+    // If it is a real URL : 
+    if (pattern_for_url.test(url)) {
+        $(e.target).css('background', '#fff');
+        if (!pattern_for_http.test(url)) {
+            $(e.target).val('http://'+url);
+        }
+    } else {
+        $(e.target).css('background', '#ffecec');
+    }
+});

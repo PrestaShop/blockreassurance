@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 * 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -31,19 +31,21 @@ class AdminBlockListingController extends ModuleAdminController
         parent::__construct();
     }
 
+    /**
+     * Update the status of a block
+     *
+     * @return string
+     */
     public function ajaxProcessChangeBlockStatus()
     {
         $dt = new DateTime();
         $PsreassuranceId = (int) Tools::getValue('idpsr');
-        $Status = (int) Tools::getValue('status');
-        if ($Status ==1) {
-            $Status = 0;
-        } else {
-            $Status = 1;
-        }
+        $Status = ((int) Tools::getValue('status') == 1) ? 0 : 1;
+        var_dump($Status);
+        $newStatus = ($Status == 1) ? 1 : 0;
 
         $UpdatedDatas = array(
-            'status' => $Status,
+            'status' => $newStatus,
             'date_upd' => $dt->format('Y-m-d H:i:s'),
         );
         $sWhere = 'id_psreassurance = '.$PsreassuranceId;
@@ -53,6 +55,11 @@ class AdminBlockListingController extends ModuleAdminController
         $this->ajaxDie($bStatusChanged);
     }
 
+    /**
+     * ajaxProcessSavePositionByHook
+     *
+     * @return string
+     */
     public function ajaxProcessSavePositionByHook()
     {
         $hook = Tools::getValue('hook');
@@ -63,6 +70,11 @@ class AdminBlockListingController extends ModuleAdminController
         $this->ajaxDie(json_encode('success'));
     }
 
+    /**
+     * ajaxProcessSaveColor
+     *
+     * @return string
+     */
     public function ajaxProcessSaveColor()
     {
         $color1 = Tools::getValue('color1');
@@ -74,6 +86,11 @@ class AdminBlockListingController extends ModuleAdminController
         $this->ajaxDie(json_encode('success'));
     }
 
+    /**
+     * ajaxProcessSaveBlockContent
+     *
+     * @return bool|string
+     */
     public function ajaxProcessSaveBlockContent()
     {
         $errors = array();
@@ -83,6 +100,7 @@ class AdminBlockListingController extends ModuleAdminController
         $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
         $type_link = Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
+        $newValues = array();
 
         if (!empty($errors) && count($errors)) {
             echo json_encode(array(
@@ -90,14 +108,21 @@ class AdminBlockListingController extends ModuleAdminController
             ));
             return;
         }
-        $id_block++;
+        //$id_block++;
         $blockPsr = new ReassuranceActivity($id_block);
         $languages = Language::getLanguages();
+
+        foreach ($psr_languages as $key => $value) {
+            $newValues[$key]['title'] = $value->title;
+            $newValues[$key]['description'] = $value->description;
+            $newValues[$key]['url'] = $value->url;
+        }
+
         foreach ($languages as $language) {
-            $blockPsr->title[$language['id_lang']] = $psr_languages[$language['id_lang']]->title;
-            $blockPsr->description[$language['id_lang']] = $psr_languages[$language['id_lang']]->description;
+            $blockPsr->title[$language['id_lang']] = $newValues[$language['id_lang']]['title'];
+            $blockPsr->description[$language['id_lang']] =  $newValues[$language['id_lang']]['description'];
             if ($type_link == 2) {
-                $blockPsr->link[$language['id_lang']] = $psr_languages[$language['id_lang']]->url;
+                $blockPsr->link[$language['id_lang']] =  $newValues[$language['id_lang']]['url'];
             } else {
                 $blockPsr->link[$language['id_lang']] = '';
             }
@@ -111,30 +136,71 @@ class AdminBlockListingController extends ModuleAdminController
             }
         }
 
+        if ($type_link == 'undefined') {
+            $type_link = 0;
+        }
+            
+
         $blockPsr->icone = $picto;
+        if (empty($picto)) {
+            $blockPsr->icone_perso = '';
+        }
         $blockPsr->type_link = $type_link;
         
         $blockPsr->date_add = date("Y-m-d H:i:s");
         $blockPsr->date_update = date("Y-m-d H:i:s");
 
         
-        // if (isset($_FILES) && $_FILES != '') {
-        //     $picto_perso = $_FILES;
-        //     $picto_perso = $_FILES['file'];
-        //     $fileTmpName = $picto_perso['tmp_name'];
-        //     $filename = $picto_perso['name'];
-        //     // validateUpload return false if no error (false -> OK)
-        //     // if (!ImageManager::validateUpload($picto_perso)) {
-        //     //     move_uploaded_file($fileTmpName, $this->module->img_path_perso.$filename);
-        //     //     $blockPsr->icone_perso = '/modules/psreassurance/img_perso/'.$filename;
-        //     // } else {
-        //     //     $errors[] = ImageManager::validateUpload($picto_perso).' ('.$isoCode.')';
-        //     // }
-        // }
-        
+        if (isset($_FILES) && !empty($_FILES)) {
+            $picto_perso = $_FILES['file'];
+            $fileTmpName = $picto_perso['tmp_name'];
+            $filename = $picto_perso['name'];
 
+            // validateUpload return false if no error (false -> OK)
+            if (!ImageManager::validateUpload($picto_perso)) {
+                move_uploaded_file($fileTmpName, $this->module->folder_file_upload.$filename);
+                $blockPsr->icone_perso = $this->module->img_path_perso.'/'.$filename;
+                $blockPsr->icone = '';
+            } else {
+                $errors[] = ImageManager::validateUpload($picto_perso);
+                $this->ajaxDie(json_encode($errors));
+            }
+        }
+        
         $blockPsr->update();
 
         $this->ajaxDie(json_encode('success'));
+    }
+
+    /**
+     * We update the podisition of the reassurances blocks
+     *
+     * @return bool
+     */
+    public function ajaxProcessUpdatePosition()
+    {
+        $blocks = Tools::getValue('blocks');
+
+        if (empty($blocks)) {
+            return false;
+        }
+
+        foreach ($blocks as $key => $id_block) {
+            // set the position of the Reassurance block
+            $position = $key + 1;
+
+            $UpdatedDatas = array(
+                'position' => (int)$position,
+            );
+
+            $sWhere = 'id_psreassurance = '.(int)$id_block;
+
+            $bQueryIsDone = (bool) Db::getInstance()->update('psreassurance', $UpdatedDatas, $sWhere);
+
+            // if the update can't be done, we return false
+            if (!$bQueryIsDone) {
+                return false;
+            }
+        }
     }
 }

@@ -46,6 +46,9 @@
     <div id="modulecontent" class="clearfix">
         <!-- Tab panes -->
         <div class="tab-content row">
+            {if !$folderIsWritable}
+				{include file="./alert_folder_writable.tpl"}
+			{/if}
             <div class="tab-pane active" id="pscontent">
                 <div class="tab_cap_listing">
                     {include file="./tabs/content.tpl"}

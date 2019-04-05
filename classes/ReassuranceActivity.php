@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 * 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -123,8 +123,10 @@ class ReassuranceActivity extends ObjectModel
     {
         $sql = 'SELECT * FROM `'._DB_PREFIX_.'psreassurance` pr
             LEFT JOIN '._DB_PREFIX_.'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE prl.id_lang = "'.(int)$id_lang.'" AND prl.id_shop = "'.(int)$id_shop.'"
-            AND pr.status = 1
+            WHERE 
+                prl.id_lang = "'.(int)$id_lang.'" 
+                AND prl.id_shop = "'.(int)$id_shop.'"
+                AND pr.status = 1
             ORDER BY pr.position';
 
         $result = Db::getInstance()->executeS($sql);

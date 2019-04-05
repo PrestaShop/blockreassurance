@@ -22,28 +22,27 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-<div id="modulecontent" class="clearfix">
-    <div id="menu">
-        <div class="col-lg-2">
-            <div class="list-group" v-on:click.prevent>
-                <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('global') }" v-on:click="makeActive('global')"><i class="fa fa-cog"></i> {l s='Global settings' mod='psreassurance'}</a>
-                <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('product') }" v-on:click="makeActive('product')"><i class="fa fa-book"></i> {l s='Product pages' mod='psreassurance'}</a>
-                <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('checkout') }" v-on:click="makeActive('checkout')"><i class="fa fa-clock-o"></i> {l s='Check out pages' mod='psreassurance'}</a>
-            </div>
+<div id="modulecontent module_display" class="clearfix">
+    <div id="menu" class="col-lg-2">
+        <div class="list-group" v-on:click.prevent>
+            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('global') }" v-on:click="makeActive('global')"><i class="fa fa-cog"></i> {l s='Global settings' mod='psreassurance'}</a>
+            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('product') }" v-on:click="makeActive('product')"><i class="fa fa-book"></i> {l s='Product pages' mod='psreassurance'}</a>
+            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('checkout') }" v-on:click="makeActive('checkout')"><i class="fa fa-clock-o"></i> {l s='Check out pages' mod='psreassurance'}</a>
         </div>
     </div>
+    <div class="col-lg-9">
+        {* list your admin tpl *}
+        <div id="global" class="psr_menu addons-hide">
+            {include file="./display/global.tpl"}
+        </div>
 
-    {* list your admin tpl *}
-    <div id="global" class="psr_menu addons-hide">
-        {include file="./display/global.tpl"}
-    </div>
+        <div id="product" class="psr_menu addons-hide">
+            {include file="./display/product.tpl"}
+        </div>
 
-    <div id="product" class="psr_menu addons-hide">
-        {include file="./display/product.tpl"}
-    </div>
-
-    <div id="checkout" class="psr_menu addons-hide">
-        {include file="./display/checkout.tpl"}
+        <div id="checkout" class="psr_menu addons-hide">
+            {include file="./display/checkout.tpl"}
+        </div>
     </div>
 
 </div>

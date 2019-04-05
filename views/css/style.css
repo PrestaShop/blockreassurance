@@ -590,8 +590,8 @@ table.dataTable.no-footer {
         top: -4px;
         left: -4px;
         transform: rotate(-180deg);
-        line-heigh3t: 20px;
-        vertical-3align: middle;
+        line-height: 20px;
+        vertical-align: middle;
         text-align: center;
         font-size: 16px; }
       .switch-input.small.-checked, .autocomplete-search > .product-list > .card > .switch-input.-checked.label, .autocomplete-search > .product-list > .module-item-wrapper-grid > .switch-input.-checked.label, .autocomplete-search > .product-list > .panel > .switch-input.-checked.label {
@@ -798,13 +798,6 @@ label > div > .input_img:checked ~ img{ /* (RADIO CHECKED) IMAGE STYLES */
     display: flex !important;
 }
 
-.modify_icon{
-    cursor: pointer;
-}
-
-.modify_icon:hover{
-    color: #25b9d7
-}
 .psre-edit{
     cursor: pointer;
 }
@@ -846,11 +839,16 @@ label > div > .input_img:checked ~ img{ /* (RADIO CHECKED) IMAGE STYLES */
 }
 
 .picto-url{
-    padding-right: 2px !important;
+    padding-right: 5px !important;
 }
 .content-header{
     font-weight: bold !important;
 }
 .picto-edit{
     font-size:40px;
+}
+
+.refreshPage {
+    background-color: transparent;
+    color: #00b9d9;
 }

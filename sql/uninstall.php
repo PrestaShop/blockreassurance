@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 * 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -30,6 +30,11 @@
 * but does not want to loose all of the data associated to the module.
 */
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
+    
 $sql = array();
 
 $sql[] = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.'psreassurance`, `'._DB_PREFIX_.'psreassurance_lang`';

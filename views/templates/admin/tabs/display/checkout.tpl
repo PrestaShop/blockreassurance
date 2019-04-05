@@ -23,28 +23,28 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel panel-default col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-0" >
+<div class="panel panel-default col-lg-12" >
     <div class="panel-heading">
         {l s='Specific position for check out page' mod='psreassurance'}
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 position-hook">
-        <label class="psr-float">
+        <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
                 <input type="radio" class="input_img js-show-all" name="PSR_HOOK_CHECKOUT" value="1" 
                 {if $psr_hook_checkout eq 1}checked="checked"{/if}
                 />
-                 <label for="PSR_HOOK_CHECKOUT"><span><span></span></span>{l s='Main column' mod='psagechecker'}</label><br /><br />
+                 <label for="PSR_HOOK_CHECKOUT"><span><span></span></span>{l s='Main column' mod='psreassurance'}</label><br /><br />
                 <img src="{$img_path}displayReassurance_active.jpg" width="150" height="150" class="psr-checkout-color{if $psr_hook_checkout eq 1} active{/if}">
                 <img src="{$img_path}displayReassurance_inactive.jpg" width="150" height="150" class="psr-checkout-grey {if $psr_hook_checkout != 1} active{/if}">
             </div>
         </label>
-        <label class="psr-float">
+        <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
                 <input type="radio" class="input_img" name="PSR_HOOK_CHECKOUT" value="0" 
                 {if $psr_hook_checkout eq 0}checked="checked"{/if}
                 />
-                 <label for="PSR_HOOK_CHECKOUT"><span><span></span></span>{l s='none' mod='psagechecker'}</label><br /><br />
+                 <label for="PSR_HOOK_CHECKOUT"><span><span></span></span>{l s='none' mod='psreassurance'}</label><br /><br />
                 <img src="{$img_path}productPage_none.jpg" width="150" height="150">
             </div>
         </label>

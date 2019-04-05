@@ -1,0 +1,23 @@
+.listing-head {
+    border-bottom: 2px #00b9d9 solid;
+    font-style: bold;
+    padding-bottom: 9px;
+    padding-top: 15px;
+}
+.listing-general-rol:hover, .listing-general-rol.active {
+    background-color: #f2f9fb;
+    transition: background .3s;
+}
+.listing-row {
+    border-color: #b6ccd2;
+}
+.listing-row div {
+    padding: 18px 0;
+    line-height: 30px;
+}
+.listing-row div:first-child {
+    cursor: grab;
+}
+.listing-row div img{
+    width: 35px;
+}
