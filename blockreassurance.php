@@ -119,7 +119,7 @@ class blockreassurance extends Module
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website..', array(), 'Modules.Blockreassurance.Admin');
+        $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website.', array(), 'Modules.Blockreassurance.Admin');
         return false;
     }
 
@@ -144,7 +144,7 @@ class blockreassurance extends Module
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the desinstallation. Please contact us through Addons website');
+        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please contact us through Addons website.', array(), 'Modules.Blockreassurance.Admin');
         return false;
     }
 
@@ -260,9 +260,9 @@ class blockreassurance extends Module
 
             'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
             'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
-            'psre_success' => $this->trans('Configuration updated succesfully!', array(), 'Modules.Blockreassurance.Admin'),
-            'successPosition' => $this->trans('Position changed with success ! ', array(), 'Modules.Blockreassurance.Admin'),
-            'errorPosition' => $this->trans('There was an error when switching position ! ', array(), 'Modules.Blockreassurance.Admin'),
+            'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
+            'successPosition' => $this->trans('Position changed successfully!', array(), 'Modules.Blockreassurance.Admin'),
+            'errorPosition' => $this->trans('An error occurred when switching position', array(), 'Modules.Blockreassurance.Admin'),
         ));
     }
 
