@@ -70,7 +70,7 @@ class blockreassurance extends Module
         parent::__construct();
 
         $this->displayName = $this->trans('blockreassurance', array(), 'Modules.Blockreassurance.Admin');
-        $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.Blockreassurance.Admin');
+        $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', array(), 'Modules.Blockreassurance.Admin');
 
         // Settings paths
         $this->js_path = $this->_path.'views/js/';
