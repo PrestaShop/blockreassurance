@@ -28,9 +28,11 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+
 require_once _PS_MODULE_DIR_.'/blockreassurance/classes/ReassuranceActivity.php';
 
-class blockreassurance extends Module
+class blockreassurance extends Module implements WidgetInterface
 {
     public $name;
     public $version;
@@ -53,6 +55,8 @@ class blockreassurance extends Module
     public $confirmUninstall;
     public $ps_url;
     public $folder_file_upload;
+
+    private $templateFile;
 
     public function __construct()
     {
@@ -87,6 +91,9 @@ class blockreassurance extends Module
         // Confirm uninstall
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', array(), 'Modules.Blockreassurance.Admin');
         $this->ps_url = Tools::getCurrentUrlProtocolPrefix().htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT, 'UTF-8').__PS_BASE_URI__;
+
+        $this->ps_versions_compliancy = array('min' => '1.7.5.0', 'max' => _PS_VERSION_);
+        $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
     /**
@@ -229,7 +236,7 @@ class blockreassurance extends Module
             'logo_path' => $this->logo_path,
             'guide_link' => $this->ps_url.'modules/'.$this->name.'/docs/doc_psreassurance_'.$this->context->language->iso_code.'.pdf',
             'languages' => Language::getLanguages(),
-            'allblock' => ReassuranceActivity::getAllBlockByLang($id_lang, 1),
+            'allblock' => ReassuranceActivity::getAllBlockByLang($id_lang, $this->context->shop->id),
             'allblockByShop' => ReassuranceActivity::getAllBlockByShop(),
             'currentPage' => $currentPage,
             'moduleAdminLink' => $moduleAdminLink,
@@ -362,7 +369,7 @@ class blockreassurance extends Module
         $id_lang = $this->context->language->id;
 
         $this->context->smarty->assign(array(
-            'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang, 1),
+            'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang, $this->context->shop->id),
             'iconeColor' => Configuration::get('PSR_ICON_COLOR'),
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
         ));
@@ -383,6 +390,22 @@ class blockreassurance extends Module
         $this->context->controller->registerJavascript(
             'front',
             'modules/'.$this->name.'/views/js/front.js'
+        );
+    }
+
+    public function renderWidget($hookName = null, array $configuration = [])
+    {
+        if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
+            $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
+        }
+
+        return $this->fetch($this->templateFile, $this->getCacheId('blockreassurance'));
+    }
+
+    public function getWidgetVariables($hookName = null, array $configuration = [])
+    {
+        return array(
+            'blocks' => ReassuranceActivity::getAllBlockByStatus($this->context->language->id, $this->context->shop->id),
         );
     }
 }
