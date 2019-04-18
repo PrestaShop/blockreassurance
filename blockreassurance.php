@@ -404,8 +404,14 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
+        $blocks = ReassuranceActivity::getAllBlockByStatus($this->context->language->id, $this->context->shop->id);
+        foreach ($blocks as $key => $value) {
+            $element[$key]['image'] = $value['icone'];
+            $element[$key]['text'] = $value['title'] .' '. $value['description'];
+        }
+
         return array(
-            'blocks' => ReassuranceActivity::getAllBlockByStatus($this->context->language->id, $this->context->shop->id),
+            'elements' => $element,
         );
     }
 }

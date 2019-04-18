@@ -155,7 +155,11 @@ $(window).ready(function() {
             if( type == 'description') {
                 dataToSave[lang][type] = $('textarea',elem).val();
             } else {
-                dataToSave[lang][type] = $('input',elem).val();
+                if(typeof($('input',elem).val()) != 'undefined') {
+                    dataToSave[lang][type] = $('input',elem).val();
+                } else {
+                    dataToSave[lang][type] = '';
+                }
             }
         });
 
