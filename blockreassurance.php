@@ -406,7 +406,12 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $blocks = ReassuranceActivity::getAllBlockByStatus($this->context->language->id, $this->context->shop->id);
         foreach ($blocks as $key => $value) {
-            $element[$key]['image'] = $value['icone'];
+            if(!empty($value['icone'])) {
+                $element[$key]['image'] = $value['icone'];
+            } else {
+                $element[$key]['image'] = $value['icone_perso'];
+            }
+            
             $element[$key]['text'] = $value['title'] .' '. $value['description'];
         }
 
