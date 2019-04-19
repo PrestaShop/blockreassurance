@@ -25,7 +25,7 @@
 
 <div class="tag-default">
     {foreach from=$blocks item=$block key=$key}
-        <div class="resize">
+        <div class="resize" {if $block['type_link'] != 0 && $block['link'] != ''} onclick="window.open('{$block['link']}')"{/if} style="{if $block['type_link'] != 0 && $block['link'] != ''}cursor:pointer;{/if}">
             <span style="float:left;width:35px;display:inline-block;height:35px;padding-top:5px;">{if $block['icone'] != 'undefined'}<img class="svg" src="{if $block['icone']}{$block['icone']}{else if $block['icone_perso']}{$block['icone_perso']}{/if}">{/if}&nbsp;</span>
             <span style="color:{$textColor};font-weight:bold">{$block['title']}<span>
             <p style="color:{$textColor};">{$block['description']}</p>
