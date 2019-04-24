@@ -143,8 +143,8 @@ $(window).ready(function() {
             picto = replaced;
         }
 
-        $('.show-rea-block.active select[name="psr-language"] option').each( function( index, elem ) {
-            let lang = $(elem).val();
+        $('.show-rea-block.active .content_by_lang').each( function( index, elem ) {
+            let lang = $(elem).attr('data-lang');
             dataToSave[lang] = {};
         });
 

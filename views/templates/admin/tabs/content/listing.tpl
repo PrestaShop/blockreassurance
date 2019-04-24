@@ -57,7 +57,7 @@
                             <div class="col-lg-1 block-title">
                                 {$aBlock['title']}
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-5" style="width:498px">
                                 {$aBlock['description']}
                             </div>
                             <div class="col-lg-1">
