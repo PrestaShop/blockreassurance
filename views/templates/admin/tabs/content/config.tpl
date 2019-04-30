@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div id="blockDisplay" class="panel panel-default col-lg-10 col-lg-offset-1 col-md-12 col-md-offset-0 inactive" >
+<div id="blockDisplay" class="panel panel-default col-lg-10 col-xs-10 col-lg-offset col-xs-offset-0 inactive" >
     <div class="panel-heading">
         {l s='Reassurance Block' mod='psreassurance'}
     </div>
@@ -51,8 +51,8 @@
     </form>
     {/foreach}
     <div class="panel-footer">
-        <div class="col-lg-11"><button name="refreshPage" type="submit" class="btn btn-secondary refreshPage">{l s='Return' mod='psreassurance'}</button></div>
-        <div class="col-lg-1">
+        <div class="col-lg-11 col-xs-11"><button name="refreshPage" type="submit" class="btn btn-secondary refreshPage">{l s='Return' mod='psreassurance'}</button></div>
+        <div class="col-lg-1 col-xs-1">
             {* <button name="saveContentConfiguration" id="saveContentConfiguration" data-id="" type="submit" class="btn btn-primary">{l s='Save' mod='psreassurance'}</button> *}
             <input name="saveContentConfiguration" id="saveContentConfiguration" data-id="" type="submit" class="btn btn-primary" value="{l s='Save' mod='psreassurance'}">
         </div>
