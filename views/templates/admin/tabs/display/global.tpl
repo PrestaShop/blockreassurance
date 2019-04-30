@@ -31,7 +31,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 position-hook">
         <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
-                <input type="radio" class="input_img js-show-all" name="PSR_HOOK_HEADER" value="2" 
+                <input type="radio" class="input_img js-show-all" name="PSR_HOOK_HEADER" value="2" id="PSR_HOOK_HEADER" 
                 {if $psr_hook_header eq 2}checked="checked"{/if}
                 />
                 <label for="PSR_HOOK_HEADER"><span><span></span></span>{l s='Above header' mod='psreassurance'}</label><br /><br />
@@ -41,20 +41,20 @@
         </label>
         <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
-                <input type="radio" class="input_img" name="PSR_HOOK_HEADER" value="1" 
+                <input type="radio" class="input_img" name="PSR_HOOK_HEADER" value="1" id="PSR_HOOK_HEADER_0" 
                 {if $psr_hook_header eq 1}checked="checked"{/if}
                 />
-                <label for="PSR_HOOK_HEADER"><span><span></span></span>{l s='Below header' mod='psreassurance'}</label><br /><br />
+                <label for="PSR_HOOK_HEADER_0"><span><span></span></span>{l s='Below header' mod='psreassurance'}</label><br /><br />
                 <img src="{$img_path}displayHome_active.jpg" width="150" height="150" class="psr-header-color{if $psr_hook_header eq 1} active{/if}">
                 <img src="{$img_path}displayHome_inactive.jpg" width="150" height="150" class="psr-header-grey {if $psr_hook_header != 1} active{/if}">
             </div>
         </label>
         <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
-                <input type="radio" class="input_img" name="PSR_HOOK_HEADER" value="0" 
+                <input type="radio" class="input_img" name="PSR_HOOK_HEADER" value="0" id="PSR_HOOK_HEADER_1" 
                 {if $psr_hook_header eq 0}checked="checked"{/if}
                 />
-                <label for="PSR_HOOK_HEADER"><span><span></span></span>{l s='None' mod='psreassurance'}</label><br /><br />
+                <label for="PSR_HOOK_HEADER_1"><span><span></span></span>{l s='None' mod='psreassurance'}</label><br /><br />
                 <img src="{$img_path}allpage_none.jpg" width="150" height="150">
             </div>
             
@@ -71,7 +71,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 position-hook">
         <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
-                <input type="radio" class="input_img js-show-all" name="PSR_HOOK_FOOTER" value="2" 
+                <input type="radio" class="input_img js-show-all" name="PSR_HOOK_FOOTER" value="2" id="PSR_HOOK_FOOTER" 
                 {if $psr_hook_footer eq 2}checked="checked"{/if}
                 />
                 <label for="PSR_HOOK_FOOTER"><span><span></span></span>{l s='Above footer' mod='psreassurance'}</label><br /><br />
@@ -81,20 +81,20 @@
         </label>
         <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
-                <input type="radio" class="input_img" name="PSR_HOOK_FOOTER" value="1" 
+                <input type="radio" class="input_img" name="PSR_HOOK_FOOTER" value="1" id="PSR_HOOK_FOOTER_0" 
                 {if $psr_hook_footer eq 1}checked="checked"{/if}
                 />
-                    <label for="PSR_HOOK_FOOTER"><span><span></span></span>{l s='Below footer' mod='psreassurance'}</label><br /><br />
+                    <label for="PSR_HOOK_FOOTER_0"><span><span></span></span>{l s='Below footer' mod='psreassurance'}</label><br /><br />
                 <img src="{$img_path}displayFooter_active.jpg" width="150" height="150" class="psr-footer-color{if $psr_hook_footer eq 1} active{/if}">
                 <img src="{$img_path}displayFooter_inactive.jpg" width="150" height="150"  class="psr-footer-grey {if $psr_hook_footer != 1} active{/if}">
             </div>
         </label>
         <label class="col-lg-3 col-lg-offset-1">
             <div class="help-block customradiodesign">
-                <input type="radio" class="input_img" name="PSR_HOOK_FOOTER" value="0" 
+                <input type="radio" class="input_img" name="PSR_HOOK_FOOTER" value="0" id="PSR_HOOK_FOOTER_1" 
                 {if $psr_hook_footer eq 0}checked="checked"{/if}
                 />
-                    <label for="PSR_HOOK_FOOTER"><span><span></span></span>{l s='None' mod='psreassurance'}</label><br /><br />
+                    <label for="PSR_HOOK_FOOTER_1"><span><span></span></span>{l s='None' mod='psreassurance'}</label><br /><br />
                 <img src="{$img_path}allpage_none.jpg" width="150" height="150">
             </div>
         </label>

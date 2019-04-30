@@ -116,7 +116,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         // register hook used by the module
         if (parent::install() &&
-            $this->registerHook('displayHeader') &&
+            $this->registerHook('displayAfterBodyOpeningTag') &&
             $this->registerHook('displayNavFullWidth') &&
             $this->registerHook('displayFooterAfter') &&
             $this->registerHook('displayFooterBefore') &&
@@ -273,7 +273,7 @@ class blockreassurance extends Module implements WidgetInterface
         ));
     }
 
-    public function hookdisplayHeader($params)
+    public function hookdisplayAfterBodyOpeningTag($params)
     {
         $actif = Configuration::get('PSR_HOOK_HEADER');
 

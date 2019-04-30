@@ -29,23 +29,23 @@
     </div>
     <div class="panel-body first-body">
         <div class="clearfix">
-            <div class="listing-table col-lg-12">
-                <div class="listing-head col-lg-12">
-                    <div class="col-lg-1 content-header">{l s='Position' mod='psreassurance'}</div>
-                    <div class="col-lg-1 content-header">{l s='Image' mod='psreassurance'}</div>
-                    <div class="col-lg-1 block-title content-header">{l s='Title' mod='psreassurance'}</div>
-                    <div class="col-lg-4 content-header">{l s='Description' mod='psreassurance'}</div>
-                    <div class="col-lg-2 content-header">{l s='Redirection' mod='psreassurance'}</div>
-                    <div class="col-lg-2 content-header">{l s='Actions' mod='psreassurance'}</div>
+            <div class="listing-table col-lg-12  col-xs-12">
+                <div class="listing-head col-lg-12  col-xs-12">
+                    <div class="col-lg-1 col-xs-1 content-header">{l s='Position' mod='psreassurance'}</div>
+                    <div class="col-lg-1 col-xs-1 content-header">{l s='Image' mod='psreassurance'}</div>
+                    <div class="col-lg-1 col-xs-1 block-title content-header">{l s='Title' mod='psreassurance'}</div>
+                    <div class="col-lg-4 col-xs-4 content-header">{l s='Description' mod='psreassurance'}</div>
+                    <div class="col-lg-2 col-xs-2 content-header">{l s='Redirection' mod='psreassurance'}</div>
+                    <div class="col-lg-2 col-xs-1 content-header">{l s='Actions' mod='psreassurance'}</div>
                 </div>
-                <div class="listing-body col-lg-12">
+                <div class="listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$aBlock key=$key}
-                    <div data-id='' class="listing-general-rol col-lg-12" data-block='{$aBlock.id_psreassurance}'>
-                        <div class="listing-row col-lg-12">
-                            <div class="col-lg-1" style="width:72px">
+                    <div data-id='' class="listing-general-rol col-lg-12  col-xs-12" data-block='{$aBlock.id_psreassurance}'>
+                        <div class="listing-row col-lg-12  col-xs-12">
+                            <div class="col-lg-1 col-xs-1" style="width:72px">
                                 <i class="material-icons">drag_indicator</i>
                             </div>
-                            <div class="col-lg-1 resize" style="text-align:center;">
+                            <div class="col-lg-1 col-xs-1 resize" style="text-align:center;">
                                 {if $aBlock['icone'] != 'undefined'}
                                 <img class="svg" 
                                     src="{if $aBlock['icone']}{$aBlock['icone']}{else if $aBlock['icone_perso']}{$aBlock['icone_perso']}{/if}"
@@ -54,13 +54,13 @@
                                 {l s='none' mod='psreassurance'}
                                 {/if}
                             </div>
-                            <div class="col-lg-1 block-title">
+                            <div class="col-lg-1 col-xs-1 block-title">
                                 {$aBlock['title']}
                             </div>
-                            <div class="col-lg-5" style="width:498px">
+                            <div class="col-lg-4 col-xs-4">
                                 {$aBlock['description']}
                             </div>
-                            <div class="col-lg-1">
+                            <div class="col-lg-1 col-xs-1" style="padding-left:44px;">
                                 {if $aBlock['type_link'] == 0}
                                     {l s='none' mod='psreassurance'}
                                 {else if $aBlock['type_link'] == 2}
@@ -70,8 +70,8 @@
                                 {/if}
 
                             </div>
-                            <div class="col-lg-2 inline-flex">
-                                <label class="col-lg-12" id="reminder_active_{$aBlock['id_psreassurance']}" for="reminder_active_{$aBlock['id_psreassurance']}" data-cart_psreassurance_id='{$aBlock['id_psreassurance']}'>
+                            <div class="col-lg-2 col-xs-2 inline-flex" style="padding-left:40px;">
+                                <label class="col-lg-12 col-xs-12" id="reminder_active_{$aBlock['id_psreassurance']}" for="reminder_active_{$aBlock['id_psreassurance']}" data-cart_psreassurance_id='{$aBlock['id_psreassurance']}'>
                                     <section class="switch-input {if $aBlock['status']}-checked{/if}">
                                         <input data-toggle="switch" class="switch-new" data-inverse="true" type="checkbox" name="reminder_active_{$aBlock['id_psreassurance']}" checked="">
                                     </section>
@@ -82,7 +82,7 @@
                                 <span class="psre-edit" data-id="{$aBlock['id_psreassurance']}"><i class="material-icons">edit</i></span>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 col-xs-12">
                             <div id="_more_info" class="col-lg-12 more_info ajax_return"></div>
                         </div>
                     </div>
