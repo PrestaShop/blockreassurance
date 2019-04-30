@@ -124,8 +124,8 @@ function upgrade_module_4_0_0($module)
     /*
     ** Verification if the hooks are already registered
     */
-    if (!$module->isRegisteredInHook('displayHeader')) {
-        $result &= $module->registerHook('displayHeader');
+    if (!$module->isRegisteredInHook('displayAfterBodyOpeningTag')) {
+        $result &= $module->registerHook('displayAfterBodyOpeningTag');
     }
 
     if (!$module->isRegisteredInHook('displayNavFullWidth')) {
