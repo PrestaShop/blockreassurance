@@ -23,13 +23,13 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel panel-default col-lg-12" >
+<div class="panel panel-default col-lg-12 col-xs-12" >
     <div class="panel-heading">
         {l s='Specific position for product page' mod='psreassurance'}
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 position-hook">
-        <label class="col-lg-3 col-lg-offset-1">
+        <label class="col-lg-3 col-lg-offset-1 col-xs-3 col-xs-offset-1">
             <div class="help-block customradiodesign">
                 <input type="radio" class="input_img js-show-all" name="PSR_HOOK_PRODUCT" value="1" id="PSR_HOOK_PRODUCT" 
                 {if $psr_hook_product eq 1}checked="checked"{/if}
@@ -39,7 +39,7 @@
                 <img src="{$img_path}displayReassurance_inactive.jpg" width="150" height="150" class="psr-product-grey {if $psr_hook_product != 1} active{/if}">
             </div>
         </label>
-        <label class="col-lg-3 col-lg-offset-1">
+        <label class="col-lg-3 col-lg-offset-1 col-xs-3 col-xs-offset-1">
             <div class="help-block customradiodesign">
                 <input type="radio" class="input_img" name="PSR_HOOK_PRODUCT" value="0" id="PSR_HOOK_PRODUCT_0" 
                 {if $psr_hook_product eq 0}checked="checked"{/if}
