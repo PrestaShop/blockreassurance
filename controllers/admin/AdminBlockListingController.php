@@ -41,7 +41,6 @@ class AdminBlockListingController extends ModuleAdminController
         $dt = new DateTime();
         $PsreassuranceId = (int) Tools::getValue('idpsr');
         $Status = ((int) Tools::getValue('status') == 1) ? 0 : 1;
-        var_dump($Status);
         $newStatus = ($Status == 1) ? 1 : 0;
 
         $UpdatedDatas = array(
