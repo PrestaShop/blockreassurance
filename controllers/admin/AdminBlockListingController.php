@@ -26,11 +26,6 @@
 
 class AdminBlockListingController extends ModuleAdminController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Update the status of a block
      *
