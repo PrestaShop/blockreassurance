@@ -34,15 +34,15 @@ class AdminBlockListingController extends ModuleAdminController
     public function ajaxProcessChangeBlockStatus()
     {
         $dt = new DateTime();
-        $PsreassuranceId = (int) Tools::getValue('idpsr');
-        $Status = ((int) Tools::getValue('status') == 1) ? 0 : 1;
-        $newStatus = ($Status == 1) ? 1 : 0;
+        $psreassuranceId = (int) Tools::getValue('idpsr');
+        $status = ((int) Tools::getValue('status') == 1) ? 0 : 1;
+        $newStatus = ($status == 1) ? 1 : 0;
 
         $UpdatedDatas = array(
             'status' => $newStatus,
             'date_upd' => $dt->format('Y-m-d H:i:s'),
         );
-        $sWhere = 'id_psreassurance = '.$PsreassuranceId;
+        $sWhere = 'id_psreassurance = '.$psreassuranceId;
 
         $bStatusChanged = Db::getInstance()->update('psreassurance', $UpdatedDatas, $sWhere);
 
