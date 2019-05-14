@@ -68,8 +68,7 @@ class blockreassurance extends Module implements WidgetInterface
         $this->need_instance = 0;
         $this->module_key = '938b96386d4d79aa7cb891439cb0ef11';
         $this->author_address = '0x64aa3c1e4034d07015f639b0e171b0d7b27d01aa';
-        // Controllers
-        //$this->controller_name = '';
+
         $this->bootstrap = true;
         parent::__construct();
 
@@ -289,7 +288,7 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $enable = Configuration::get('PSR_HOOK_HEADER');
 
-        // If position not equals to 2 (Below header)
+        // If position not equals to 1 (Below header)
         if ($enable != 1) {
             return;
         }
@@ -301,7 +300,7 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $enable = Configuration::get('PSR_HOOK_FOOTER');
 
-        // If position not equals to 2 (Below header)
+        // If position not equals to 1 (Below header)
         if ($enable != 1) {
             return;
         }
@@ -379,13 +378,9 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function hookActionFrontControllerSetMedia()
     {
-        // $current_page = $this->context->controller->php_self;
         Media::addJsDef(array(
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
         ));
-        // if ($current_page != 'index') {
-        //     return false;
-        // }
 
         $this->context->controller->registerJavascript(
             'front',
