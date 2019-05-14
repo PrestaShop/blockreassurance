@@ -275,10 +275,10 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function hookdisplayAfterBodyOpeningTag($params)
     {
-        $actif = Configuration::get('PSR_HOOK_HEADER');
+        $enable = Configuration::get('PSR_HOOK_HEADER');
 
         // If position not equals to 2 (Above header)
-        if ($actif != 2) {
+        if ($enable != 2) {
             return;
         }
 
@@ -287,10 +287,10 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function hookdisplayNavFullWidth($params)
     {
-        $actif = Configuration::get('PSR_HOOK_HEADER');
+        $enable = Configuration::get('PSR_HOOK_HEADER');
 
         // If position not equals to 2 (Below header)
-        if ($actif != 1) {
+        if ($enable != 1) {
             return;
         }
 
@@ -299,10 +299,10 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function hookdisplayFooterAfter($params)
     {
-        $actif = Configuration::get('PSR_HOOK_FOOTER');
+        $enable = Configuration::get('PSR_HOOK_FOOTER');
 
         // If position not equals to 2 (Below header)
-        if ($actif != 1) {
+        if ($enable != 1) {
             return;
         }
 
@@ -311,10 +311,10 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function hookdisplayFooterBefore($params)
     {
-        $actif = Configuration::get('PSR_HOOK_FOOTER');
+        $enable = Configuration::get('PSR_HOOK_FOOTER');
 
         // If position not equals to 2 (Above header)
-        if ($actif != 2) {
+        if ($enable != 2) {
             return;
         }
 
@@ -323,11 +323,11 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function hookdisplayReassurance($params)
     {
-        $actifCheckout = Configuration::get('PSR_HOOK_CHECKOUT');
-        $actifProduct = Configuration::get('PSR_HOOK_PRODUCT');
+        $enableCheckout = Configuration::get('PSR_HOOK_CHECKOUT');
+        $enableProduct = Configuration::get('PSR_HOOK_PRODUCT');
         $controller = Tools::getValue('controller');
 
-        if (!$this->weDisplayOnBlockProduct($actifCheckout, $actifProduct, $controller)) {
+        if (!$this->weDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)) {
             return false;
         }
 
@@ -338,19 +338,19 @@ class blockreassurance extends Module implements WidgetInterface
      * Check if we can display the hook on product page or cart page.
      * The HOOK must be active
      *
-     * @param  int $actifCheckout
-     * @param  int $actifProduct
+     * @param  int $enableCheckout
+     * @param  int $enableProduct
      * @param  string $controller
      *
      * @return bool
      */
-    private function weDisplayOnBlockProduct($actifCheckout, $actifProduct, $controller)
+    private function weDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)
     {
-        if ($actifProduct == 1 && $controller == 'product') {
+        if ($enableProduct == 1 && $controller == 'product') {
             return true;
         }
 
-        if ($actifCheckout == 1 && $controller == 'cart') {
+        if ($enableCheckout == 1 && $controller == 'cart') {
             return true;
         }
 
