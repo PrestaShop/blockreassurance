@@ -34,13 +34,8 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-    
-$sql = array();
+$sql = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.'psreassurance`, `'._DB_PREFIX_.'psreassurance_lang`';
 
-$sql[] = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.'psreassurance`, `'._DB_PREFIX_.'psreassurance_lang`';
-
-foreach ($sql as $query) {
-    if (Db::getInstance()->execute($query) == false) {
-        return false;
-    }
+if (Db::getInstance()->execute($sql) == false) {
+    return false;
 }

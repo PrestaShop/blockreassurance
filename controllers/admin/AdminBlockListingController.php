@@ -59,9 +59,12 @@ class AdminBlockListingController extends ModuleAdminController
         $hook = Tools::getValue('hook');
         $value = Tools::getValue('value');
 
-        Configuration::updateValue($hook, $value);
-
-        $this->ajaxDie(json_encode('success'));
+        if (!empty($hook) && !empty($value)) {
+            Configuration::updateValue($hook, $value);
+            $this->ajaxDie(json_encode('success'));
+        } else {
+            $this->ajaxDie(json_encode('error'));
+        }
     }
 
     /**
@@ -74,10 +77,13 @@ class AdminBlockListingController extends ModuleAdminController
         $color1 = Tools::getValue('color1');
         $color2 = Tools::getValue('color2');
 
-        Configuration::updateValue('PSR_ICON_COLOR', $color1);
-        Configuration::updateValue('PSR_TEXT_COLOR', $color2);
-
-        $this->ajaxDie(json_encode('success'));
+        if (!empty($hook) && !empty($value)) {
+            Configuration::updateValue('PSR_ICON_COLOR', $color1);
+            Configuration::updateValue('PSR_TEXT_COLOR', $color2);
+            $this->ajaxDie(json_encode('success'));
+        } else {
+            $this->ajaxDie(json_encode('error'));
+        }
     }
 
     /**
@@ -96,23 +102,20 @@ class AdminBlockListingController extends ModuleAdminController
         $id_cms = Tools::getValue('id_cms');
         $newValues = array();
 
-        if (!empty($errors) && count($errors)) {
-            echo json_encode(array(
-                'errors' => $errors,
-            ));
-            return;
-        }
-        //$id_block++;
         $blockPsr = new ReassuranceActivity($id_block);
         $languages = Language::getLanguages();
 
         foreach ($psr_languages as $key => $value) {
+            $newValues[$key] = array();
             $newValues[$key]['title'] = $value->title;
             $newValues[$key]['description'] = $value->description;
             $newValues[$key]['url'] = $value->url;
         }
 
         foreach ($languages as $language) {
+            if (false === array_key_exists($language['id_lang'], $newValues)) {
+                continue;
+            }
             $blockPsr->title[$language['id_lang']] = $newValues[$language['id_lang']]['title'];
             $blockPsr->description[$language['id_lang']] =  $newValues[$language['id_lang']]['description'];
             if ($type_link == 2) {
@@ -167,7 +170,7 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
-     * We update the podisition of the reassurances blocks
+     * We update the poisition of the reassurance blocks
      *
      * @return bool
      */
@@ -195,6 +198,7 @@ class AdminBlockListingController extends ModuleAdminController
             if (!$bQueryIsDone) {
                 return false;
             }
+            return true;
         }
     }
 }

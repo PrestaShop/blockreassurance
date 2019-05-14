@@ -34,28 +34,71 @@ require_once _PS_MODULE_DIR_.'/blockreassurance/classes/ReassuranceActivity.php'
 
 class blockreassurance extends Module implements WidgetInterface
 {
+    
+    /** @var string */
     public $name;
+    
+    /** @var string */
     public $version;
+    
+    /** @var string */
     public $author;
+    
+    /** @var bool */
     public $need_instance;
+    
+    /** @var string */
     public $module_key;
+    
+    /** @var string */
     public $author_address;
+    
+    /** @var string */
     public $controller_name;
+    
+    /** @var bool */
     public $bootstrap;
+    
+    /** @var string */
     public $displayName;
+    
+    /** @var string */
     public $description;
+    
+    /** @var string */
     public $js_path;
+    
+    /** @var string */
     public $css_path;
+    
+    /** @var string */
     public $img_path;
+    
+    /** @var string */
     public $img_path_perso;
+    
+    /** @var string */
     public $lib_path;
+    
+    /** @var string */
     public $docs_path;
+    
+    /** @var string */
     public $logo_path;
+    
+    /** @var string */
     public $module_path;
+    
+    /** @var string */
     public $confirmUninstall;
+    
+    /** @var string */
     public $ps_url;
+    
+    /** @var string */
     public $folder_file_upload;
 
+    /** @var string */
     private $templateFile;
 
     public function __construct()
@@ -96,9 +139,8 @@ class blockreassurance extends Module implements WidgetInterface
     }
 
     /**
-     * install()
+     * install pre-config
      *
-     * @param none
      * @return bool
      */
     public function install()
@@ -130,9 +172,8 @@ class blockreassurance extends Module implements WidgetInterface
     }
 
     /**
-     * uninstall()
+     * uninstall module config()
      *
-     * @param none
      * @return bool
      */
     public function uninstall()
@@ -281,7 +322,7 @@ class blockreassurance extends Module implements WidgetInterface
             return;
         }
 
-        $this->renderTemplateInHook('displayBlock.tpl');
+        echo $this->renderTemplateInHook('displayBlock.tpl');
     }
 
     public function hookdisplayNavFullWidth($params)
@@ -293,7 +334,7 @@ class blockreassurance extends Module implements WidgetInterface
             return;
         }
 
-        $this->renderTemplateInHook('displayBlock.tpl');
+        echo $this->renderTemplateInHook('displayBlock.tpl');
     }
 
     public function hookdisplayFooterAfter($params)
@@ -305,7 +346,7 @@ class blockreassurance extends Module implements WidgetInterface
             return;
         }
 
-        $this->renderTemplateInHook('displayBlockWhite.tpl');
+        echo $this->renderTemplateInHook('displayBlockWhite.tpl');
     }
 
     public function hookdisplayFooterBefore($params)
@@ -317,7 +358,7 @@ class blockreassurance extends Module implements WidgetInterface
             return;
         }
 
-        $this->renderTemplateInHook('displayBlockWhite.tpl');
+        echo $this->renderTemplateInHook('displayBlockWhite.tpl');
     }
 
     public function hookdisplayReassurance($params)
@@ -330,7 +371,7 @@ class blockreassurance extends Module implements WidgetInterface
             return false;
         }
 
-        $this->renderTemplateInHook('displayBlockProduct.tpl');
+        echo $this->renderTemplateInHook('displayBlockProduct.tpl');
     }
 
     /**
@@ -373,7 +414,7 @@ class blockreassurance extends Module implements WidgetInterface
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
         ));
 
-        echo $this->display(__FILE__, 'views/templates/hook/'.$template);
+        return $this->display(__FILE__, 'views/templates/hook/'.$template);
     }
 
     public function hookActionFrontControllerSetMedia()

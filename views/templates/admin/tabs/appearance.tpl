@@ -41,7 +41,13 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
                     <div class="ps_colorpicker1"></div>
-                    <input type="hidden" class="psr_icon_color" name="PSR_ICON_COLOR" value="{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}" id="color_1" style="background-color:{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}; color: back;">
+                    <input 
+                        type="hidden" 
+                        class="psr_icon_color" 
+                        name="PSR_ICON_COLOR" 
+                        value="{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}" 
+                        id="color_1" 
+                        style="background-color:{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}; color: back;">
                 </div>
 
                 <div class="clearfix"></div>
@@ -57,7 +63,12 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
                     <div class="ps_colorpicker2"></div>
-                    <input type="hidden" class="psr_text_color" name="PSR_TEXT_COLOR" value="{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}" id="color_2" style="background-color:{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}; color: back;">
+                    <input 
+                        type="hidden" 
+                        class="psr_text_color" 
+                        name="PSR_TEXT_COLOR" 
+                        value="{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}" id="color_2" 
+                        style="background-color:{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}; color: back;">
                 </div>
             </div>
 

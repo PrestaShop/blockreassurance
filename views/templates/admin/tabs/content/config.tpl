@@ -53,7 +53,6 @@
     <div class="panel-footer">
         <div class="col-lg-10 col-xs-10"><button name="refreshPage" type="submit" class="btn btn-secondary refreshPage">{l s='Return' mod='psreassurance'}</button></div>
         <div class="col-lg-1 col-xs-1">
-            {* <button name="saveContentConfiguration" id="saveContentConfiguration" data-id="" type="submit" class="btn btn-primary">{l s='Save' mod='psreassurance'}</button> *}
             <input name="saveContentConfiguration" id="saveContentConfiguration" data-id="" type="submit" class="btn btn-primary" value="{l s='Save' mod='psreassurance'}">
         </div>
     </div>
