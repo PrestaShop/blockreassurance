@@ -22,11 +22,18 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-<div style="width:100%;text-align:center;padding-top:10px;">
+<div class="blockreas">
     {foreach from=$blocks item=$block key=$key}
-        <div style="display:inline-block;width:360px;margin:0px auto;text-align:center;vertical-align:top;{if $block['type_link'] != 0 && $block['link'] != ''}cursor:pointer;{/if}" 
+        <div  class="reass-item" style="{if $block['type_link'] != 0 && $block['link'] != ''}cursor:pointer;{/if}" 
         {if $block['type_link'] != 0 && $block['link'] != ''} onclick="window.open('{$block['link']}')"{/if}>
-            <span style="display:block;height:70px">{if $block['icone'] != 'undefined'}<img class="svg" src="{if $block['icone']}{$block['icone']}{else if $block['icone_perso']}{$block['icone_perso']}{/if}" style="height:70px;">{/if}</span>
+            <span style="display:block;height:70px">
+                {if $block['icone'] != 'undefined'}
+                    <img class="svg" 
+                        src="{if $block['icone']}{$block['icone']}{else if $block['icone_perso']}{$block['icone_perso']}{/if}" 
+                        style="height:70px;"
+                    >
+                {/if}
+            </span>
             <span style="color:{$textColor};diplay:block;font-weight:bold">{$block['title']}<span>
             <p style="color:{$textColor};">{$block['description']}</p>
         </div>

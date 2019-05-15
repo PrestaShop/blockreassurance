@@ -422,6 +422,11 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
         ));
 
+        $this->context->controller->registerStylesheet(
+            'blocreassurance-front-css',
+            'modules/'.$this->name.'/views/css/reassurance.css'
+        );
+
         $this->context->controller->registerJavascript(
             'front',
             'modules/'.$this->name.'/views/js/front.js'
