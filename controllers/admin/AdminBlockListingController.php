@@ -97,57 +97,21 @@ class AdminBlockListingController extends ModuleAdminController
 
         $picto = Tools::getValue('picto');
         $id_block = Tools::getValue('id_block');
-        $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
-        $type_link = Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
-        $newValues = array();
-
+        $type_link = Tools::getValue('typelink');
+        $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
         $blockPsr = new ReassuranceActivity($id_block);
-        $languages = Language::getLanguages();
 
-        foreach ($psr_languages as $key => $value) {
-            $newValues[$key] = array();
-            $newValues[$key]['title'] = $value->title;
-            $newValues[$key]['description'] = $value->description;
-            $newValues[$key]['url'] = $value->url;
-        }
-
-        foreach ($languages as $language) {
-            if (false === array_key_exists($language['id_lang'], $newValues)) {
-                continue;
-            }
-            $blockPsr->title[$language['id_lang']] = $newValues[$language['id_lang']]['title'];
-            $blockPsr->description[$language['id_lang']] =  $newValues[$language['id_lang']]['description'];
-            if ($type_link == 2) {
-                $blockPsr->link[$language['id_lang']] =  $newValues[$language['id_lang']]['url'];
-            } else {
-                $blockPsr->link[$language['id_lang']] = '';
-            }
-        }
-
-        if (isset($id_cms) && $type_link == 1) {
-            $blockPsr->id_cms = $id_cms;
-            $link = Context::getContext()->link;
-            foreach ($languages as $language) {
-                $blockPsr->link[$language['id_lang']] = $link->getCMSLink($id_cms, null, null, $language['id_lang']);
-            }
-        }
-
-        if ($type_link == 'undefined') {
-            $type_link = 0;
-        }
-            
+        $blockPsr->handleBlockValues($psr_languages, $type_link);
 
         $blockPsr->icone = $picto;
         if (empty($picto)) {
             $blockPsr->icone_perso = '';
         }
-        $blockPsr->type_link = $type_link;
         
         $blockPsr->date_add = date("Y-m-d H:i:s");
         $blockPsr->date_update = date("Y-m-d H:i:s");
 
-        
         if (isset($_FILES) && !empty($_FILES)) {
             $picto_perso = $_FILES['file'];
             $fileTmpName = $picto_perso['tmp_name'];
@@ -163,7 +127,6 @@ class AdminBlockListingController extends ModuleAdminController
                 $this->ajaxDie(json_encode($errors));
             }
         }
-        
         $blockPsr->update();
 
         $this->ajaxDie(json_encode('success'));
@@ -198,7 +161,7 @@ class AdminBlockListingController extends ModuleAdminController
             if (!$bQueryIsDone) {
                 return false;
             }
-            return true;
         }
+        return true;
     }
 }

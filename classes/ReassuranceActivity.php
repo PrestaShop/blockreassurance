@@ -84,6 +84,45 @@ class ReassuranceActivity extends ObjectModel
         return $result;
     }
 
+    public function handleBlockValues($psr_languages, $type_link)
+    {
+        $languages = Language::getLanguages();
+        $newValues = array();
+
+        foreach ($psr_languages as $key => $value) {
+            $newValues[$key] = array();
+            $newValues[$key]['title'] = $value->title;
+            $newValues[$key]['description'] = $value->description;
+            $newValues[$key]['url'] = $value->url;
+        }
+
+        foreach ($languages as $language) {
+            if (false === array_key_exists($language['id_lang'], $newValues)) {
+                continue;
+            }
+            $this->title[$language['id_lang']] = $newValues[$language['id_lang']]['title'];
+            $this->description[$language['id_lang']] =  $newValues[$language['id_lang']]['description'];
+            if ($type_link == 2) {
+                $this->link[$language['id_lang']] =  $newValues[$language['id_lang']]['url'];
+            } else {
+                $this->link[$language['id_lang']] = '';
+            }
+        }
+
+        if (isset($id_cms) && $type_link == 1) {
+            $this->id_cms = $id_cms;
+            $link = Context::getContext()->link;
+            foreach ($languages as $language) {
+                $this->link[$language['id_lang']] = $link->getCMSLink($id_cms, null, null, $language['id_lang']);
+            }
+        }
+
+        if ($type_link == 'undefined') {
+            $type_link = 0;
+        }
+        $this->type_link = $type_link;
+    }
+
     /**
      * getAllBlockByShop
      *
