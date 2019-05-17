@@ -77,7 +77,7 @@ class AdminBlockListingController extends ModuleAdminController
         $color1 = Tools::getValue('color1');
         $color2 = Tools::getValue('color2');
 
-        if (!empty($hook) && !empty($value)) {
+        if (!empty($color1) && !empty($color2)) {
             Configuration::updateValue('PSR_ICON_COLOR', $color1);
             Configuration::updateValue('PSR_TEXT_COLOR', $color2);
             $this->ajaxDie(json_encode('success'));
