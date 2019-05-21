@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4">
-            <span class="limiteur_text help-block" style="display:inline">0</span><span class="help-block"  style="display:inline">/100 characters</span>
+            <span class="limit_text help-block" style="display:inline">0</span><span class="help-block"  style="display:inline">/100 characters</span>
         </div>
     </div>
     <div class="clearfix"></div>
