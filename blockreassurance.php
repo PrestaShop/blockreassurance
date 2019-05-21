@@ -89,7 +89,7 @@ class blockreassurance extends Module implements WidgetInterface
     /** @var string */
     public $module_path;
     
-    /** @var string */
+    /** @var string Text to display when ask for confirmation on uninstall action */
     public $confirmUninstall;
     
     /** @var string */
@@ -202,8 +202,6 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $this->addJsDefList();
 
-        $controller = $this->context->controller;
-
         $aCss = array(
             $this->lib_path.'pickr/css/pickr.min.css',
             $this->lib_path.'pickr/css/pickr-override.css',
@@ -229,8 +227,8 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->controller->addCSS($aCss, 'all');
         $this->context->controller->addJS($aJs);
-        $controller->addJqueryPlugin('colorpicker');
-        $controller->addJqueryUI('ui.sortable');
+        $this->context->controller->addJqueryPlugin('colorpicker');
+        $this->context->controller->addJqueryUI('ui.sortable');
     }
 
     /**
@@ -255,11 +253,11 @@ class blockreassurance extends Module implements WidgetInterface
         $this->loadAsset();
 
         $id_lang = $this->context->language->id;
-        $currentPage = Tools::getValue('page');
-
-        // get current page
-        if ($currentPage != 'global') {
-             $currentPage = 'global';
+        
+        $currentPage = 'global';
+        $getPage = Tools::getValue('page');
+        if (!empty($getPage)) {
+            $currentPage = Tools::getValue('page');
         }
 
         $moduleAdminLink = Context::getContext()->link->getAdminLink('AdminModules', true).'&configure='.$this->name.'&module_name='.$this->name;
@@ -423,7 +421,7 @@ class blockreassurance extends Module implements WidgetInterface
         ));
 
         $this->context->controller->registerStylesheet(
-            'blocreassurance-front-css',
+            'front-css',
             'modules/'.$this->name.'/views/css/reassurance.css'
         );
 
