@@ -132,7 +132,7 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
-     * We update the poisition of the reassurance blocks
+     * We update the position of the reassurance blocks
      *
      * @return bool
      */
