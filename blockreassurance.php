@@ -219,6 +219,7 @@ class blockreassurance extends Module implements WidgetInterface
             $this->lib_path.'/pickr/js/pickr.js',
             $this->js_path.'/appearance/colorpicker.js',
             $this->js_path.'back.js',
+            $this->js_path.'svg-utils.js',
             $this->js_path.'menu.js',
             $this->js_path.'vue.min.js',
         );
@@ -428,6 +429,10 @@ class blockreassurance extends Module implements WidgetInterface
         $this->context->controller->registerJavascript(
             'front',
             'modules/'.$this->name.'/views/js/front.js'
+        );
+        $this->context->controller->registerJavascript(
+            'svg',
+            'modules/'.$this->name.'/views/js/svg-utils.js'
         );
     }
 

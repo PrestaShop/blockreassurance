@@ -186,9 +186,6 @@ $(window).ready(function() {
                 setTimeout(
                     location.reload()
                 , 1800);
-            },
-            error: function(err) {
-                // console.log(err);
             }
         });
     });

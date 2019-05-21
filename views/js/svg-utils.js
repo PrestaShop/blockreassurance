@@ -25,7 +25,7 @@
 
 $(window).ready(function() {
     $(function(){
-        $('.block-reassurance-item img').each(function(){
+        jQuery('img.svg').each(function(){
             var $img = jQuery(this);
             var imgID = $img.attr('id');
             var imgClass = $img.attr('class');
@@ -58,11 +58,11 @@ $(window).ready(function() {
                 $img.replaceWith($svg);
 
                 // set color of svg at load
-                $('.block-reassurance-item svg path').css('fill', psr_icon_color);
+                $('.svg path').css('fill', psr_icon_color);
 
                 //$svg.attr('height', '35')
-                $('.block-reassurance-item svg').attr('height', '30');
-                $('.block-reassurance-item svg').attr('width', '30')
+                $('.resize svg').attr('height', '35');
+                $('.resize svg').attr('width', '35')
 
                 $('.svg').show();
         
