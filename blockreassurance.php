@@ -34,67 +34,67 @@ require_once _PS_MODULE_DIR_.'/blockreassurance/classes/ReassuranceActivity.php'
 
 class blockreassurance extends Module implements WidgetInterface
 {
-    
+
     /** @var string */
     public $name;
-    
+
     /** @var string */
     public $version;
-    
+
     /** @var string */
     public $author;
-    
+
     /** @var bool */
     public $need_instance;
-    
+
     /** @var string */
     public $module_key;
-    
+
     /** @var string */
     public $author_address;
-    
+
     /** @var string */
     public $controller_name;
-    
+
     /** @var bool */
     public $bootstrap;
-    
+
     /** @var string */
     public $displayName;
-    
+
     /** @var string */
     public $description;
-    
+
     /** @var string */
     public $js_path;
-    
+
     /** @var string */
     public $css_path;
-    
+
     /** @var string */
     public $img_path;
-    
+
     /** @var string */
     public $img_path_perso;
-    
+
     /** @var string */
     public $lib_path;
-    
+
     /** @var string */
     public $docs_path;
-    
+
     /** @var string */
     public $logo_path;
-    
+
     /** @var string */
     public $module_path;
-    
+
     /** @var string Text to display when ask for confirmation on uninstall action */
     public $confirmUninstall;
-    
+
     /** @var string */
     public $ps_url;
-    
+
     /** @var string */
     public $folder_file_upload;
 
@@ -254,7 +254,7 @@ class blockreassurance extends Module implements WidgetInterface
         $this->loadAsset();
 
         $id_lang = $this->context->language->id;
-        
+
         $currentPage = 'global';
         $getPage = Tools::getValue('page');
         if (!empty($getPage)) {
@@ -426,10 +426,10 @@ class blockreassurance extends Module implements WidgetInterface
             'modules/'.$this->name.'/views/css/reassurance.css'
         );
 
-        $this->context->controller->registerJavascript(
-            'front',
-            'modules/'.$this->name.'/views/js/front.js'
-        );
+        // $this->context->controller->registerJavascript(
+        //     'front',
+        //     'modules/'.$this->name.'/views/js/front.js'
+        // );
         $this->context->controller->registerJavascript(
             'svg',
             'modules/'.$this->name.'/views/js/svg-utils.js'
@@ -454,7 +454,7 @@ class blockreassurance extends Module implements WidgetInterface
             } else {
                 $element[$key]['image'] = $value['icone_perso'];
             }
-            
+
             $element[$key]['text'] = $value['title'] .' '. $value['description'];
         }
 
