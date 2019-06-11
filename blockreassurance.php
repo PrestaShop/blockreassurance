@@ -438,6 +438,9 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function renderWidget($hookName = null, array $configuration = [])
     {
+        if ($hookName == 'displayFooter') {
+            return false;
+        }
         if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }
