@@ -29,6 +29,7 @@ if (!defined('_PS_VERSION_')) {
 }
 
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+use PrestaShop\Module\ProductComment\Addons\CategoryFetcher;
 
 require_once _PS_MODULE_DIR_.'/blockreassurance/classes/ReassuranceActivity.php';
 
@@ -213,6 +214,7 @@ class blockreassurance extends Module implements WidgetInterface
             $this->css_path.'style.css',
             $this->css_path.'faq.css',
             $this->css_path.'menu.css',
+            $this->css_path.'addons-suggestion.css',
         );
 
         $aJs = array(
@@ -253,6 +255,23 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $this->loadAsset();
 
+        $parsedUrl = parse_url('/en/517-blocks-tabs-banners');
+
+        $parameters = [];
+        if (!empty($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $parameters);
+        }
+
+        $parameters['utm_source'] = 'back-office';
+        $parameters['utm_medium'] = 'modules';
+        $parameters['utm_campaign'] = 'back-office-' . strtoupper($this->context->language->iso_code);
+        $link = 'https://addons.prestashop.com' . $parsedUrl['path'] . '?' . http_build_query($parameters);
+        $categoryFetcher = array(
+                'name' => 'Blocks, Tabs and Banners',
+                'link' => $link,
+                'description' => 'With these modules, you can personalize your e-commerce website by adding reassurance blocks (free delivery, satisfaction guaranteed or your money back, etc.), illustrating your categories with visuals on your homepage or adding advertising banners to your PrestaShop store.',
+        );
+
         $id_lang = $this->context->language->id;
 
         $currentPage = 'global';
@@ -266,6 +285,7 @@ class blockreassurance extends Module implements WidgetInterface
         $allCms = CMS::listCms($id_lang);
 
         $this->context->smarty->assign(array(
+            'addons_category' => $categoryFetcher,
             'psr_hook_header' => Configuration::get('PSR_HOOK_HEADER'),
             'psr_hook_footer' => Configuration::get('PSR_HOOK_FOOTER'),
             'psr_hook_product' => Configuration::get('PSR_HOOK_PRODUCT'),

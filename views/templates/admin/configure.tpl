@@ -38,7 +38,7 @@
                 </li>
             </ul>
         </div>
-    </div>	
+    </div>
 </div>
 
 <div class="bootstrap" id="psreassurance_configuration">
@@ -67,3 +67,4 @@
         </div>
     </div>
 </div>
+{include file="./addons-suggestion.tpl"}
