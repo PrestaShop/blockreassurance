@@ -1,19 +1,42 @@
 {
-    "name": "prestashop/blockreassurance",
-    "description": "PrestaShop module blockreassurance",
-    "homepage": "https://github.com/PrestaShop/blockreassurance",
-    "license": "AFL - Academic Free License (AFL 3.0)",
-    "authors": [
-      {
-        "name": "PrestaShop SA",
-        "email": "contact@prestashop.com"
-      }
+  "name": "prestashop/blockreassurance",
+  "description": "PrestaShop module blockreassurance",
+  "homepage": "https://github.com/PrestaShop/blockreassurance",
+  "license": "AFL - Academic Free License (AFL 3.0)",
+  "authors": [
+    {
+      "name": "PrestaShop SA",
+      "email": "contact@prestashop.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.0",
+    "prestashop/circuit-breaker": "^3.0.0",
+    "doctrine/cache": "^1.6",
+    "symfony/css-selector": "^3.4.0",
+    "guzzlehttp/cache-subscriber": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:jolelievre/circuit-breaker.git"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "PrestaShop\\Module\\BlockReassurance\\": "src/"
+    },
+    "classmap": [
+      "blockreassurance.php"
     ],
-    "require": {
-      "php": ">=5.6"
-    },
-    "config": {
-      "preferred-install": "dist"
-    },
-    "type": "prestashop-module"
+    "exclude-from-classmap": []
+  },
+  "config": {
+    "preferred-install": "dist",
+    "prepend-autoloader": false,
+    "platform": {
+      "php": "5.6"
+    }
+  },
+  "type": "prestashop-module"
 }
