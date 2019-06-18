@@ -69,8 +69,8 @@ class ReassuranceActivity extends ObjectModel
     );
 
     /**
-     * @param  int $id_lang
-     * @param  int $id_shop
+     * @param int $id_lang
+     * @param int $id_shop
      *
      * @return array
      */
@@ -86,6 +86,10 @@ class ReassuranceActivity extends ObjectModel
         return $result;
     }
 
+    /**
+     * @param array $psr_languages
+     * @param int $type_link
+     */
     public function handleBlockValues($psr_languages, $type_link)
     {
         $languages = Language::getLanguages();
@@ -114,48 +118,57 @@ class ReassuranceActivity extends ObjectModel
             }
         }
 
+        // @todo: where does $id_cms comes from ?
         if (isset($id_cms) && $type_link === self::TYPE_LINK_CMS_PAGE) {
             $this->id_cms = $id_cms;
             $link = Context::getContext()->link;
+
             foreach ($languages as $language) {
-                $this->link[$language['id_lang']] = $link->getCMSLink($id_cms, null, null, $language['id_lang']);
+                $this->link[$language['id_lang']] = $link->getCMSLink(
+                    $id_cms,
+                    null,
+                    null,
+                    $language['id_lang']
+                );
             }
         }
 
         if ($type_link == 'undefined') {
             $type_link = self::TYPE_LINK_NONE;
         }
+
         $this->type_link = $type_link;
     }
 
     /**
-     * @param  int $id_shop
+     * @param int $id_shop
      *
      * @return array
      */
     public static function getAllBlockByShop($id_shop = 1)
     {
-        $return = array();
+        $result = [];
+
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
             WHERE prl.id_shop = "' . (int)$id_shop . '"
             GROUP BY prl.id_lang, pr.id_psreassurance
             ORDER BY pr.position';
 
-        $result = Db::getInstance()->executeS($sql);
+        $dbResult = Db::getInstance()->executeS($sql);
 
-        foreach ($result as $key => $value) {
-            $return[$value['id_lang']][$value['id_psreassurance']]['title'] = $value['title'];
-            $return[$value['id_lang']][$value['id_psreassurance']]['description'] = $value['description'];
-            $return[$value['id_lang']][$value['id_psreassurance']]['url'] = $value['link'];
+        foreach ($dbResult as $key => $value) {
+            $result[$value['id_lang']][$value['id_psreassurance']]['title'] = $value['title'];
+            $result[$value['id_lang']][$value['id_psreassurance']]['description'] = $value['description'];
+            $result[$value['id_lang']][$value['id_psreassurance']]['url'] = $value['link'];
         }
 
-        return $return;
+        return $result;
     }
 
     /**
-     * @param  int $id_lang
-     * @param  int $id_shop
+     * @param int $id_lang
+     * @param int $id_shop
      *
      * @return array
      */

@@ -27,7 +27,8 @@
       "PrestaShop\\Module\\BlockReassurance\\": "src/"
     },
     "classmap": [
-      "blockreassurance.php"
+      "blockreassurance.php",
+      "classes/ReassuranceActivity.php"
     ],
     "exclude-from-classmap": []
   },

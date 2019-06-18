@@ -30,64 +30,50 @@ if (!defined('_PS_VERSION_')) {
 
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
-require_once _PS_MODULE_DIR_ . '/blockreassurance/classes/ReassuranceActivity.php';
-
 class blockreassurance extends Module implements WidgetInterface
 {
-    const POSITION_BELOW_HEADER = 1;
-    const POSITION_ABOVE_HEADER = 2;
+    const POSITION_BELOW_HEADER = '1';
+    const POSITION_ABOVE_HEADER = '2';
 
     /** @var string */
     public $name;
-
     /** @var string */
     public $version;
-
     /** @var string */
     public $author;
 
     /** @var bool */
     public $need_instance;
-
     /** @var string */
     public $module_key;
-
     /** @var string */
     public $author_address;
 
     /** @var string */
     public $controller_name;
-
     /** @var bool */
     public $bootstrap;
-
     /** @var string */
     public $displayName;
-
     /** @var string */
     public $description;
 
     /** @var string */
     public $js_path;
-
     /** @var string */
     public $css_path;
-
     /** @var string */
     public $img_path;
-
+    /** @var string */
+    public $old_path_img;
     /** @var string */
     public $img_path_perso;
-
     /** @var string */
     public $lib_path;
-
     /** @var string */
     public $docs_path;
-
     /** @var string */
     public $logo_path;
-
     /** @var string */
     public $module_path;
 
@@ -169,6 +155,7 @@ class blockreassurance extends Module implements WidgetInterface
         }
 
         $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website.', array(), 'Modules.Blockreassurance.Admin');
+
         return false;
     }
 
@@ -204,7 +191,7 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $this->addJsDefList();
 
-        $aCss = array(
+        $cssAssets = [
             $this->lib_path . 'pickr/css/pickr.min.css',
             $this->lib_path . 'pickr/css/pickr-override.css',
             $this->css_path . '/templates/display.css',
@@ -216,21 +203,21 @@ class blockreassurance extends Module implements WidgetInterface
             $this->css_path . 'faq.css',
             $this->css_path . 'menu.css',
             $this->css_path . 'addons-suggestion.css',
-        );
+        ];
 
-        $aJs = array(
+        $javascriptAssets = [
             $this->lib_path . '/pickr/js/pickr.js',
             $this->js_path . '/appearance/colorpicker.js',
             $this->js_path . 'back.js',
             $this->js_path . 'svg-utils.js',
             $this->js_path . 'menu.js',
             $this->js_path . 'vue.min.js',
-        );
+        ];
 
-        $aCss[] = '//fonts.googleapis.com/icon?family=Material+Icons';
+        $cssAssets[] = '//fonts.googleapis.com/icon?family=Material+Icons';
 
-        $this->context->controller->addCSS($aCss, 'all');
-        $this->context->controller->addJS($aJs);
+        $this->context->controller->addCSS($cssAssets, 'all');
+        $this->context->controller->addJS($javascriptAssets);
         $this->context->controller->addJqueryPlugin('colorpicker');
         $this->context->controller->addJqueryUI('ui.sortable');
     }
@@ -238,7 +225,7 @@ class blockreassurance extends Module implements WidgetInterface
     /**
      * Check if folder img_perso is writable and executable
      *
-     * @return void
+     * @return bool
      */
     private function folderUploadFilesHasGoodRights()
     {
@@ -365,7 +352,6 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $enable = Configuration::get('PSR_HOOK_FOOTER');
 
-        // If position not equals to 2 (Above header)
         if ($enable !== self::POSITION_ABOVE_HEADER) {
             return '';
         }
@@ -416,7 +402,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function renderWidget($hookName = null, array $configuration = [])
     {
-        if ($hookName == 'displayFooter') {
+        if ($hookName === 'displayFooter') {
             return '';
         }
         if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
@@ -434,22 +420,27 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
-        $blocks = ReassuranceActivity::getAllBlockByStatus($this->context->language->id, $this->context->shop->id);
+        $blocks = ReassuranceActivity::getAllBlockByStatus(
+            $this->context->language->id,
+            $this->context->shop->id
+        );
 
         $elements = [];
         foreach ($blocks as $key => $value) {
             if (!empty($value['icone'])) {
                 $elements[$key]['image'] = $value['icone'];
-            } else {
+            } elseif (!empty($value['icone_perso'])) {
                 $elements[$key]['image'] = $value['icone_perso'];
+            } else {
+                $elements[$key]['image'] = '';
             }
 
             $elements[$key]['text'] = $value['title'] . ' ' . $value['description'];
         }
 
-        return array(
+        return [
             'elements' => $elements,
-        );
+        ];
     }
 
     /**
@@ -464,11 +455,11 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)
     {
-        if ($enableProduct == 1 && $controller == 'product') {
+        if ($enableProduct === '1' && $controller === 'product') {
             return true;
         }
 
-        if ($enableCheckout == 1 && $controller == 'cart') {
+        if ($enableCheckout === '1' && $controller === 'cart') {
             return true;
         }
 
@@ -480,7 +471,7 @@ class blockreassurance extends Module implements WidgetInterface
      *
      * @param  string $template
      *
-     * @return void
+     * @return string
      */
     private function renderTemplateInHook($template)
     {
