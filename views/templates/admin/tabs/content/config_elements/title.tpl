@@ -23,7 +23,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="form-group content_by_lang lang-{$language.id_lang|escape:'htmlall':'UTF-8'} {if $language.id_lang != $defaultFormLanguage}inactive{/if}" data-type="title" data-lang="{$language.id_lang|escape:'htmlall':'UTF-8'}">
+<div class="form-group content_by_lang lang-{$language.id_lang|escape:'htmlall':'UTF-8'} {if $language.id_lang != $defaultFormLanguage}inactive{/if}"
+     data-type="title" data-lang="{$language.id_lang|escape:'htmlall':'UTF-8'}">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
@@ -34,11 +35,14 @@
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4">
         <div class="input-group col-lg-12">
             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-12">
-                <input type="text" name="title-{$language.id_lang|escape:'htmlall':'UTF-8'}" max="100" class="form-control" value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['title']}">
+                <input type="text" name="title-{$language.id_lang|escape:'htmlall':'UTF-8'}" max="100"
+                       class="form-control"
+                       value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['title']}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4">
-            <span class="limit_text help-block" style="display:inline">0</span><span class="help-block"  style="display:inline">/100 characters</span>
+            <span class="limit_text help-block" style="display:inline">0</span><span class="help-block"
+                                                                                     style="display:inline">/100 characters</span>
         </div>
     </div>
     <div class="clearfix"></div>

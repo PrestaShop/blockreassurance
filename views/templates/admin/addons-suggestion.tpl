@@ -42,7 +42,7 @@
     </div>
     <div class="suggestion-link">
         <a target="_blank" class="btn btn-primary" href="{$addons_category.link}">
-        {l s='Discover all modules' d='Admin.Modules.Feature'}
+            {l s='Discover all modules' d='Admin.Modules.Feature'}
         </a>
     </div>
 </div>

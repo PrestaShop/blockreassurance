@@ -32,7 +32,8 @@
     <section class="category_reassurance cat_1 active">
         <div class="row">
             <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack1/headset.svg"/></div>
-            <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack1/local-shipping.svg"/></div>
+            <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack1/local-shipping.svg"/>
+            </div>
             <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack1/lock.svg"/></div>
         </div>
         <div class="row">

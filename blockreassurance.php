@@ -290,6 +290,10 @@ class blockreassurance extends Module implements WidgetInterface
             'old_img_url' => $this->old_path_img,
             'folderIsWritable' => $this->folderUploadFilesHasGoodRights(),
             'folderPath' => $this->img_path_perso,
+            // constants
+            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
         ));
 
         return $this->display(__FILE__, 'views/templates/admin/configure.tpl');
@@ -481,6 +485,10 @@ class blockreassurance extends Module implements WidgetInterface
             'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang, $this->context->shop->id),
             'iconeColor' => Configuration::get('PSR_ICON_COLOR'),
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
+            // constants
+            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
         ));
 
         return $this->display(__FILE__, 'views/templates/hook/' . $template);

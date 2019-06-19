@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="form-group psr-url {if $aBlock['type_link'] != 2} inactive{/if}" data-type="url">
+<div class="form-group psr-url {if $aBlock['type_link'] !== $LINK_TYPE_URL} inactive{/if}" data-type="url">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
@@ -31,15 +31,18 @@
             </label>
         </div>
     </div>
+
     {foreach from=$languages item=language}
-    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 content_by_lang lang-{$language.id_lang|escape:'htmlall':'UTF-8'} {if $language.id_lang != $defaultFormLanguage}inactive{/if}" data-type="url" data-lang="{$language.id_lang|escape:'htmlall':'UTF-8'}">
-        <div class="input-group col-xs-12 col-sm-12 col-md-7 col-lg-12 psrea-flex">
-            <div class="input-group-append">
-                <span class="input-group-text picto-url"><i class="material-icons">link</i></span>
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 content_by_lang lang-{$language.id_lang|escape:'htmlall':'UTF-8'} {if $language.id_lang != $defaultFormLanguage}inactive{/if}"
+             data-type="url" data-lang="{$language.id_lang|escape:'htmlall':'UTF-8'}">
+            <div class="input-group col-xs-12 col-sm-12 col-md-7 col-lg-12 psrea-flex">
+                <div class="input-group-append">
+                    <span class="input-group-text picto-url"><i class="material-icons">link</i></span>
+                </div>
+                <input class="block_url form-control" type="text" name="URL"
+                       value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['url']}">
             </div>
-            <input class="block_url" type="text" name="URL" class="form-control" value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['url']}">
         </div>
-    </div>
     {/foreach}
     <div class="clearfix"></div>
 </div>

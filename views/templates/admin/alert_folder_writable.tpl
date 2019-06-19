@@ -23,10 +23,10 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div id="older_module" class="col-xl-10 col-xl-offset-1 col-lg-10 col-lg-offset-1" >
-	<div class="row alert alert-warning" role="alert">
-		<h4>{l s='WARNING' mod='psreassurance'}</h4>
-		<p>{l s='Your folder %s is not readable or executable' sprintf=$folderPath mod='psreassurance'}</p>
-		<p>{l s='This folder needs these rights so you can upload your own images for the reassurances blocks.' mod='psreassurance'}</p>
-	</div>
+<div id="older_module" class="col-xl-10 col-xl-offset-1 col-lg-10 col-lg-offset-1">
+    <div class="row alert alert-warning" role="alert">
+        <h4>{l s='WARNING' mod='psreassurance'}</h4>
+        <p>{l s='Your folder %s is not readable or executable' sprintf=$folderPath mod='psreassurance'}</p>
+        <p>{l s='This folder needs these rights so you can upload your own images for the reassurances blocks.' mod='psreassurance'}</p>
+    </div>
 </div>

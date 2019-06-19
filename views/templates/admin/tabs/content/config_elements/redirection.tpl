@@ -34,12 +34,26 @@
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4">
         <div class="input-group col-lg-12">
             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-12 customradiodesign">
-                <input id="PSR_REDIRECTION_NONE_{$aBlock['id_psreassurance']}" type="radio" name="PSR_REDIRECTION_{$aBlock['id_psreassurance']}" value="0" {if $aBlock['type_link'] == 0} checked="checked"{/if}>
-                <label for="PSR_REDIRECTION_NONE_{$aBlock['id_psreassurance']}" class="input-redirection"><span><span></span></span>{l s='None' mod='psreassurance'}</label>
-                <input id="PSR_REDIRECTION_CMS_{$aBlock['id_psreassurance']}" type="radio" name="PSR_REDIRECTION_{$aBlock['id_psreassurance']}" value="1" {if $aBlock['type_link'] == 1} checked="checked"{/if}>
-                <label for="PSR_REDIRECTION_CMS_{$aBlock['id_psreassurance']}" class="input-redirection"><span><span></span></span>{l s='CMS page' mod='psreassurance'}</label>
-                <input id="PSR_REDIRECTION_URL_{$aBlock['id_psreassurance']}" type="radio" name="PSR_REDIRECTION_{$aBlock['id_psreassurance']}" value="2" {if $aBlock['type_link'] == 2} checked="checked"{/if}>
-                <label for="PSR_REDIRECTION_URL_{$aBlock['id_psreassurance']}" class="input-redirection"><span><span></span></span>{l s='URL' mod='psreassurance'}</label>
+                <input id="PSR_REDIRECTION_NONE_{$aBlock['id_psreassurance']}" type="radio"
+                       name="PSR_REDIRECTION_{$aBlock['id_psreassurance']}"
+                       value="{$LINK_TYPE_NONE}" {if $aBlock['type_link'] === $LINK_TYPE_NONE} checked="checked"{/if}>
+
+                <label for="PSR_REDIRECTION_NONE_{$aBlock['id_psreassurance']}"
+                       class="input-redirection"><span><span></span></span>{l s='None' mod='psreassurance'}</label>
+
+                <input id="PSR_REDIRECTION_CMS_{$aBlock['id_psreassurance']}" type="radio"
+                       name="PSR_REDIRECTION_{$aBlock['id_psreassurance']}"
+                       value="{$LINK_TYPE_CMS}" {if $aBlock['type_link'] === $LINK_TYPE_CMS} checked="checked"{/if}>
+
+                <label for="PSR_REDIRECTION_CMS_{$aBlock['id_psreassurance']}"
+                       class="input-redirection"><span><span></span></span>{l s='CMS page' mod='psreassurance'}</label>
+
+                <input id="PSR_REDIRECTION_URL_{$aBlock['id_psreassurance']}" type="radio"
+                       name="PSR_REDIRECTION_{$aBlock['id_psreassurance']}"
+                       value="{$LINK_TYPE_URL}" {if $aBlock['type_link'] === $LINK_TYPE_URL} checked="checked"{/if}>
+
+                <label for="PSR_REDIRECTION_URL_{$aBlock['id_psreassurance']}"
+                       class="input-redirection"><span><span></span></span>{l s='URL' mod='psreassurance'}</label>
             </div>
         </div>
     </div>

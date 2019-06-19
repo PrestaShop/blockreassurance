@@ -33,26 +33,30 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 first-block">
         <div class="psr_picto_showing input-group col-lg-4">
-            <img class="psr-picto picto_by_module svg" src="{if $aBlock['icone']}{$aBlock['icone']}{else if $aBlock['icone_perso']}{$aBlock['icone_perso']}{/if}"/>
-            <!--img class="landscape" src="{$img_url}reassurance/landscape.png" style="width:70px; border:dotted;"/-->
+            <img class="psr-picto picto_by_module svg"
+                 src="{if $aBlock['icone']}{$aBlock['icone']}{elseif $aBlock['icone_perso']}{$aBlock['icone_perso']}{/if}"/>
             <i class="material-icons landscape" style="font-size:70px; border: dotted;">landscape</i>
             <div class="svg_chosed_here">
                 {if isset($slide)}
-                    <img class="image-preview-lang" width="24px" height="24px" class="img-thumbnail" src="urlimage" alt="" />
+                    <img width="24px" height="24px" class="image-preview-lang img-thumbnail" src="urlimage" alt=""/>
                 {else}
                     <span class="psr-picto">
-                        <img class="image-preview-lang" class="img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
+                        <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
                     </span>
                 {/if}
-                
+
             </div>
-            <span class="modify_icon" data-id="{$aBlock['id_psreassurance']}">{l s='Modify icon' mod='psreassurance'}</span>
+            <span class="modify_icon"
+                  data-id="{$aBlock['id_psreassurance']}">{l s='Modify icon' mod='psreassurance'}</span>
         </div>
         <div class="input-group upload_file_button">
-            <label class="file_label" for="file{$aBlock['id_psreassurance']}">{l s='or upload file' mod='psreassurance'}</label>
+            <label class="file_label"
+                   for="file{$aBlock['id_psreassurance']}">{l s='or upload file' mod='psreassurance'}</label>
             <label class="input-group-btn">
                 <span>
-                    <i class="icon-file"></i><input id="file{$aBlock['id_psreassurance']}" class="slide_image" data-preview="image-preview-lang" type="file" name="image-lang" style="display: none;">
+                    <i class="icon-file"></i><input id="file{$aBlock['id_psreassurance']}" class="slide_image"
+                                                    data-preview="image-preview-lang" type="file" name="image-lang"
+                                                    style="display: none;">
                 </span>
             </label>
         </div>

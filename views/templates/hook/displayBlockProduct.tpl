@@ -25,10 +25,15 @@
 
 <div style="margin-top:25px">
     {foreach from=$blocks item=$block key=$key}
-        <div class="resize" {if $block['type_link'] != 0 && $block['link'] != ''} onclick="window.open('{$block['link']}')"{/if} style="{if $block['type_link'] != 0 && $block['link'] != ''}cursor:pointer;{/if}">
-            <span class="item-product" >
+        <div class="resize"
+                {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}
+             style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
+        >
+            <span class="item-product">
                 {if $block['icone'] != 'undefined'}
-                    <img class="svg" src="{if $block['icone']}{$block['icone']}{else if $block['icone_perso']}{$block['icone_perso']}{/if}" style="width:35px;">
+            <img class="svg"
+                 src="{if $block['icone']}{$block['icone']}{elseif $block['icone_perso']}{$block['icone_perso']}{/if}"
+                 style="width:35px;">
                 {/if}&nbsp;
             </span>
             <span style="color:{$textColor};font-weight:bold">{$block['title']}<span>

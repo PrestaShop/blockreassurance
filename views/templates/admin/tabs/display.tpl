@@ -25,9 +25,15 @@
 <div id="modulecontent module_display" class="clearfix">
     <div id="menu" class="col-lg-2 col-xs-2">
         <div class="list-group" v-on:click.prevent>
-            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('global') }" v-on:click="makeActive('global')"><i class="fa fa-cog"></i> {l s='Global settings' mod='psreassurance'}</a>
-            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('product') }" v-on:click="makeActive('product')"><i class="fa fa-book"></i> {l s='Product pages' mod='psreassurance'}</a>
-            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('checkout') }" v-on:click="makeActive('checkout')"><i class="fa fa-clock-o"></i> {l s='Cart pages' mod='psreassurance'}</a>
+            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('global') }"
+               v-on:click="makeActive('global')"><i class="fa fa-cog"></i> {l s='Global settings' mod='psreassurance'}
+            </a>
+            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('product') }"
+               v-on:click="makeActive('product')"><i class="fa fa-book"></i> {l s='Product pages' mod='psreassurance'}
+            </a>
+            <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('checkout') }"
+               v-on:click="makeActive('checkout')"><i class="fa fa-clock-o"></i> {l s='Cart pages' mod='psreassurance'}
+            </a>
         </div>
     </div>
     <div class="col-lg-9 col-xs-9">
@@ -49,7 +55,7 @@
 
 {literal}
 <script type="text/javascript">
-    var currentPage = "{/literal}{$currentPage|escape:'htmlall':'UTF-8'}{literal}";
-    var moduleAdminLink = "{/literal}{$moduleAdminLink|escape:'htmlall':'UTF-8'}{literal}";
+  var currentPage = "{/literal}{$currentPage|escape:'htmlall':'UTF-8'}{literal}";
+  var moduleAdminLink = "{/literal}{$moduleAdminLink|escape:'htmlall':'UTF-8'}{literal}";
 </script>
 {/literal}
