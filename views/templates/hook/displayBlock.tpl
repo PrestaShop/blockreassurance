@@ -24,7 +24,7 @@
 *}
 <div class="blockreas">
     {foreach from=$blocks item=$block key=$key}
-        <div  class="reass-item" style="{if $block['type_link'] != 0 && $block['link'] != ''}cursor:pointer;{/if}" 
+        <div  class="reass-item" style="{if $block['type_link'] != 0 && $block['link'] != ''}cursor:pointer;{/if}"
         {if $block['type_link'] != 0 && $block['link'] != ''} onclick="window.open('{$block['link']}')"{/if}>
             <span style="display:block;height:70px">
                 {if $block['icone'] != 'undefined'}
@@ -34,7 +34,7 @@
                     >
                 {/if}
             </span>
-            <span style="color:{$textColor};diplay:block;font-weight:bold">{$block['title']}<span>
+            <span style="color:{$textColor};display:block;font-weight:bold">{$block['title']}<span>
             <p style="color:{$textColor};">{$block['description']}</p>
         </div>
     {/foreach}
