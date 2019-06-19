@@ -1,18 +1,18 @@
-.blockreas{
+.blockreas {
     width: 100%;
     text-align: center;
     padding-top: 10px;
 }
 
-.reass-item{
-    display:inline-block;
-    width:360px;
-    margin:0px auto;
-    text-align:center;
-    vertical-align:top;
+.reass-item {
+    display: inline-block;
+    width: 360px;
+    margin: 0px auto;
+    text-align: center;
+    vertical-align: top;
 }
 
-.item-product{
+.item-product {
     float: left;
     width: 35px;
     display: inline-block;

@@ -1,6 +1,6 @@
 /**
-*   Reassurance block Lising
-*/
+ * Reassurance block Listing
+ */
 
 #reassurance_block {
     position: absolute;
@@ -12,49 +12,61 @@
     display: none;
     /* color: #000000; */
 }
+
 #reassurance_block .row {
     margin-left: 0px;
     margin-right: 0px;
 }
+
 #reassurance_block .category_select {
     margin-bottom: 10px;
     border-bottom: 1px solid #a3cbd2;
 }
+
 #reassurance_block .category_select div.active {
     border-bottom: 2px solid #00b8df;
     background: #f2f9fb;
 }
-#reassurance_block .category_select div i{
+
+#reassurance_block .category_select div i {
     padding: 7px;
     cursor: pointer;
 }
+
 #reassurance_block .category_select div i:hover {
     opacity: .5;
 }
+
 #reassurance_block .category_reassurance {
     display: none;
 }
+
 #reassurance_block .category_reassurance.active {
     display: block;
 }
+
 #reassurance_block .category_reassurance .row {
     padding: 12px;
 }
+
 #reassurance_block .category_reassurance i {
     font-size: 48px;
     cursor: pointer;
     border: 2px solid #fff;
 }
+
 #reassurance_block .category_reassurance img {
     max-width: 100%;
     border: 2px solid #fff;
     cursor: pointer;
     background: #60858f;
 }
+
 #reassurance_block .category_reassurance i.selected,
-#reassurance_block .category_reassurance img.selected{
+#reassurance_block .category_reassurance img.selected {
     border: 2px solid #00b9d9;
 }
+
 #reassurance_block .category_reassurance i:hover,
 #reassurance_block .category_reassurance img:hover {
     opacity: .5;
@@ -67,15 +79,19 @@
 #blockDisplay label {
     font-weight: bold;
 }
+
 #blockDisplay .form-group {
     margin-bottom: 25px;
 }
+
 #blockDisplay textarea {
     height: 70px;
 }
-#blockDisplay .text-right { 
+
+#blockDisplay .text-right {
     padding-top: 0px;
 }
+
 #blockDisplay .customradiodesign label {
     font-weight: normal;
 }
@@ -103,9 +119,11 @@
     max-width: 100%;
     height: auto;
 }
+
 .svg path {
     fill: #60858f;
 }
+
 .svg path.white {
     fill: transparent;
 }

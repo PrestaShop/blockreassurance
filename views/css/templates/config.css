@@ -2,15 +2,15 @@
     margin-bottom: 20px;
 }
 
-.modify_icon{
+.modify_icon {
     cursor: pointer;
 }
 
-.modify_icon:hover{
+.modify_icon:hover {
     color: #25b9d7
 }
 
-.image-preview-lang, .picto_by_module{
+.image-preview-lang, .picto_by_module {
     width: 100%;
     max-width: 75px;
     height: auto;
