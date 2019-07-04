@@ -1,0 +1,31 @@
+.psr_picto_showing {
+    margin-bottom: 20px;
+}
+
+.modify_icon {
+    cursor: pointer;
+}
+
+.modify_icon:hover {
+    color: #25b9d7
+}
+
+.image-preview-lang, .picto_by_module {
+    width: 100%;
+    max-width: 75px;
+    height: auto;
+}
+
+.upload_file_button {
+    border: 1px solid #b6ccd2;
+    padding-right: 11px;
+}
+
+.upload_file_button .file_label {
+    font-weight: normal !important;
+    line-height: 10px;
+    width: 100%;
+    padding: 11px 11px 6px 11px;
+    font-size: 14px;
+    color: #9a9a9a;
+}
