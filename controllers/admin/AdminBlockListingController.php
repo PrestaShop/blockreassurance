@@ -28,6 +28,7 @@ class AdminBlockListingController extends ModuleAdminController
 {
     /**
      * Update the status of a block
+     * @throws PrestaShopException
      */
     public function ajaxProcessChangeBlockStatus()
     {
@@ -43,13 +44,14 @@ class AdminBlockListingController extends ModuleAdminController
 
         $updateResult = Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
 
-        if ($updateResult) {
-            $this->ajaxDie(json_encode('success'));
-        } else {
-            $this->ajaxDie(json_encode('error'));
-        }
+        $this->ajaxDie(json_encode($updateResult ? 'success' : 'error'));
     }
 
+    /**
+     * Update position of a block
+     *
+     * @throws PrestaShopException
+     */
     public function ajaxProcessSavePositionByHook()
     {
         $hook = Tools::getValue('hook');
@@ -61,13 +63,14 @@ class AdminBlockListingController extends ModuleAdminController
 
         $updateResult = Configuration::updateValue($hook, $value);
 
-        if ($updateResult) {
-            $this->ajaxDie(json_encode('success'));
-        } else {
-            $this->ajaxDie(json_encode('error'));
-        }
+        $this->ajaxDie(json_encode($updateResult ? 'success' : 'error'));
     }
 
+    /**
+     * Update colors of a block
+     *
+     * @throws PrestaShopException
+     */
     public function ajaxProcessSaveColor()
     {
         $color1 = Tools::getValue('color1');
@@ -80,26 +83,27 @@ class AdminBlockListingController extends ModuleAdminController
         $updateResult = Configuration::updateValue('PSR_ICON_COLOR', $color1)
             && Configuration::updateValue('PSR_TEXT_COLOR', $color2);
 
-        if ($updateResult) {
-            $this->ajaxDie(json_encode('success'));
-        } else {
-            $this->ajaxDie(json_encode('error'));
-        }
+        $this->ajaxDie(json_encode($updateResult ? 'success' : 'error'));
     }
 
+    /**
+     * Update content of a block
+     *
+     * @throws PrestaShopDatabaseException
+     * @throws PrestaShopException
+     */
     public function ajaxProcessSaveBlockContent()
     {
-        $errors = array();
+        $errors = [];
 
         $picto = Tools::getValue('picto');
         $id_block = Tools::getValue('id_block');
-        // @todo: $id_cms is not persisted
+        $type_link = (int)Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
-        $type_link = Tools::getValue('typelink');
         $psr_languages = (array)json_decode(Tools::getValue('lang_values'));
 
         $blockPsr = new ReassuranceActivity($id_block);
-        $blockPsr->handleBlockValues($psr_languages, $type_link);
+        $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
 
         $blockPsr->icone = $picto;
         if (empty($picto)) {
@@ -110,17 +114,18 @@ class AdminBlockListingController extends ModuleAdminController
         $blockPsr->date_update = date("Y-m-d H:i:s");
 
         if (isset($_FILES) && !empty($_FILES)) {
-            $picto_perso = $_FILES['file'];
-            $fileTmpName = $picto_perso['tmp_name'];
-            $filename = $picto_perso['name'];
+            $customImage = $_FILES['file'];
+            $fileTmpName = $customImage['tmp_name'];
+            $filename = $customImage['name'];
 
             // validateUpload return false if no error (false -> OK)
-            if (!ImageManager::validateUpload($picto_perso)) {
+            $validUpload = ImageManager::validateUpload($customImage);
+            if (is_bool($validUpload) && $validUpload === false) {
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
                 $blockPsr->icone_perso = $this->module->img_path_perso . '/' . $filename;
                 $blockPsr->icone = '';
             } else {
-                $errors[] = ImageManager::validateUpload($picto_perso);
+                $errors[] = $validUpload;
                 $this->ajaxDie(json_encode($errors));
             }
         }
@@ -137,24 +142,23 @@ class AdminBlockListingController extends ModuleAdminController
     public function ajaxProcessUpdatePosition()
     {
         $blocks = Tools::getValue('blocks');
-
         if (empty($blocks)) {
             return false;
         }
 
         foreach ($blocks as $key => $id_block) {
-            // set the position of the Reassurance block
+            // Set the position of the Reassurance block
             $position = $key + 1;
 
-            $dataToUpdate = array(
+            $dataToUpdate = [
                 'position' => (int)$position,
-            );
+            ];
 
             $whereCondition = 'id_psreassurance = ' . (int)$id_block;
 
             $updateResult = (bool)Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
 
-            // if the update can't be done, we return false
+            // If the update can't be done, we return false
             if (!$updateResult) {
                 return false;
             }

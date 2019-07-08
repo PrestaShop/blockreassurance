@@ -23,24 +23,17 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 <div class="blockreas">
-
     {foreach from=$blocks item=$block key=$key}
-        <div class="reass-item"
-             style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
+        <div class="reass-item" style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
                 {if ($block['type_link'] !== $LINK_TYPE_NONE) && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
-            <span style="display:block;height:70px">
+            <div class="block-icon">
                 {if $block['icone'] != 'undefined'}
-                    <img class="svg"
-                         src="{if $block['icone']}{$block['icone']}{elseif $block['icone_perso']}{$block['icone_perso']}{/if}"
-                         style="height:70px;"
-                    >
+                    <img class="svg" src="{if $block['icone']}{$block['icone']}{elseif $block['icone_perso']}{$block['icone_perso']}{/if}" />
                 {/if}
-            </span>
-            <span style="color:{$textColor};display:block;font-weight:bold">{$block['title']}<span>
+            </div>
+            <div class="block-title" style="color:{$textColor}">{$block['title']}</div>
             <p style="color:{$textColor};">{$block['description']}</p>
         </div>
     {/foreach}
-
     <div class="clearfix"></div>
-
 </div>

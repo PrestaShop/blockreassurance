@@ -37,12 +37,11 @@
             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-12">
                 <input type="text" name="title-{$language.id_lang|escape:'htmlall':'UTF-8'}" max="100"
                        class="form-control"
-                       value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['title']}">
+                       value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['title']|escape:'htmlall':'UTF-8'}">
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4">
-            <span class="limit_text help-block" style="display:inline">0</span><span class="help-block"
-                                                                                     style="display:inline">/100 characters</span>
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 help-block">
+            <span class="limit_text">0</span>/100 characters
         </div>
     </div>
     <div class="clearfix"></div>

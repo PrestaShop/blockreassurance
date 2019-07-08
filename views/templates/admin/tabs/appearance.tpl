@@ -41,13 +41,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
                     <div class="ps_colorpicker1"></div>
-                    <input
-                            type="hidden"
-                            class="psr_icon_color"
-                            name="PSR_ICON_COLOR"
-                            value="{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}"
-                            id="color_1"
-                            style="background-color:{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}; color: black;">
+                    <input type="hidden" id="color_1" name="PSR_ICON_COLOR" class="psr_icon_color"
+                           value="{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}" />
                 </div>
 
                 <div class="clearfix"></div>
@@ -63,13 +58,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
                     <div class="ps_colorpicker2"></div>
-                    <input
-                            type="hidden"
-                            class="psr_text_color"
-                            name="PSR_TEXT_COLOR"
-                            value="{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}"
-                            id="color_2"
-                            style="background-color:{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}; color: black;">
+                    <input type="hidden" id="color_2" name="PSR_TEXT_COLOR" class="psr_text_color"
+                           value="{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}" />
                 </div>
             </div>
 
@@ -78,9 +68,7 @@
 
     <div class="panel-footer">
         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-offset-11">
-            <button name="saveConfiguration" id="saveConfiguration" type="submit"
-                    class="btn btn-primary">{l s='Save' mod='psreassurance'}</button>
+            <button name="saveConfiguration" id="saveConfiguration" type="submit" class="btn btn-primary">{l s='Save' mod='psreassurance'}</button>
         </div>
     </div>
-
 </div>

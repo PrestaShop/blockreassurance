@@ -73,6 +73,7 @@ class ReassuranceActivity extends ObjectModel
      * @param int $id_shop
      *
      * @return array
+     * @throws PrestaShopDatabaseException
      */
     public static function getAllBlockByLang($id_lang = 1, $id_shop = 1)
     {
@@ -89,8 +90,9 @@ class ReassuranceActivity extends ObjectModel
     /**
      * @param array $psr_languages
      * @param int $type_link
+     * @param int $id_cms
      */
-    public function handleBlockValues($psr_languages, $type_link)
+    public function handleBlockValues($psr_languages, $type_link, $id_cms)
     {
         $languages = Language::getLanguages();
         $newValues = [];
@@ -118,8 +120,7 @@ class ReassuranceActivity extends ObjectModel
             }
         }
 
-        // @todo: where does $id_cms comes from ?
-        if (isset($id_cms) && $type_link === self::TYPE_LINK_CMS_PAGE) {
+        if (!empty($id_cms) && $type_link === self::TYPE_LINK_CMS_PAGE) {
             $this->id_cms = $id_cms;
             $link = Context::getContext()->link;
 
@@ -144,6 +145,7 @@ class ReassuranceActivity extends ObjectModel
      * @param int $id_shop
      *
      * @return array
+     * @throws PrestaShopDatabaseException
      */
     public static function getAllBlockByShop($id_shop = 1)
     {
@@ -171,6 +173,7 @@ class ReassuranceActivity extends ObjectModel
      * @param int $id_shop
      *
      * @return array
+     * @throws PrestaShopDatabaseException
      */
     public static function getAllBlockByStatus($id_lang = 1, $id_shop = 1)
     {

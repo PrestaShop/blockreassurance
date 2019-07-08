@@ -39,65 +39,28 @@ $(window).ready(function () {
     $('.show-rea-block.active .psr-picto i').html($(e.target)[0]['innerHTML']);
   });
 
-  $(document).on('change', 'input[name="PSR_REDIRECTION_1"]', (e) => {
-    if ($(e.target).val() == 0) {
-      $('.psr-cms').removeClass('active');
-      $('.psr-url').removeClass('active');
-      $('.psr-cms').addClass('inactive');
-      $('.psr-url').addClass('inactive');
-    } else if ($(e.target).val() == 1) {
-      $('.psr-url').removeClass('active');
-      $('.psr-url').addClass('inactive');
-      $('.psr-cms').removeClass('inactive');
-      $('.psr-cms').addClass('active');
-    } else if ($(e.target).val() == 2) {
-      $('.psr-cms').removeClass('active');
-      $('.psr-cms').addClass('inactive');
-      $('.psr-url').removeClass('inactive');
-      $('.psr-url').addClass('active');
+  function setEnabledPSR(psr, state) {
+    if (state) {
+      $('.psr-' + psr).removeClass('inactive').addClass('active');
+    } else {
+      $('.psr-' + psr).removeClass('active').addClass('inactive');
     }
-  });
+  }
 
-  $(document).on('change', 'input[name="PSR_REDIRECTION_2"]', (e) => {
+  $(document).on('change', 'input[name="PSR_REDIRECTION_1"],input[name="PSR_REDIRECTION_2"],input[name="PSR_REDIRECTION_3"]', (e) => {
     if ($(e.target).val() == 0) {
-      $('.psr-cms').removeClass('active');
-      $('.psr-url').removeClass('active');
-      $('.psr-cms').addClass('inactive');
-      $('.psr-url').addClass('inactive');
+      setEnabledPSR('cms', false);
+      setEnabledPSR('url', false);
     } else if ($(e.target).val() == 1) {
-      $('.psr-url').removeClass('active');
-      $('.psr-url').addClass('inactive');
-      $('.psr-cms').removeClass('inactive');
-      $('.psr-cms').addClass('active');
+      setEnabledPSR('cms', true);
+      setEnabledPSR('url', false);
     } else if ($(e.target).val() == 2) {
-      $('.psr-cms').removeClass('active');
-      $('.psr-cms').addClass('inactive');
-      $('.psr-url').removeClass('inactive');
-      $('.psr-url').addClass('active');
-    }
-  });
-
-  $(document).on('change', 'input[name="PSR_REDIRECTION_3"]', (e) => {
-    if ($(e.target).val() == 0) {
-      $('.psr-cms').removeClass('active');
-      $('.psr-url').removeClass('active');
-      $('.psr-cms').addClass('inactive');
-      $('.psr-url').addClass('inactive');
-    } else if ($(e.target).val() == 1) {
-      $('.psr-url').removeClass('active');
-      $('.psr-url').addClass('inactive');
-      $('.psr-cms').removeClass('inactive');
-      $('.psr-cms').addClass('active');
-    } else if ($(e.target).val() == 2) {
-      $('.psr-cms').removeClass('active');
-      $('.psr-cms').addClass('inactive');
-      $('.psr-url').removeClass('inactive');
-      $('.psr-url').addClass('active');
+      setEnabledPSR('cms', false);
+      setEnabledPSR('url', true);
     }
   });
 
   $(document).on('click', '.psre-edit', function () {
-
     $('#reminder_listing').removeClass('active');
     $('#reminder_listing').addClass('inactive');
 
@@ -143,7 +106,6 @@ $(window).ready(function () {
 /**
  *  Set block active or inactive
  */
-
 $(document).on('click', '.listing-row .switch-input', (e) => {
   let status = 1;
 
@@ -196,7 +158,7 @@ $(document).on('click', '.listing-row .switch-input', (e) => {
     }
   });
 
-})
+});
 
 /**
  *  Switch management
@@ -317,26 +279,22 @@ $(document).on('click', '#reassurance_block .category_select div i', (e) => {
 /**
  * Reassurance Block select picto
  */
-$(document).on('click', '#reassurance_block .category_reassurance svg', (e) => {
-  let tagName = $(e.target)[0].tagName;
+$(document).on('click', '#reassurance_block .category_reassurance .svg', (e) => {
   let svg = $(e.target)[0].outerHTML;
-  let imgUrl = $(e.target).attr('data-img-url');
+  let imgUrl = $(e.target).attr('src');
 
-  if (tagName !== 'SVG') {
-    svg = $(e.target).closest('svg')[0].outerHTML;
-  }
 
-  $('.svg_chosed_here svg').attr('data-img-url', imgUrl);
-
-  $('.picto_by_module').show();
-  $('#reassurance_block .category_reassurance svg').removeClass('selected');
+  // Popin : select the icon
+  $('#reassurance_block .category_reassurance img.svg.selected').removeClass('selected');
   $(e.target).addClass('selected');
-
-  $('.svg_chosed_here').show();
+  // Hide the initial icon
   $('.landscape').hide();
-  $('.svg_chosed_here:visible').html(svg);
-  $('#reassurance_block').fadeOut(300);
   $('.psr-picto').hide();
+  // Show the image
+  $('.svg_chosed_here').show();
+  $('.svg_chosed_here:visible').html(svg);
+  // Popin : hide it
+  $('#reassurance_block').fadeOut(300);
 });
 
 /**

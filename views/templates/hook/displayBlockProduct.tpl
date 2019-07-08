@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div style="margin-top:25px">
+<div class="blockreas_product">
     {foreach from=$blocks item=$block key=$key}
         <div class="resize"
                 {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}
@@ -31,12 +31,10 @@
         >
             <span class="item-product">
                 {if $block['icone'] != 'undefined'}
-            <img class="svg"
-                 src="{if $block['icone']}{$block['icone']}{elseif $block['icone_perso']}{$block['icone_perso']}{/if}"
-                 style="width:35px;">
+                    <img class="svg" src="{if $block['icone']}{$block['icone']}{elseif $block['icone_perso']}{$block['icone_perso']}{/if}">
                 {/if}&nbsp;
             </span>
-            <span style="color:{$textColor};font-weight:bold">{$block['title']}<span>
+            <span class="block-title" style="color:{$textColor};">{$block['title']}<span>
             <p style="color:{$textColor};">{$block['description']}</p>
         </div>
     {/foreach}

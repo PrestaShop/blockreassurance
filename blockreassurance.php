@@ -234,6 +234,7 @@ class blockreassurance extends Module implements WidgetInterface
 
     /**
      * @return string
+     * @throws PrestaShopException
      */
     public function getContent()
     {

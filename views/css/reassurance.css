@@ -1,7 +1,20 @@
 .blockreas {
-    width: 100%;
-    text-align: center;
     padding-top: 10px;
+    text-align: center;
+    width: 100%
+}
+
+.blockreas .block-title {
+    font-weight:bold
+}
+
+.blockreas .block-icon,
+.blockreas .block-icon img.svg {
+    height:70px
+}
+
+.blockreas_product {
+    margin-top:25px
 }
 
 .reass-item {
@@ -19,4 +32,8 @@
     height: 35px;
     padding-top: 5px;
     margin-right: 5px;
+}
+
+.item-product img {
+    width:35px;
 }

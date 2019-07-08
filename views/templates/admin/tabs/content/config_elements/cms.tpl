@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="form-group psr-cms {if $aBlock['type_link'] !== $LINK_TYPE_CMS} inactive{/if}">
+<div class="form-group psr-cms {if $aBlock['type_link'] != $LINK_TYPE_CMS} inactive{/if}">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">

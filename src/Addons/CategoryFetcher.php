@@ -48,7 +48,7 @@ use DOMNode;
  */
 class CategoryFetcher
 {
-    const CACHE_DURATION = 86400; //24 hours
+    const CACHE_DURATION = 86400; // 24 hours
 
     const ADDONS_BASE_URL = 'https://addons.prestashop.com';
     const ADDONS_API_URL = 'https://api-addons.prestashop.com';

@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="form-group psr-url {if $aBlock['type_link'] !== $LINK_TYPE_URL} inactive{/if}" data-type="url">
+<div class="form-group psr-url {if $aBlock['type_link'] != $LINK_TYPE_URL} inactive{/if}" data-type="url">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">

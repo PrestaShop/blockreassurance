@@ -23,10 +23,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="form-group content_by_lang lang-{$language.id_lang|escape:'htmlall':'UTF-8'}
-{if $language.id_lang != $defaultFormLanguage}inactive{/if}" data-type="description"
-     data-lang="{$language.id_lang|escape:'htmlall':'UTF-8'}"
->
+<div class="form-group content_by_lang lang-{$language.id_lang|escape:'htmlall':'UTF-8'} {if $language.id_lang != $defaultFormLanguage}inactive{/if}"
+     data-type="description" data-lang="{$language.id_lang|escape:'htmlall':'UTF-8'}">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
@@ -45,9 +43,8 @@
                 >{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}</textarea>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4">
-            <span class="limit_description help-block" style="display:inline">0</span><span class="help-block"
-                                                                                            style="display:inline">/100 characters</span>
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 help-block">
+            <span class="limit_description">0</span>/100 characters
         </div>
     </div>
     <div class="clearfix"></div>

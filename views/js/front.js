@@ -61,8 +61,9 @@ $(window).ready(function () {
         $('.block-reassurance-item svg path').css('fill', psr_icon_color);
 
         //$svg.attr('height', '35')
-        $('.block-reassurance-item svg').attr('height', '30');
-        $('.block-reassurance-item svg').attr('width', '30');
+        $('.block-reassurance-item svg')
+            .attr('height', '30')
+            .attr('width', '30');
 
         $('.svg').show();
 

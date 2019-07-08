@@ -30,7 +30,7 @@
     <div class="panel-body first-body">
         <div class="clearfix">
             <div class="listing-table col-lg-12  col-xs-12">
-                <div class="listing-head col-lg-12  col-xs-12">
+                <div class="listing-head row">
                     <div class="col-lg-1 col-xs-1 content-header">{l s='Position' mod='psreassurance'}</div>
                     <div class="col-lg-1 col-xs-1 content-header">{l s='Image' mod='psreassurance'}</div>
                     <div class="col-lg-1 col-xs-1 block-title content-header">{l s='Title' mod='psreassurance'}</div>
@@ -40,13 +40,13 @@
                 </div>
                 <div class="listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$aBlock key=$key}
-                        <div data-id='' class="listing-general-rol col-lg-12  col-xs-12"
+                        <div data-id='' class="listing-general-rol row"
                              data-block='{$aBlock.id_psreassurance}'>
-                            <div class="listing-row col-lg-12  col-xs-12">
-                                <div class="col-lg-1 col-xs-1" style="width:72px">
+                            <div class="listing-row row">
+                                <div class="col-lg-1 col-xs-1">
                                     <i class="material-icons">drag_indicator</i>
                                 </div>
-                                <div class="col-lg-1 col-xs-1 resize" style="text-align:center;">
+                                <div class="col-lg-1 col-xs-1 resize">
                                     {if $aBlock['icone'] != 'undefined'}
                                         <img class="svg"
                                              src="{if $aBlock['icone']}{$aBlock['icone']}{else if $aBlock['icone_perso']}{$aBlock['icone_perso']}{/if}"
@@ -61,17 +61,16 @@
                                 <div class="col-lg-4 col-xs-4">
                                     {$aBlock['description']}
                                 </div>
-                                <div class="col-lg-1 col-xs-1" style="padding-left:44px;">
-                                    {if $aBlock['type_link'] === $LINK_TYPE_NONE}
-                                        {l s='none' mod='psreassurance'}
-                                    {elseif $aBlock['type_link'] === $LINK_TYPE_URL}
+                                <div class="col-lg-2 col-xs-2">
+                                    {if $aBlock['type_link'] == $LINK_TYPE_NONE}
+                                        {l s='None' mod='psreassurance'}
+                                    {elseif $aBlock['type_link'] == $LINK_TYPE_URL}
                                         {l s='Url link' mod='psreassurance'}
                                     {elseif $aBlock['type_link'] == $LINK_TYPE_CMS}
                                         {l s='CMS Page' mod='psreassurance'}
                                     {/if}
-
                                 </div>
-                                <div class="col-lg-2 col-xs-2 inline-flex" style="padding-left:40px;">
+                                <div class="col-lg-2 col-xs-2 inline-flex">
                                     <label class="col-lg-12 col-xs-12"
                                            id="reminder_active_{$aBlock['id_psreassurance']}"
                                            for="reminder_active_{$aBlock['id_psreassurance']}"
@@ -81,10 +80,8 @@
                                                    type="checkbox" name="reminder_active_{$aBlock['id_psreassurance']}"
                                                    checked="">
                                         </section>
-                                        <span class="switch_text switch-on"
-                                              style="{if !$aBlock['status']}display:none;{/if}">{l s='Activated' mod='psreassurance'}</span>
-                                        <span class="switch_text switch-off"
-                                              style="{if $aBlock['status']}display:none;{/if}">{l s='Deactivated' mod='psreassurance'}</span>
+                                        <span class="switch_text switch-on" style="{if !$aBlock['status']}display:none;{/if}">{l s='Activated' mod='psreassurance'}</span>
+                                        <span class="switch_text switch-off" style="{if $aBlock['status']}display:none;{/if}">{l s='Deactivated' mod='psreassurance'}</span>
                                     </label>
 
                                     <span class="psre-edit" data-id="{$aBlock['id_psreassurance']}"><i

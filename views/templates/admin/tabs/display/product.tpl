@@ -32,25 +32,20 @@
         <label class="col-lg-3 col-lg-offset-1 col-xs-3 col-xs-offset-1">
             <div class="help-block customradiodesign">
                 <input type="radio" class="input_img js-show-all" name="PSR_HOOK_PRODUCT" value="1"
-                       id="PSR_HOOK_PRODUCT"
-                       {if $psr_hook_product eq 1}checked="checked"{/if}
-                />
-                <label for="PSR_HOOK_PRODUCT"><span><span></span></span>{l s='Main column' mod='psreassurance'}
-                </label><br/><br/>
+                       id="PSR_HOOK_PRODUCT" {if $psr_hook_product eq 1}checked="checked"{/if} />
+                <label for="PSR_HOOK_PRODUCT"><span><span></span></span>{l s='Main column' mod='psreassurance'}</label><br/><br/>
                 <img src="{$img_path}displayReassurance_active.jpg" width="150" height="150"
-                     class="psr-product-color{if $psr_hook_product eq 1} active{/if}">
+                     class="psr-product-color{if $psr_hook_product eq 1} active{/if}" />
                 <img src="{$img_path}displayReassurance_inactive.jpg" width="150" height="150"
-                     class="psr-product-grey {if $psr_hook_product != 1} active{/if}">
+                     class="psr-product-grey {if $psr_hook_product != 1} active{/if}" />
             </div>
         </label>
         <label class="col-lg-3 col-lg-offset-1 col-xs-3 col-xs-offset-1">
             <div class="help-block customradiodesign">
                 <input type="radio" class="input_img" name="PSR_HOOK_PRODUCT" value="0" id="PSR_HOOK_PRODUCT_0"
-                       {if $psr_hook_product eq 0}checked="checked"{/if}
-                />
-                <label for="PSR_HOOK_PRODUCT_0"><span><span></span></span>{l s='none' mod='psreassurance'}
-                </label><br/><br/>
-                <img src="{$img_path}productPage_none.jpg" width="150" height="150">
+                       {if $psr_hook_product eq 0}checked="checked"{/if} />
+                <label for="PSR_HOOK_PRODUCT_0"><span><span></span></span>{l s='none' mod='psreassurance'}</label><br/><br/>
+                <img src="{$img_path}productPage_none.jpg" width="150" height="150" />
             </div>
         </label>
     </div>

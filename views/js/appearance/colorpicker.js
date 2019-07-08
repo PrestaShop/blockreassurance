@@ -82,12 +82,12 @@ $((e) => {
         let pickrColor = pickr1.getColor();
         let hexaColor = pickrColor.toHEX().toString();
         $('.psr_icon_color').val(hexaColor);
-    })
+    });
     
     pickr2.on('change', (...args) => {
         let pickrColor = pickr2.getColor();
         let hexaColor = pickrColor.toHEX().toString();
         $('.psr_text_color').val(hexaColor);
-    })
+    });
 });
 

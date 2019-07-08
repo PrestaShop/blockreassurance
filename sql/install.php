@@ -54,20 +54,17 @@ $sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'psreassurance_lang` (
     PRIMARY KEY (`id_psreassurance`,`id_shop`,`id_lang`)
     ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;';
 
-$sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
-        VALUES (1, '".$this->img_path."reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
-$sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
-        VALUES (2, '".$this->img_path."reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
-$sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
-        VALUES (3, '".$this->img_path."reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
+$sqlInsertPSReassurance = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add) VALUES ";
 
+$sql[] = $sqlInsertPSReassurance . "(1, '/PrestaShop/modules/blockreassurance/views/img/reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
+$sql[] = $sqlInsertPSReassurance . "(2, '/PrestaShop/modules/blockreassurance/views/img/reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
+$sql[] = $sqlInsertPSReassurance . "(3, '/PrestaShop/modules/blockreassurance/views/img/reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
+
+$sqlInsertPSReassuranceLang = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES ";
 foreach ($languages as $lang) {
-    $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link)
-            VALUES (1, ".$lang['id_lang'].", 1, 'Security Policy', '(edit with Customer reassurance module)', '')";
-    $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link)
-            VALUES (2, ".$lang['id_lang'].", 1, 'Delivery Policy', '(edit with Customer reassurance module)', '')";
-    $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link)
-            VALUES (3, ".$lang['id_lang'].", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
+    $sql[] = $sqlInsertPSReassuranceLang . "(1, ".$lang['id_lang'].", 1, 'Security Policy', '(edit with Customer reassurance module)', '')";
+    $sql[] = $sqlInsertPSReassuranceLang . "(2, ".$lang['id_lang'].", 1, 'Delivery Policy', '(edit with Customer reassurance module)', '')";
+    $sql[] = $sqlInsertPSReassuranceLang . "(3, ".$lang['id_lang'].", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
 }
 
 foreach ($sql as $query) {

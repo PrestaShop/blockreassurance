@@ -35,16 +35,17 @@
         <div class="psr_picto_showing input-group col-lg-4">
             <img class="psr-picto picto_by_module svg"
                  src="{if $aBlock['icone']}{$aBlock['icone']}{elseif $aBlock['icone_perso']}{$aBlock['icone_perso']}{/if}"/>
-            <i class="material-icons landscape" style="font-size:70px; border: dotted;">landscape</i>
+            <div>
+                <i class="material-icons landscape">landscape</i>
+            </div>
             <div class="svg_chosed_here">
                 {if isset($slide)}
-                    <img width="24px" height="24px" class="image-preview-lang img-thumbnail" src="urlimage" alt=""/>
+                    <img class="image-preview-lang img-thumbnail" src="urlimage" alt="" width="24px" height="24px"/>
                 {else}
                     <span class="psr-picto">
                         <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
                     </span>
                 {/if}
-
             </div>
             <span class="modify_icon"
                   data-id="{$aBlock['id_psreassurance']}">{l s='Modify icon' mod='psreassurance'}</span>
@@ -55,8 +56,7 @@
             <label class="input-group-btn">
                 <span>
                     <i class="icon-file"></i><input id="file{$aBlock['id_psreassurance']}" class="slide_image"
-                                                    data-preview="image-preview-lang" type="file" name="image-lang"
-                                                    style="display: none;">
+                                                    data-preview="image-preview-lang" type="file" name="image-lang">
                 </span>
             </label>
         </div>

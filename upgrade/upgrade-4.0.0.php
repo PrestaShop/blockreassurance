@@ -27,10 +27,16 @@
 if (!defined('_PS_VERSION_')) {
     exit;
 }
+
 /**
  * This function updates your module from previous versions to the version 1.1,
- * usefull when you modify your database, or register a new hook ...
+ * useful when you modify your database, or register a new hook ...
  * Don't forget to create one file per version.
+ *
+ * @param $module
+ * @return bool|string
+ * @throws PrestaShopDatabaseException
+ * @throws PrestaShopException
  */
 function upgrade_module_4_0_0($module)
 {
@@ -39,7 +45,7 @@ function upgrade_module_4_0_0($module)
     $tab->active = 1;
     $tab->class_name = 'AdminBlockListing';
     foreach (Language::getLanguages(true) as $lang) {
-        $tab->name[$lang['id_lang']] =  'blockreassurance';
+        $tab->name[$lang['id_lang']] = 'blockreassurance';
     }
 
     $tab->id_parent = -1;
@@ -47,16 +53,16 @@ function upgrade_module_4_0_0($module)
     $tab->add();
 
     /*
-    ** Select the reassurance_lang table values
-    ** ps_reassurance_lang => id_reassurance, id_lang, text
-    */
+     ** Select the reassurance_lang table values
+     ** ps_reassurance_lang => id_reassurance, id_lang, text
+     */
     $sql = 'SELECT * FROM `'._DB_PREFIX_.'reassurance_lang`';
     $reassurance_langs = Db::getInstance()->ExecuteS($sql);
 
     /*
-    ** Select the reassurance table values
-    ** ps_reassurance => id_reassurance, id_shop, filename
-    */
+     ** Select the reassurance table values
+     ** ps_reassurance => id_reassurance, id_shop, filename
+     */
     $sql = 'SELECT * FROM `'._DB_PREFIX_.'reassurance`';
     $reassurances = Db::getInstance()->ExecuteS($sql);
 
@@ -87,16 +93,16 @@ function upgrade_module_4_0_0($module)
         ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;';
 
     /*
-    ** First we make a verification that the new tables are empty
-    */
+     ** First we make a verification that the new tables are empty
+     */
     $sql[] = 'TRUNCATE TABLE `'._DB_PREFIX_.'psreassurance`';
     $sql[] = 'TRUNCATE TABLE `'._DB_PREFIX_.'psreassurance_lang`';
 
     /* This path : /modules/blockreassurance/img/".$reassurance['file_name']
-    ** is used with the real path in the module
-    **
-    ** We do the INSERT INTO to get the old module values
-    */
+     ** is used with the real path in the module
+     **
+     ** We do the INSERT INTO to get the old module values
+     */
     if (!empty($reassurances)) {
         foreach ($reassurances as $reassurance) {
             $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
@@ -112,41 +118,31 @@ function upgrade_module_4_0_0($module)
     }
 
     /*
-    ** Here we execute the SQL
-    */
+     ** Here we execute the SQL
+     */
     foreach ($sql as $query) {
         if (Db::getInstance()->execute($query) == false) {
             return Db::getInstance()->getMsgError();
         }
     }
 
-    $result = true;
     /*
-    ** Verification if the hooks are already registered
-    */
-    if (!$module->isRegisteredInHook('displayAfterBodyOpeningTag')) {
-        $result &= $module->registerHook('displayAfterBodyOpeningTag');
+     ** Verification if the hooks are already registered
+     */
+    $result = true;
+    foreach ([
+        'displayAfterBodyOpeningTag',
+        'displayNavFullWidth',
+        'displayFooterAfter',
+        'displayFooterBefore',
+        'displayReassurance',
+        'actionFrontControllerSetMedia',
+    ] as $hookName) {
+        if (!$module->isRegisteredInHook($hookName)) {
+            $result &= $module->registerHook($hookName);
+        }
     }
 
-    if (!$module->isRegisteredInHook('displayNavFullWidth')) {
-        $result &= $module->registerHook('displayNavFullWidth');
-    }
-
-    if (!$module->isRegisteredInHook('displayFooterAfter')) {
-        $result &= $module->registerHook('displayFooterAfter');
-    }
-
-    if (!$module->isRegisteredInHook('displayFooterBefore')) {
-        $result &= $module->registerHook('displayFooterBefore');
-    }
-
-    if (!$module->isRegisteredInHook('displayReassurance')) {
-        $result &= $module->registerHook('displayReassurance');
-    }
-
-    if (!$module->isRegisteredInHook('actionFrontControllerSetMedia')) {
-        $result &= $module->registerHook('actionFrontControllerSetMedia');
-    }
     /*
     ** We set the new configuration values
     */

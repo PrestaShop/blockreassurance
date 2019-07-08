@@ -59,7 +59,6 @@
     max-width: 100%;
     border: 2px solid #fff;
     cursor: pointer;
-    background: #60858f;
 }
 
 #reassurance_block .category_reassurance i.selected,
@@ -115,7 +114,6 @@
 * SVG colors
 */
 .svg {
-    display: none;
     max-width: 100%;
     height: auto;
 }
