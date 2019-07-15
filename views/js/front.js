@@ -51,16 +51,16 @@ $(window).ready(function () {
 
         // Check if the viewport is set, else we gonna set it if we can.
         if (!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
-          $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'))
+          $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'));
         }
 
         // Replace image with new SVG
         $img.replaceWith($svg);
 
         // set color of svg at load
+        // @todo: psr_icon_color is not set ?
         $('.block-reassurance-item svg path').css('fill', psr_icon_color);
 
-        //$svg.attr('height', '35')
         $('.block-reassurance-item svg')
             .attr('height', '30')
             .attr('width', '30');

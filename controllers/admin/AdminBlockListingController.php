@@ -27,7 +27,8 @@
 class AdminBlockListingController extends ModuleAdminController
 {
     /**
-     * Update the status of a block
+     * Enable or disable a block
+     *
      * @throws PrestaShopException
      */
     public function ajaxProcessChangeBlockStatus()
@@ -48,7 +49,7 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
-     * Update position of a block
+     * Update how the blocks are displayed in the front-office
      *
      * @throws PrestaShopException
      */
@@ -57,7 +58,7 @@ class AdminBlockListingController extends ModuleAdminController
         $hook = Tools::getValue('hook');
         $value = Tools::getValue('value');
 
-        if (empty($hook) || empty($value)) {
+        if (empty($hook) || !in_array($value, array('0', '1'))) {
             $this->ajaxDie(json_encode('error'));
         }
 
@@ -67,7 +68,7 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
-     * Update colors of a block
+     * Update color settings to be used in front-office display
      *
      * @throws PrestaShopException
      */
@@ -87,7 +88,7 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
-     * Update content of a block
+     * Modify the settings of one block from BO "configure" page
      *
      * @throws PrestaShopDatabaseException
      * @throws PrestaShopException
@@ -105,9 +106,9 @@ class AdminBlockListingController extends ModuleAdminController
         $blockPsr = new ReassuranceActivity($id_block);
         $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
 
-        $blockPsr->icone = $picto;
+        $blockPsr->icon = $picto;
         if (empty($picto)) {
-            $blockPsr->icone_perso = '';
+            $blockPsr->custom_icon = '';
         }
 
         $blockPsr->date_add = date("Y-m-d H:i:s");
@@ -122,8 +123,8 @@ class AdminBlockListingController extends ModuleAdminController
             $validUpload = ImageManager::validateUpload($customImage);
             if (is_bool($validUpload) && $validUpload === false) {
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
-                $blockPsr->icone_perso = $this->module->img_path_perso . '/' . $filename;
-                $blockPsr->icone = '';
+                $blockPsr->custom_icon = $this->module->img_path_perso . '/' . $filename;
+                $blockPsr->icon = '';
             } else {
                 $errors[] = $validUpload;
                 $this->ajaxDie(json_encode($errors));
@@ -135,13 +136,14 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
-     * Update the position of the reassurance blocks
+     * Reorder the blocks positions
      *
      * @return bool
      */
     public function ajaxProcessUpdatePosition()
     {
         $blocks = Tools::getValue('blocks');
+
         if (empty($blocks)) {
             return false;
         }
@@ -163,7 +165,7 @@ class AdminBlockListingController extends ModuleAdminController
                 return false;
             }
         }
-        
+
         return true;
     }
 }

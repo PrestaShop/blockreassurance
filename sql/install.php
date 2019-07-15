@@ -32,8 +32,8 @@ $sql = array();
 
 $sql[] = ' CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'psreassurance` (
         `id_psreassurance` int(10) unsigned NOT NULL AUTO_INCREMENT,
-        `icone` varchar(255) NULL,
-        `icone_perso` varchar(255) NULL,
+        `icon` varchar(255) NULL,
+        `custom_icon` varchar(255) NULL,
         `status` int(10) unsigned NOT NULL,
         `position` int(10) unsigned NOT NULL,
         `id_shop` int(10) unsigned NOT NULL,
@@ -54,11 +54,11 @@ $sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'psreassurance_lang` (
     PRIMARY KEY (`id_psreassurance`,`id_shop`,`id_lang`)
     ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;';
 
-$sqlInsertPSReassurance = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add) VALUES ";
+$sqlInsertPSReassurance = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES ";
 
-$sql[] = $sqlInsertPSReassurance . "(1, '/PrestaShop/modules/blockreassurance/views/img/reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
-$sql[] = $sqlInsertPSReassurance . "(2, '/PrestaShop/modules/blockreassurance/views/img/reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
-$sql[] = $sqlInsertPSReassurance . "(3, '/PrestaShop/modules/blockreassurance/views/img/reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
+$sql[] = $sqlInsertPSReassurance . "(1, '/modules/blockreassurance/views/img/reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
+$sql[] = $sqlInsertPSReassurance . "(2, '/modules/blockreassurance/views/img/reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
+$sql[] = $sqlInsertPSReassurance . "(3, '/modules/blockreassurance/views/img/reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
 
 $sqlInsertPSReassuranceLang = "INSERT INTO "._DB_PREFIX_."psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES ";
 foreach ($languages as $lang) {
