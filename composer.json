@@ -10,10 +10,34 @@
     }
   ],
   "require": {
-    "php": ">=5.3.2"
+    "php": ">=5.6.0",
+    "prestashop/circuit-breaker": "^3.0.0",
+    "doctrine/cache": "^1.6",
+    "symfony/css-selector": "^3.4.0",
+    "guzzlehttp/cache-subscriber": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:jolelievre/circuit-breaker.git"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "PrestaShop\\Module\\BlockReassurance\\": "src/"
+    },
+    "classmap": [
+      "blockreassurance.php",
+      "classes/ReassuranceActivity.php"
+    ],
+    "exclude-from-classmap": []
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "prepend-autoloader": false,
+    "platform": {
+      "php": "5.6"
+    }
   },
   "type": "prestashop-module"
 }

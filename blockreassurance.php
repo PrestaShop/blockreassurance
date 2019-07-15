@@ -1,361 +1,414 @@
 <?php
-/*
-* 2007-2016 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2016 PrestaShop SA
+/**
+ * 2007-2019 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author PrestaShop SA <contact@prestashop.com>
+ * @copyright  2007-2019 PrestaShop SA
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
+ */
 
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*/
-
-if (!defined('_CAN_LOAD_FILES_')) {
+if (!defined('_PS_VERSION_')) {
     exit;
 }
 
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
-include_once _PS_MODULE_DIR_.'blockreassurance/reassuranceClass.php';
-
-class Blockreassurance extends Module implements WidgetInterface
+class blockreassurance extends Module implements WidgetInterface
 {
+    const POSITION_BELOW_HEADER = '1';
+    const POSITION_ABOVE_HEADER = '2';
+
+    /** @var string */
+    public $name;
+    /** @var string */
+    public $version;
+    /** @var string */
+    public $author;
+
+    /** @var bool */
+    public $need_instance;
+    /** @var string */
+    public $module_key;
+    /** @var string */
+    public $author_address;
+
+    /** @var string */
+    public $controller_name;
+    /** @var bool */
+    public $bootstrap;
+    /** @var string */
+    public $displayName;
+    /** @var string */
+    public $description;
+
+    /** @var string */
+    public $js_path;
+    /** @var string */
+    public $css_path;
+    /** @var string */
+    public $img_path;
+    /** @var string */
+    public $old_path_img;
+    /** @var string */
+    public $img_path_perso;
+    /** @var string */
+    public $lib_path;
+    /** @var string */
+    public $docs_path;
+    /** @var string */
+    public $logo_path;
+    /** @var string */
+    public $module_path;
+
+    /** @var string Text to display when ask for confirmation on uninstall action */
+    public $confirmUninstall;
+
+    /** @var string */
+    public $ps_url;
+
+    /** @var string */
+    public $folder_file_upload;
+
+    /** @var string */
     private $templateFile;
 
     public function __construct()
     {
+        // Settings
         $this->name = 'blockreassurance';
+        $this->tab = 'seo';
+        $this->version = '4.0.0';
         $this->author = 'PrestaShop';
-        $this->version = '3.0.1';
+        $this->need_instance = 0;
+        $this->module_key = '938b96386d4d79aa7cb891439cb0ef11';
+        $this->author_address = '0x64aa3c1e4034d07015f639b0e171b0d7b27d01aa';
 
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->trans('Customer reassurance', array(), 'Modules.Blockreassurance.Admin');
-        $this->description = $this->trans('Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.', array(), 'Modules.Blockreassurance.Admin');
+        $this->displayName = $this->trans('blockreassurance', array(), 'Modules.Blockreassurance.Admin');
+        $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', array(), 'Modules.Blockreassurance.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.7.2.0', 'max' => _PS_VERSION_);
+        // Settings paths
+        $this->js_path = $this->_path . 'views/js/';
+        $this->css_path = $this->_path . 'views/css/';
+        $this->img_path = $this->_path . 'views/img/';
+        $this->old_path_img = $this->_path . 'img/';
+        $this->img_path_perso = $this->img_path . 'img_perso';
+        $this->lib_path = $this->_path . 'views/lib/';
+        $this->docs_path = $this->_path . 'docs/';
+        $this->logo_path = $this->_path . 'logo.png';
+        $this->module_path = $this->_path;
+        $this->folder_file_upload = _PS_MODULE_DIR_ . $this->name . '/views/img/img_perso/';
 
+        // Confirm uninstall
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', array(), 'Modules.Blockreassurance.Admin');
+        $this->ps_url = $this->context->link->getBaseLink();
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
+    /**
+     * install pre-config
+     *
+     * @return bool
+     */
     public function install()
     {
-        return parent::install()
-            && $this->installDB()
-            && Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', 5)
-            && $this->installFixtures()
-            && $this->registerHook('displayOrderConfirmation2')
-            && $this->registerHook('actionUpdateLangAfter')
-        ;
+        Configuration::updateValue('PSR_HOOK_HEADER', '0');
+        Configuration::updateValue('PSR_HOOK_FOOTER', '0');
+        Configuration::updateValue('PSR_HOOK_PRODUCT', '1');
+        Configuration::updateValue('PSR_HOOK_CHECKOUT', '1');
+        Configuration::updateValue('PSR_ICON_COLOR', '#F19D76');
+        Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
+
+        $languages = Language::getLanguages(false);
+        include_once(dirname(__FILE__) . '/sql/install.php');
+
+        // register hook used by the module
+        if (parent::install() &&
+            $this->registerHook('displayAfterBodyOpeningTag') &&
+            $this->registerHook('displayNavFullWidth') &&
+            $this->registerHook('displayFooterAfter') &&
+            $this->registerHook('displayFooterBefore') &&
+            $this->registerHook('displayReassurance') &&
+            $this->registerHook('actionFrontControllerSetMedia')
+        ) {
+            return true;
+        }
+
+        $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website.', array(), 'Modules.Blockreassurance.Admin');
+
+        return false;
     }
 
-    public function installDB()
-    {
-        $return = true;
-        $return &= Db::getInstance()->execute('
-            CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'reassurance` (
-                `id_reassurance` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                `id_shop` int(10) unsigned NOT NULL ,
-                `file_name` VARCHAR(100) NOT NULL,
-                PRIMARY KEY (`id_reassurance`)
-            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
-
-        $return &= Db::getInstance()->execute('
-            CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'reassurance_lang` (
-                `id_reassurance` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                `id_lang` int(10) unsigned NOT NULL ,
-                `text` VARCHAR(300) NOT NULL,
-                PRIMARY KEY (`id_reassurance`, `id_lang`)
-            ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
-
-        return $return;
-    }
-
+    /**
+     * Uninstall module configuration
+     *
+     * @return bool
+     */
     public function uninstall()
     {
-        return Configuration::deleteByName('BLOCKREASSURANCE_NBBLOCKS') &&
-            $this->uninstallDB() &&
-            parent::uninstall();
-    }
+        include_once(dirname(__FILE__) . '/sql/uninstall.php');
 
-    public function uninstallDB()
-    {
-        return Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance`') && Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'reassurance_lang`');
-    }
+        Configuration::deleteByName('PSR_HOOK_HEADER');
+        Configuration::deleteByName('PSR_HOOK_FOOTER');
+        Configuration::deleteByName('PSR_HOOK_PRODUCT');
+        Configuration::deleteByName('PSR_HOOK_CHECKOUT');
+        Configuration::deleteByName('PSR_ICON_COLOR');
+        Configuration::deleteByName('PSR_TEXT_COLOR');
 
-    public function addToDB()
-    {
-        if (isset($_POST['nbblocks'])) {
-            for ($i = 1; $i <= (int)$_POST['nbblocks']; $i++) {
-                $filename = explode('.', $_FILES['info'.$i.'_file']['name']);
-                if (isset($_FILES['info'.$i.'_file']) && isset($_FILES['info'.$i.'_file']['tmp_name']) && !empty($_FILES['info'.$i.'_file']['tmp_name'])) {
-                    if ($error = ImageManager::validateUpload($_FILES['info'.$i.'_file'])) {
-                        return false;
-                    } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['info'.$i.'_file']['tmp_name'], $tmpName)) {
-                        return false;
-                    } elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/'.$filename[0].'.jpg')) {
-                        return false;
-                    }
-                    unlink($tmpName);
-                }
-                Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'reassurance` (`filename`,`text`)
-                                            VALUES ("'.((isset($filename[0]) && $filename[0] != '') ? pSQL($filename[0]) : '').
-                    '", "'.((isset($_POST['info'.$i.'_text']) && $_POST['info'.$i.'_text'] != '') ? pSQL($_POST['info'.$i.'_text']) : '').'")');
-            }
+        if (parent::uninstall()) {
             return true;
-        } else {
-            return false;
         }
+
+        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please contact us through Addons website.', array(), 'Modules.Blockreassurance.Admin');
+
+        return false;
     }
 
-    public function removeFromDB()
+    /**
+     * load dependencies
+     */
+    public function loadAsset()
     {
-        $dir = opendir(dirname(__FILE__).'/img');
-        while (false !== ($file = readdir($dir))) {
-            $path = dirname(__FILE__).'/img/'.$file;
-            if ($file != '..' && $file != '.' && !is_dir($file)) {
-                unlink($path);
-            }
-        }
-        closedir($dir);
+        $this->addJsDefList();
 
-        return Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'reassurance`');
+        $cssAssets = [
+            $this->lib_path . 'pickr/css/pickr.min.css',
+            $this->lib_path . 'pickr/css/pickr-override.css',
+            $this->css_path . '/templates/display.css',
+            $this->css_path . '/templates/config.css',
+            $this->css_path . '/templates/listing.css',
+            $this->css_path . '/templates/reassurance_block.css',
+            $this->css_path . '/templates/appearance.css',
+            $this->css_path . 'style.css',
+            $this->css_path . 'faq.css',
+            $this->css_path . 'menu.css',
+            $this->css_path . 'addons-suggestion.css',
+            '//fonts.googleapis.com/icon?family=Material+Icons',
+        ];
+
+        $javascriptAssets = [
+            $this->lib_path . '/pickr/js/pickr.js',
+            $this->js_path . '/appearance/colorpicker.js',
+            $this->js_path . 'back.js',
+            $this->js_path . 'svg-utils.js',
+            $this->js_path . 'menu.js',
+            $this->js_path . 'vue.min.js',
+        ];
+
+        $this->context->controller->addCSS($cssAssets, 'all');
+        $this->context->controller->addJS($javascriptAssets);
+        $this->context->controller->addJqueryPlugin('colorpicker');
+        $this->context->controller->addJqueryUI('ui.sortable');
     }
 
-    public function hookActionUpdateLangAfter($params)
+    /**
+     * Check if folder img_perso is writable and executable
+     *
+     * @return bool
+     */
+    private function folderUploadFilesHasGoodRights()
     {
-        if (!empty($params['lang']) && $params['lang'] instanceOf Language) {
-            include_once _PS_MODULE_DIR_ . $this->name . '/lang/ReassuranceLang.php';
-
-            Language::updateMultilangFromClass(_DB_PREFIX_ . 'reassurance_lang', 'ReassuranceLang', $params['lang']);
-        }
+        return is_writable($this->folder_file_upload)
+            && is_executable($this->folder_file_upload);
     }
 
+    /**
+     * @return string
+     * @throws PrestaShopException
+     */
     public function getContent()
     {
-        $html = '';
-        $id_reassurance = (int)Tools::getValue('id_reassurance');
+        $this->loadAsset();
 
-        if (Tools::isSubmit('saveblockreassurance')) {
-            if ($id_reassurance = Tools::getValue('id_reassurance')) {
-                $reassurance = new reassuranceClass((int)$id_reassurance);
-            } else {
-                $reassurance = new reassuranceClass();
-            }
+        $parsedUrl = parse_url('/en/517-blocks-tabs-banners');
 
-            $reassurance->copyFromPost();
-            $reassurance->id_shop = $this->context->shop->id;
-
-            if ($reassurance->validateFields(false) && $reassurance->validateFieldsLang(false)) {
-                $reassurance->save();
-
-                if (isset($_FILES['image']) && isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
-                    if ($error = ImageManager::validateUpload($_FILES['image'])) {
-                        return false;
-                    } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['image']['tmp_name'], $tmpName)) {
-                        return false;
-                    } elseif (!ImageManager::resize($tmpName, dirname(__FILE__).'/img/reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg')) {
-                        return false;
-                    }
-
-                    unlink($tmpName);
-                    $reassurance->file_name = 'reassurance-'.(int)$reassurance->id.'-'.(int)$reassurance->id_shop.'.jpg';
-                    $reassurance->save();
-                }
-                $this->_clearCache('*');
-            } else {
-                $html .= '<div class="conf error">'.$this->trans('An error occurred while attempting to save.', array(), 'Admin.Notifications.Error').'</div>';
-            }
+        $parameters = [];
+        if (!empty($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $parameters);
         }
 
-        if (Tools::isSubmit('updateblockreassurance') || Tools::isSubmit('addblockreassurance')) {
-            $helper = $this->initForm();
-            foreach (Language::getLanguages(false) as $lang) {
-                if ($id_reassurance) {
-                    $reassurance = new reassuranceClass((int)$id_reassurance);
-                    $helper->fields_value['text'][(int)$lang['id_lang']] = $reassurance->text[(int)$lang['id_lang']];
-                    $image = dirname(__FILE__).DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$reassurance->file_name;
-                    $this->fields_form[0]['form']['input'][0]['image'] = '<img src="'.$this->getImageURL($reassurance->file_name).'" />';
-                } else {
-                    $helper->fields_value['text'][(int)$lang['id_lang']] = Tools::getValue('text_'.(int)$lang['id_lang'], '');
-                }
-            }
-            if ($id_reassurance = Tools::getValue('id_reassurance')) {
-                $this->fields_form[0]['form']['input'][] = array('type' => 'hidden', 'name' => 'id_reassurance');
-                $helper->fields_value['id_reassurance'] = (int)$id_reassurance;
-            }
-
-            return $html.$helper->generateForm($this->fields_form);
-        } elseif (Tools::isSubmit('deleteblockreassurance')) {
-            $reassurance = new reassuranceClass((int)$id_reassurance);
-            if (file_exists(dirname(__FILE__).'/img/'.$reassurance->file_name)) {
-                unlink(dirname(__FILE__).'/img/'.$reassurance->file_name);
-            }
-            $reassurance->delete();
-            $this->_clearCache('*');
-            Tools::redirectAdmin(AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'));
-        } else {
-            $content = $this->getListContent((int)Configuration::get('PS_LANG_DEFAULT'));
-            $helper = $this->initList();
-            $helper->listTotal = count($content);
-            return $html.$helper->generateList($content, $this->fields_list);
-        }
-
-        if (isset($_POST['submitModule'])) {
-            Configuration::updateValue('BLOCKREASSURANCE_NBBLOCKS', ((isset($_POST['nbblocks']) && $_POST['nbblocks'] != '') ? (int)$_POST['nbblocks'] : ''));
-            if ($this->removeFromDB() && $this->addToDB()) {
-                $this->_clearCache('blockreassurance.tpl');
-                $output = '<div class="conf confirm">'.$this->trans('The block configuration has been updated.', array(), 'Modules.Blockreassurance.Admin').'</div>';
-            } else {
-                $output = '<div class="conf error"><img src="../img/admin/disabled.gif"/>'.$this->trans('An error occurred while attempting to save.', array(), 'Admin.Notifications.Error').'</div>';
-            }
-        }
-    }
-
-    protected function getListContent($id_lang)
-    {
-        return  Db::getInstance()->executeS('
-            SELECT r.`id_reassurance`, r.`id_shop`, r.`file_name`, rl.`text`
-            FROM `'._DB_PREFIX_.'reassurance` r
-            LEFT JOIN `'._DB_PREFIX_.'reassurance_lang` rl ON (r.`id_reassurance` = rl.`id_reassurance`)
-            WHERE `id_lang` = '.(int)$id_lang.' '.Shop::addSqlRestrictionOnLang());
-    }
-
-    protected function initForm()
-    {
-        $default_lang = (int)Configuration::get('PS_LANG_DEFAULT');
-
-        $this->fields_form[0]['form'] = array(
-            'legend' => array(
-                'title' => $this->trans('New reassurance block', array(), 'Modules.Blockreassurance.Admin'),
-            ),
-            'input' => array(
-                array(
-                    'type' => 'file',
-                    'label' => $this->trans('Image', array(), 'Admin.Global'),
-                    'name' => 'image',
-                    'value' => true,
-                    'display_image' => true,
-                ),
-                array(
-                    'type' => 'textarea',
-                    'label' => $this->trans('Text', array(), 'Admin.Global'),
-                    'lang' => true,
-                    'name' => 'text',
-                    'cols' => 40,
-                    'rows' => 10
-                )
-            ),
-            'submit' => array(
-                'title' => $this->trans('Save', array(), 'Admin.Actions'),
-            )
+        $parameters['utm_source'] = 'back-office';
+        $parameters['utm_medium'] = 'modules';
+        $parameters['utm_campaign'] = 'back-office-' . strtoupper($this->context->language->iso_code);
+        $link = 'https://addons.prestashop.com' . $parsedUrl['path'] . '?' . http_build_query($parameters);
+        $categoryFetcher = array(
+            'name' => 'Blocks, Tabs and Banners',
+            'link' => $link,
+            'description' => 'With these modules, you can personalize your e-commerce website by adding reassurance blocks (free delivery, satisfaction guaranteed or your money back, etc.), illustrating your categories with visuals on your homepage or adding advertising banners to your PrestaShop store.',
         );
 
-        $helper = new HelperForm();
-        $helper->module = $this;
-        $helper->name_controller = 'blockreassurance';
-        $helper->identifier = $this->identifier;
-        $helper->token = Tools::getAdminTokenLite('AdminModules');
-        foreach (Language::getLanguages(false) as $lang) {
-            $helper->languages[] = array(
-                'id_lang' => $lang['id_lang'],
-                'iso_code' => $lang['iso_code'],
-                'name' => $lang['name'],
-                'is_default' => ($default_lang == $lang['id_lang'] ? 1 : 0)
-            );
+        $id_lang = $this->context->language->id;
+
+        $currentPage = 'global';
+        $getPage = Tools::getValue('page');
+        if (!empty($getPage)) {
+            $currentPage = $getPage;
         }
 
-        $helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
-        $helper->default_form_language = $default_lang;
-        $helper->allow_employee_form_lang = $default_lang;
-        $helper->toolbar_scroll = true;
-        $helper->title = $this->displayName;
-        $helper->submit_action = 'saveblockreassurance';
-        $helper->toolbar_btn =  array(
-            'save' =>
-            array(
-                'desc' => $this->trans('Save', array(), 'Admin.Actions'),
-                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&save'.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
-            ),
-            'back' =>
-            array(
-                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
-                'desc' => $this->trans('Back to list', array(), 'Admin.Actions'),
-            )
-        );
-        return $helper;
+        $moduleAdminLink = Context::getContext()->link->getAdminLink('AdminModules', true) . '&configure=' . $this->name . '&module_name=' . $this->name;
+
+        $allCms = CMS::listCms($id_lang);
+
+        $this->context->smarty->assign(array(
+            'addons_category' => $categoryFetcher,
+            'psr_hook_header' => Configuration::get('PSR_HOOK_HEADER'),
+            'psr_hook_footer' => Configuration::get('PSR_HOOK_FOOTER'),
+            'psr_hook_product' => Configuration::get('PSR_HOOK_PRODUCT'),
+            'psr_hook_checkout' => Configuration::get('PSR_HOOK_CHECKOUT'),
+            'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
+            'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
+            'logo_path' => $this->logo_path,
+            'languages' => Language::getLanguages(),
+            'allblock' => ReassuranceActivity::getAllBlockByLang($id_lang, $this->context->shop->id),
+            'allblockByShop' => ReassuranceActivity::getAllBlockByShop(),
+            'currentPage' => $currentPage,
+            'moduleAdminLink' => $moduleAdminLink,
+            'img_path' => $this->img_path,
+            'allCms' => $allCms,
+            'defaultFormLanguage' => (int)$this->context->employee->id_lang,
+            'img_url' => $this->img_path,
+            'old_img_url' => $this->old_path_img,
+            'folderIsWritable' => $this->folderUploadFilesHasGoodRights(),
+            'folderPath' => $this->img_path_perso,
+            // constants
+            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+        ));
+
+        return $this->display(__FILE__, 'views/templates/admin/configure.tpl');
     }
 
-    protected function initList()
+    /**
+     * @param array $params
+     *
+     * @return string
+     */
+    public function hookdisplayAfterBodyOpeningTag($params)
     {
-        $this->fields_list = array(
-            'id_reassurance' => array(
-                'title' => $this->trans('ID', array(), 'Admin.Global'),
-                'width' => 120,
-                'type' => 'text',
-                'search' => false,
-                'orderby' => false
-            ),
-            'text' => array(
-                'title' => $this->trans('Text', array(), 'Admin.Global'),
-                'width' => 140,
-                'type' => 'text',
-                'search' => false,
-                'orderby' => false
-            ),
-        );
+        $enable = Configuration::get('PSR_HOOK_HEADER');
 
-        if (Shop::isFeatureActive()) {
-            $this->fields_list['id_shop'] = array(
-                'title' => $this->trans('ID Shop', array(), 'Modules.Blockreassurance.Admin'),
-                'align' => 'center',
-                'width' => 25,
-                'type' => 'int'
-            );
+        if ($enable !== self::POSITION_ABOVE_HEADER) {
+            return '';
         }
 
-        $helper = new HelperList();
-        $helper->shopLinkType = '';
-        $helper->simple_header = false;
-        $helper->identifier = 'id_reassurance';
-        $helper->actions = array('edit', 'delete');
-        $helper->show_toolbar = true;
-        $helper->imageType = 'jpg';
-        $helper->toolbar_btn['new'] =  array(
-            'href' => AdminController::$currentIndex.'&configure='.$this->name.'&add'.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules'),
-            'desc' => $this->trans('Add new', array(), 'Admin.Actions')
+        return $this->renderTemplateInHook('displayBlock.tpl');
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return string
+     */
+    public function hookdisplayNavFullWidth($params)
+    {
+        $enable = Configuration::get('PSR_HOOK_HEADER');
+
+        if ($enable !== self::POSITION_BELOW_HEADER) {
+            return '';
+        }
+
+        return $this->renderTemplateInHook('displayBlock.tpl');
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return string
+     */
+    public function hookdisplayFooterAfter($params)
+    {
+        $enable = Configuration::get('PSR_HOOK_FOOTER');
+
+        if ($enable !== self::POSITION_BELOW_HEADER) {
+            return '';
+        }
+
+        return $this->renderTemplateInHook('displayBlockWhite.tpl');
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return string
+     */
+    public function hookdisplayFooterBefore($params)
+    {
+        $enable = Configuration::get('PSR_HOOK_FOOTER');
+
+        if ($enable !== self::POSITION_ABOVE_HEADER) {
+            return '';
+        }
+
+        return $this->renderTemplateInHook('displayBlockWhite.tpl');
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return string
+     */
+    public function hookdisplayReassurance($params)
+    {
+        $enableCheckout = Configuration::get('PSR_HOOK_CHECKOUT');
+        $enableProduct = Configuration::get('PSR_HOOK_PRODUCT');
+        $controller = Tools::getValue('controller');
+
+        if (!$this->shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)) {
+            return '';
+        }
+
+        return $this->renderTemplateInHook('displayBlockProduct.tpl');
+    }
+
+    public function hookActionFrontControllerSetMedia()
+    {
+        Media::addJsDef(array(
+            'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
+        ));
+
+        $this->context->controller->registerStylesheet(
+            'front-css',
+            'modules/' . $this->name . '/views/css/reassurance.css'
         );
 
-        $helper->title = $this->displayName;
-        $helper->table = $this->name;
-        $helper->token = Tools::getAdminTokenLite('AdminModules');
-        $helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
-        return $helper;
+        $this->context->controller->registerJavascript(
+            'svg',
+            'modules/' . $this->name . '/views/js/svg-utils.js'
+        );
     }
 
-    protected function _clearCache($template, $cacheId = null, $compileId = null)
-    {
-        parent::_clearCache($this->templateFile);
-    }
-
+    /**
+     * @param string $hookName
+     * @param array $configuration
+     *
+     * @return string
+     */
     public function renderWidget($hookName = null, array $configuration = [])
     {
+        if ($hookName === 'displayFooter') {
+            return '';
+        }
         if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }
@@ -363,42 +416,97 @@ class Blockreassurance extends Module implements WidgetInterface
         return $this->fetch($this->templateFile, $this->getCacheId('blockreassurance'));
     }
 
+    /**
+     * @param string $hookName
+     * @param array $configuration
+     *
+     * @return array
+     */
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
-        $elements = $this->getListContent($this->context->language->id);
-
-        foreach ($elements as &$element) {
-            $element['image'] = $this->getImageURL($element['file_name']);
-        }
-
-        return array(
-            'elements' => $elements,
-        );
-    }
-
-    public function installFixtures()
-    {
-        $return = true;
-        $tab_texts = array(
-            array('text' => $this->trans('Security policy (edit with Customer reassurance module)', array(), 'Modules.Blockreassurance.Shop'), 'file_name' => 'ic_verified_user_black_36dp_1x.png'),
-            array('text' => $this->trans('Delivery policy (edit with Customer reassurance module)', array(), 'Modules.Blockreassurance.Shop'), 'file_name' => 'ic_local_shipping_black_36dp_1x.png'),
-            array('text' => $this->trans('Return policy (edit with Customer reassurance module)', array(), 'Modules.Blockreassurance.Shop'), 'file_name' => 'ic_swap_horiz_black_36dp_1x.png'),
+        $blocks = ReassuranceActivity::getAllBlockByStatus(
+            $this->context->language->id,
+            $this->context->shop->id
         );
 
-        foreach ($tab_texts as $tab) {
-            $reassurance = new reassuranceClass();
-            foreach (Language::getLanguages(false) as $lang) {
-                $reassurance->text[$lang['id_lang']] = $tab['text'];
+        $elements = [];
+        foreach ($blocks as $key => $value) {
+            if (!empty($value['icone'])) {
+                $elements[$key]['image'] = $value['icone'];
+            } elseif (!empty($value['icone_perso'])) {
+                $elements[$key]['image'] = $value['icone_perso'];
+            } else {
+                $elements[$key]['image'] = '';
             }
-            $reassurance->file_name = $tab['file_name'];
-            $reassurance->id_shop = $this->context->shop->id;
-            $return &= $reassurance->save();
+
+            $elements[$key]['text'] = $value['title'] . ' ' . $value['description'];
         }
-        return $return;
+
+        return [
+            'elements' => $elements,
+        ];
     }
 
-    private function getImageURL($image)
+    /**
+     * Check if we can display the hook on product page or cart page.
+     * The HOOK must be active
+     *
+     * @param  int $enableCheckout
+     * @param  int $enableProduct
+     * @param  string $controller
+     *
+     * @return bool
+     */
+    private function shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)
     {
-        return $this->context->link->getMediaLink(__PS_BASE_URI__.'modules/'.$this->name.'/img/'.$image);
+        if ($enableProduct === '1' && $controller === 'product') {
+            return true;
+        }
+
+        if ($enableCheckout === '1' && $controller === 'cart') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Assign smarty variables and display the hook
+     *
+     * @param  string $template
+     *
+     * @return string
+     */
+    private function renderTemplateInHook($template)
+    {
+        $id_lang = $this->context->language->id;
+
+        $this->context->smarty->assign(array(
+            'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang, $this->context->shop->id),
+            'iconeColor' => Configuration::get('PSR_ICON_COLOR'),
+            'textColor' => Configuration::get('PSR_TEXT_COLOR'),
+            // constants
+            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+        ));
+
+        return $this->display(__FILE__, 'views/templates/hook/' . $template);
+    }
+
+    protected function addJsDefList()
+    {
+        Media::addJsDef(array(
+            'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
+            'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
+            'psr_controller_block_url' => $this->context->link->getAdminLink('AdminBlockListing'),
+            'psr_controller_block' => 'AdminBlockListing',
+
+            'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
+            'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
+            'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
+            'successPosition' => $this->trans('Position changed successfully!', array(), 'Modules.Blockreassurance.Admin'),
+            'errorPosition' => $this->trans('An error occurred when switching position', array(), 'Modules.Blockreassurance.Admin'),
+        ));
     }
 }
