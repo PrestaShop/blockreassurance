@@ -58,7 +58,6 @@ $(window).ready(function () {
         $img.replaceWith($svg);
 
         // set color of svg at load
-        // @todo: psr_icon_color is not set ?
         $('.block-reassurance-item svg path').css('fill', psr_icon_color);
 
         $('.block-reassurance-item svg')
