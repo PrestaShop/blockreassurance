@@ -29,12 +29,10 @@ if (!defined('_PS_VERSION_')) {
 }
 
 /**
- * This function updates your module from previous versions to the version 1.1,
- * useful when you modify your database, or register a new hook ...
- * Don't forget to create one file per version.
- *
  * @param $module
+ *
  * @return bool|string
+ *
  * @throws PrestaShopDatabaseException
  * @throws PrestaShopException
  */
@@ -70,8 +68,8 @@ function upgrade_module_4_0_0($module)
 
     $sql[] = ' CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'psreassurance` (
             `id_psreassurance` int(10) unsigned NOT NULL AUTO_INCREMENT,
-            `icone` varchar(255) NULL,
-            `icone_perso` varchar(255) NULL,
+            `icon` varchar(255) NULL,
+            `custom_icon` varchar(255) NULL,
             `status` int(10) unsigned NOT NULL,
             `position` int(10) unsigned NOT NULL,
             `id_shop` int(10) unsigned NOT NULL,
@@ -105,7 +103,7 @@ function upgrade_module_4_0_0($module)
      */
     if (!empty($reassurances)) {
         foreach ($reassurances as $reassurance) {
-            $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icone, icone_perso, status, position, id_shop, type_link, id_cms, date_add)
+            $sql[] = "INSERT INTO "._DB_PREFIX_."psreassurance (id_psreassurance, icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add)
                 VALUES (".$reassurance['id_reassurance'].", '".$module->old_path_img.$reassurance['file_name']."', null, 1, ".$reassurance['id_reassurance'].", ".$reassurance['id_shop'].", null, null, now())";
         }
     }
@@ -154,5 +152,6 @@ function upgrade_module_4_0_0($module)
     Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
     unset($module);
+
     return $result;
 }

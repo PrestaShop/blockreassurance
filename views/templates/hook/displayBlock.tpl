@@ -27,8 +27,8 @@
         <div class="reass-item" style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
                 {if ($block['type_link'] !== $LINK_TYPE_NONE) && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
             <div class="block-icon">
-                {if $block['icone'] != 'undefined'}
-                    <img class="svg" src="{if $block['icone']}{$block['icone']}{elseif $block['icone_perso']}{$block['icone_perso']}{/if}" />
+                {if $block['icon'] != 'undefined'}
+                    <img class="svg" src="{if $block['icon']}{$block['icon']}{elseif $block['custom_icon']}{$block['custom_icon']}{/if}" />
                 {/if}
             </div>
             <div class="block-title" style="color:{$textColor}">{$block['title']}</div>

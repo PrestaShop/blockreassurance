@@ -30,8 +30,8 @@
              style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
         >
             <span class="item-product">
-                {if $block['icone'] != 'undefined'}
-                    <img class="svg" src="{if $block['icone']}{$block['icone']}{elseif $block['icone_perso']}{$block['icone_perso']}{/if}">
+                {if $block['icon'] != 'undefined'}
+                    <img class="svg" src="{if $block['icon']}{$block['icon']}{elseif $block['custom_icon']}{$block['custom_icon']}{/if}">
                 {/if}&nbsp;
             </span>
             <span class="block-title" style="color:{$textColor};">{$block['title']}<span>

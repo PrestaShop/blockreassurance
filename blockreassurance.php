@@ -142,7 +142,6 @@ class blockreassurance extends Module implements WidgetInterface
         $languages = Language::getLanguages(false);
         include_once(dirname(__FILE__) . '/sql/install.php');
 
-        // register hook used by the module
         if (parent::install() &&
             $this->registerHook('displayAfterBodyOpeningTag') &&
             $this->registerHook('displayNavFullWidth') &&
@@ -431,10 +430,10 @@ class blockreassurance extends Module implements WidgetInterface
 
         $elements = [];
         foreach ($blocks as $key => $value) {
-            if (!empty($value['icone'])) {
-                $elements[$key]['image'] = $value['icone'];
-            } elseif (!empty($value['icone_perso'])) {
-                $elements[$key]['image'] = $value['icone_perso'];
+            if (!empty($value['icon'])) {
+                $elements[$key]['image'] = $value['icon'];
+            } elseif (!empty($value['custom_icon'])) {
+                $elements[$key]['image'] = $value['custom_icon'];
             } else {
                 $elements[$key]['image'] = '';
             }
@@ -483,7 +482,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->smarty->assign(array(
             'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang, $this->context->shop->id),
-            'iconeColor' => Configuration::get('PSR_ICON_COLOR'),
+            'iconColor' => Configuration::get('PSR_ICON_COLOR'),
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
             // constants
             'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,

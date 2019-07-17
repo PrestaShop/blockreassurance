@@ -34,7 +34,7 @@
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 first-block">
         <div class="psr_picto_showing input-group col-lg-4">
             <img class="psr-picto picto_by_module svg"
-                 src="{if $aBlock['icone']}{$aBlock['icone']}{elseif $aBlock['icone_perso']}{$aBlock['icone_perso']}{/if}"/>
+                 src="{if $aBlock['icon']}{$aBlock['icon']}{elseif $aBlock['custom_icon']}{$aBlock['custom_icon']}{/if}"/>
             <div>
                 <i class="material-icons landscape">landscape</i>
             </div>

@@ -31,8 +31,8 @@ class ReassuranceActivity extends ObjectModel
     const TYPE_LINK_URL = 2;
 
     public $id;
-    public $icone;
-    public $icone_perso;
+    public $icon;
+    public $custom_icon;
     public $title;
     public $description;
     public $status;
@@ -54,8 +54,8 @@ class ReassuranceActivity extends ObjectModel
         'multilang' => true,
         'multilang_shop' => true,
         'fields' => array(
-            'icone' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-            'icone_perso' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
+            'icon' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
+            'custom_icon' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
             'title' => array('type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
             'description' => array('type' => self::TYPE_HTML, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000),
             'status' => array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool', 'required' => true),

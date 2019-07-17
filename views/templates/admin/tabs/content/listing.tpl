@@ -47,9 +47,9 @@
                                     <i class="material-icons">drag_indicator</i>
                                 </div>
                                 <div class="col-lg-1 col-xs-1 resize">
-                                    {if $aBlock['icone'] != 'undefined'}
+                                    {if $aBlock['icon'] != 'undefined'}
                                         <img class="svg"
-                                             src="{if $aBlock['icone']}{$aBlock['icone']}{else if $aBlock['icone_perso']}{$aBlock['icone_perso']}{/if}"
+                                             src="{if $aBlock['icon']}{$aBlock['icon']}{else if $aBlock['custom_icon']}{$aBlock['custom_icon']}{/if}"
                                         />
                                     {else}
                                         {l s='none' mod='psreassurance'}
