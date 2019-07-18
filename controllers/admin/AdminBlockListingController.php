@@ -112,12 +112,10 @@ class AdminBlockListingController extends ModuleAdminController
 
         $blockPsr = new ReassuranceActivity($id_block);
         $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
-
         $blockPsr->icon = $picto;
         if (empty($picto)) {
             $blockPsr->custom_icon = '';
         }
-
         $blockPsr->date_add = date("Y-m-d H:i:s");
         $blockPsr->date_update = date("Y-m-d H:i:s");
 
@@ -134,12 +132,13 @@ class AdminBlockListingController extends ModuleAdminController
                 $blockPsr->icon = '';
             } else {
                 $errors[] = $validUpload;
-                $this->ajaxDie(json_encode($errors));
             }
         }
-        $blockPsr->update();
+        if (empty($errors)) {
+            $blockPsr->update();
+        }
 
-        $this->ajaxDie(json_encode('success'));
+        $this->ajaxRender(json_encode(empty($errors) ? 'success' : 'error'));
     }
 
     /**

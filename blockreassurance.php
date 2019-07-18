@@ -32,6 +32,7 @@ use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
 {
+    const POSITION_NONE = '0';
     const POSITION_BELOW_HEADER = '1';
     const POSITION_ABOVE_HEADER = '2';
 
@@ -132,10 +133,10 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function install()
     {
-        Configuration::updateValue('PSR_HOOK_HEADER', '0');
-        Configuration::updateValue('PSR_HOOK_FOOTER', '0');
-        Configuration::updateValue('PSR_HOOK_PRODUCT', '1');
-        Configuration::updateValue('PSR_HOOK_CHECKOUT', '1');
+        Configuration::updateValue('PSR_HOOK_HEADER', self::POSITION_NONE);
+        Configuration::updateValue('PSR_HOOK_FOOTER', self::POSITION_NONE);
+        Configuration::updateValue('PSR_HOOK_PRODUCT', self::POSITION_BELOW_HEADER);
+        Configuration::updateValue('PSR_HOOK_CHECKOUT', self::POSITION_BELOW_HEADER);
         Configuration::updateValue('PSR_ICON_COLOR', '#F19D76');
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 

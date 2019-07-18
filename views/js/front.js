@@ -29,22 +29,30 @@ $(window).ready(function () {
     var imgClass = $img.attr('class');
     var imgURL = $img.attr('src');
 
-    jQuery.get(imgURL, function (data) {
-      // Get the SVG tag, ignore the rest
-      var $svg = jQuery(data).find('svg');
-      // Add replaced image's ID to the new SVG
-      $svg = typeof imgID !== 'undefined' ? $svg.attr('id', imgID) : $svg;
-      // Add replaced image's classes to the new SVG
-      $svg = typeof imgClass !== 'undefined' ? $svg.attr('class', imgClass + ' replaced-svg') : $svg.attr('class', ' replaced-svg');
-      // Add URL in data
-      $svg = $svg.attr('data-img-url', imgURL);
-      // Remove any invalid XML tags as per http://validator.w3.org
-      $svg = $svg.removeAttr('xmlns:a');
-      // Set color defined in backoffice
-      $svg.find('path[fill]').attr('fill', psr_icon_color);
-      $svg.find('path:not([fill])').css('fill', psr_icon_color);
-      // Replace image with new SVG
-      $img.replaceWith($svg);
-    }, 'xml');
+    $.ajax({
+      url: imgURL,
+      type: 'GET',
+      success: function(data){
+        if ($.isXMLDoc(data)) {
+          // Get the SVG tag, ignore the rest
+          var $svg = jQuery(data).find('svg');
+          // Add replaced image's ID to the new SVG
+          $svg = typeof imgID !== 'undefined' ? $svg.attr('id', imgID) : $svg;
+          // Add replaced image's classes to the new SVG
+          $svg = typeof imgClass !== 'undefined' ? $svg.attr('class', imgClass + ' replaced-svg') : $svg.attr('class', ' replaced-svg');
+          $svg.removeClass('invisible');
+          // Add URL in data
+          $svg = $svg.attr('data-img-url', imgURL);
+          // Remove any invalid XML tags as per http://validator.w3.org
+          $svg = $svg.removeAttr('xmlns:a');
+          // Set color defined in backoffice
+          $svg.find('path[fill]').attr('fill', psr_icon_color);
+          $svg.find('path:not([fill])').css('fill', psr_icon_color);
+          // Replace image with new SVG
+          $img.replaceWith($svg);
+        }
+        $img.removeClass('invisible');
+      }
+    });
   });
 });
