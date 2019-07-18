@@ -139,7 +139,6 @@ class blockreassurance extends Module implements WidgetInterface
         Configuration::updateValue('PSR_ICON_COLOR', '#F19D76');
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
-        $languages = Language::getLanguages(false);
         include_once(dirname(__FILE__) . '/sql/install.php');
 
         if (parent::install() &&
@@ -206,12 +205,10 @@ class blockreassurance extends Module implements WidgetInterface
         ];
 
         $javascriptAssets = [
+            // Libraries
             $this->lib_path . '/pickr/js/pickr.js',
-            $this->js_path . '/appearance/colorpicker.js',
-            $this->js_path . 'back.js',
-            $this->js_path . 'svg-utils.js',
-            $this->js_path . 'menu.js',
             $this->js_path . 'vue.min.js',
+            $this->js_path . 'back.js',
         ];
 
         $this->context->controller->addCSS($cssAssets, 'all');
@@ -390,10 +387,9 @@ class blockreassurance extends Module implements WidgetInterface
             'front-css',
             'modules/' . $this->name . '/views/css/reassurance.css'
         );
-
         $this->context->controller->registerJavascript(
-            'svg',
-            'modules/' . $this->name . '/views/js/svg-utils.js'
+            'front-js',
+            'modules/' . $this->name . '/views/js/front.js'
         );
     }
 

@@ -23,343 +23,459 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 $(window).ready(function () {
-  $('.landscape').hide();
+    // Tab Content
+    var imgSelected;
+    // Tab Content : Change position
+    $('.listing-body').sortable({
+        update: function () {
+            var blocks = [];
+            $('.listing-general-rol').each(function () {
+                blocks.push($(this).attr('data-block'));
+            });
 
-  $(document).on('click', '.modify_icon', function () {
-    var id = $(this).data('id');
-    $('#show_icon_' + id).removeClass('inactive');
-    $('#show_icon_' + id).addClass('active');
-  });
+            $.ajax({
+                type: 'POST',
+                dataType: 'JSON',
+                url: psr_controller_block_url,
+                data: {
+                    ajax: true,
+                    action: 'UpdatePosition',
+                    blocks: blocks,
+                },
+                success: function (data) {
+                    if (data == 'success') {
+                        showSuccessMessage(successPosition);
+                    }  else {
+                        showErrorMessage(errorPosition);
+                    }
+                }
+            });
+        }
+    });
 
-  $(document).on('click', '.select-icon', (e) => {
-    var id = $(e.target).data('id');
-    $('#show_icon_' + id).removeClass('active');
-    $('#show_icon_' + id).addClass('inactive');
-    $('.show-rea-block.active .psr-picto').attr('data-image', $(e.target)[0]['innerHTML']);
-    $('.show-rea-block.active .psr-picto i').html($(e.target)[0]['innerHTML']);
-  });
+    // Tab Content : Set active/inactive
+    $(document).on('click', '.listing-row .switch-input', (e) => {
+        var switchIsOn = $(e.target).hasClass('-checked');
+        var status = switchIsOn ? 1 : 0;
 
-  function setEnabledPSR(psr, state) {
-    if (state) {
-      $('.psr-' + psr).removeClass('inactive').addClass('active');
-    } else {
-      $('.psr-' + psr).removeClass('active').addClass('inactive');
+        $(e.target).parent().find('.switch_text').hide();
+        if (switchIsOn) {
+            $('input', e.target).attr('checked', false);
+            $(e.target).removeClass('-checked');
+            $(e.target).parent().find('.switch-off').show();
+        } else {
+            $('input', e.target).attr('checked', true);
+            $(e.target).addClass('-checked');
+            $(e.target).parent().find('.switch-on').show();
+        }
+
+        $.ajax({
+            url: psr_controller_block_url,
+            type: 'POST',
+            dataType: 'JSON',
+            async: false,
+            data: {
+                controller: psr_controller_block,
+                action: 'changeBlockStatus',
+                idpsr: $(e.target).parent().attr('data-cart_psreassurance_id'),
+                status: status,
+                ajax: true,
+            },
+            success: (data) => {
+                if (data === 'success') {
+                    showNoticeMessage(block_updated);
+                } else {
+                    showErrorMessage(active_error);
+                }
+            }
+        });
+    });
+
+    // Tab Content : Edit
+    $(document).on('click', '.psre-edit', function () {
+        $('.landscape').hide();
+
+        $('#reminder_listing').removeClass('active').addClass('inactive');
+        $('#blockDisplay').removeClass('inactive').addClass('active');
+        $('.show-rea-block').removeClass('active').addClass('inactive');
+
+        var id = $(this).data('id');
+        $('.panel-body-' + id).removeClass('inactive').addClass('active');
+        $('#saveContentConfiguration').attr('data-id', id);
+
+        $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
+        $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
+
+        var landscape = $('.panel-body-' + id + ' .psr-picto').attr('src');
+        if (typeof landscape === 'undefined' || landscape === 'undefined') {
+            $('.psr-picto:visible').hide();
+            $('.svg_chosed_here:visible').hide();
+            $('.landscape').show();
+        }
+    });
+
+    // Tab Content : Edit : Language
+    $(document).on('change', 'select[name="psr-language"]', (e) => {
+        var lang = $(e.target).val();
+
+        $('.content_by_lang.lang-' + lang).addClass('active');
+        $('.content_by_lang').removeClass('active').addClass('inactive');
+        $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
+        $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
+    });
+
+    // Tab Content : Edit : Modify icon
+    $(document).on('click', '.modify_icon', (e) => {
+        let position = $(e.target).offset();
+        let offset = $(e.target).width();
+        let top = position.top / 2;
+        let left = position.left / 2 - offset;
+
+        $('#reassurance_block')
+            .show().css('top', top + 'px').css('left', left + 'px');
+    });
+
+    // Tab Content : Edit : Modify icon : Click outside
+    $(document).on('click', 'body', (e) => {
+        let isInside = $(e.target).closest('.modify_icon').length;
+        let isPopin = $(e.target).closest('#reassurance_block').length;
+
+        if (!isInside && !isPopin) {
+            $("#reassurance_block").fadeOut(300);
+        }
+    });
+
+    // Tab Content : Edit : Modify icon : Tabs
+    $(document).on('click', '#reassurance_block .category_select div i', (e) => {
+        var category = $(e.target).attr('data-id');
+        // Change the tab
+        $('#reassurance_block .category_select div').removeClass('active');
+        $(e.target).parent().addClass('active');
+        // Change the tab content
+        $('#reassurance_block .category_reassurance').removeClass('active');
+        $('#reassurance_block .cat_' + category).addClass('active');
+    });
+
+    // Tab Content : Edit : Select icon
+    $(document).on('click', '#reassurance_block .category_reassurance .svg', (e) => {
+        var svg = $(e.target)[0].outerHTML;
+
+        // Popin : select the icon
+        $('#reassurance_block .category_reassurance img.svg.selected').removeClass('selected');
+        $(e.target).addClass('selected');
+        // Hide the initial icon
+        $('.landscape').hide();
+        $('.psr-picto').hide();
+        // Show the image
+        $('.svg_chosed_here').show();
+        $('.svg_chosed_here:visible').html(svg);
+        // Popin : hide it
+        $('#reassurance_block').fadeOut(300);
+    });
+
+    // Tab Content : Edit : Select none
+    $(document).on('click', '#reassurance_block .select_none', (e) => {
+        var psrPicto = $('.psr-picto:visible');
+        psrPicto.attr('src', 'undefined').hide();
+
+        // Un-select icon in the popin
+        $('#reassurance_block .category_reassurance img.svg').removeClass('selected');
+        // Hide the icon seected
+        $('.svg_chosed_here:visible').hide();
+        // Display the landscape icon
+        $('.landscape').show();
+        // Hide the popin
+        $('#reassurance_block').fadeOut(300);
+    });
+
+    // Tab Content : Edit : Custom Icon
+    $(document).on('change', '.show-rea-block.active input[type="file"]', function (e) {
+        var files = $(this)[0].files;
+        // Change the label
+        var jqLabel = $(this).parents('.input-group').find('label.file_label');
+        var label = jqLabel.attr('data-label');
+        if (files.length === 1) {
+            label = files.length + ' file selected'
+        }
+        jqLabel.html(label);
+
+        // Preview the image
+        var idPreview = $(this).attr('data-preview');
+        if (files && files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var jqPreview = $('.' + idPreview);
+                if (jqPreview.hasClass('hide')) {
+                    jqPreview.removeClass('hide');
+                }
+                jqPreview.attr('src', e.target.result);
+                console.log(e.target.result)
+            };
+            reader.readAsDataURL(files[0]);
+
+            imgSelected = files[0];
+
+            // Hide the initial icon
+            $('.landscape').hide();
+            $('.psr-picto').hide();
+            $('.picto_by_module').hide();
+            // Show the image
+            $('.svg_chosed_here').show();
+        }
+    });
+
+    // Tab Content : Edit : MaxLength
+    $(document).on('keyup keydown', '.show-rea-block.active .content_by_lang input[type="text"], .show-rea-block.active .content_by_lang textarea', function () {
+        var maxLength = 100;
+        var val = $(this).val();
+        var valLength = val.length;
+        if (val.length > maxLength) {
+            $(this).val(val.substring(0, maxLength - 1));
+            valLength = $(this).val().length;
+        }
+        if ($(this).is('input:text')) {
+            $('.limit_text:visible').text(valLength);
+        } else {
+            $('.limit_description:visible').text(valLength);
+        }
+    });
+
+    // Tab Content : Edit : Return
+    $(document).on('click', '#blockDisplay .refreshPage', function () {
+        location.reload();
+    });
+
+    // Tab Content : Edit : Redirect
+    $(document).on('change', 'input[name="PSR_REDIRECTION_1"],input[name="PSR_REDIRECTION_2"],input[name="PSR_REDIRECTION_3"]', (e) => {
+        function setEnabledPSR(psr, state) {
+            if (state) {
+                $('.psr-' + psr).removeClass('inactive').addClass('active');
+            } else {
+                $('.psr-' + psr).removeClass('active').addClass('inactive');
+            }
+        }
+
+        switch ($(e.target).val()) {
+            case '0':
+                setEnabledPSR('cms', false);
+                setEnabledPSR('url', false);
+                break;
+            case '1':
+                setEnabledPSR('cms', true);
+                setEnabledPSR('url', false);
+                break;
+            case '2':
+                setEnabledPSR('cms', false);
+                setEnabledPSR('url', true);
+                break;
+        }
+    });
+
+    // Tab Content : Edit : Redirect : URL
+    $(document).on('keyup', '.block_url:visible', (e) => {
+        var url = $(e.target).val();
+        var pattern_for_url = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+        var pattern_for_http = /(http(s)?:\/\/)/g;
+
+        // If it is a real URL :
+        if (pattern_for_url.test(url)) {
+            $(e.target).css('background', '#fff');
+            if (!pattern_for_http.test(url)) {
+                $(e.target).val('http://' + url);
+            }
+        } else {
+            $(e.target).css('background', '#ffecec');
+        }
+    });
+
+    // Tab Content : Edit : Save
+    $(document).on('click', '#saveContentConfiguration', function () {
+        var dataToSave = {};
+        var blockId = $(this).attr('data-id');
+        var imgIcon = $('.psr_picto_showing:visible img.psr-picto');
+        var iconSrc = imgIcon.attr('src');
+        var iconReplaced = $('.svg_chosed_here img.svg').attr('src');
+        if (typeof iconReplaced !== 'undefined') {
+            iconSrc = iconReplaced;
+        }
+
+        $('.show-rea-block.active .content_by_lang').each(function (index, elem) {
+            var lang = $(elem).attr('data-lang');
+            var type = $(elem).attr('data-type');
+            if (!dataToSave.hasOwnProperty(lang)) {
+                dataToSave[lang] = {};
+            }
+            if (!dataToSave[lang].hasOwnProperty(type)) {
+                dataToSave[lang][type] = '';
+            }
+            if (type === 'description') {
+                dataToSave[lang][type] = $('textarea', elem).val();
+            } else if (typeof($('input', elem).val()) != 'undefined') {
+                dataToSave[lang][type] = $('input', elem).val();
+            }
+        });
+
+        var formData = new FormData();
+        formData.append('ajax', true);
+        formData.append('action', 'SaveBlockContent');
+        formData.append('file', imgSelected);
+        formData.append('id_block', blockId);
+        formData.append('lang_values', JSON.stringify(dataToSave));
+        formData.append('picto', iconSrc);
+        formData.append('typelink', $('input[name="PSR_REDIRECTION_' + blockId + '"]:checked').val());
+        formData.append('id_cms', $('select[name="ID_CMS_' + blockId + '"]').val());
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
+            url: psr_controller_block_url,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                showSuccessMessage(psre_success);
+                setTimeout(location.reload(), 1800);
+            }
+        });
+    });
+
+    // Tab Display
+    var vMenu = new Vue({
+        el: '#menu',
+        data: {
+            selectedTabName: currentPage,
+        },
+        methods: {
+            makeActive: function (item) {
+                this.selectedTabName = item;
+                window.history.pushState({}, '', moduleAdminLink.replace(/\amp;/g, '') + '&page=' + item);
+            },
+            isActive: function (item) {
+                if (this.selectedTabName !== item) {
+                    return false;
+                }
+                $('.psr_menu').addClass('addons-hide');
+                $('.psr_menu#' + item).removeClass('addons-hide');
+
+                return true;
+            }
+        }
+    });
+
+    // Tab Display : Save Position
+    $(document).on('change', 'input[name="PSR_HOOK_CHECKOUT"],input[name="PSR_HOOK_HEADER"],input[name="PSR_HOOK_FOOTER"],input[name="PSR_HOOK_PRODUCT"]', function () {
+        var selector = '';
+        switch ($(this).attr('name')) {
+            case 'PSR_HOOK_CHECKOUT':
+                selector = 'checkout';
+                break;
+            case 'PSR_HOOK_HEADER':
+                selector = 'header';
+                break;
+            case 'PSR_HOOK_FOOTER':
+                selector = 'footer';
+                break;
+            case 'PSR_HOOK_PRODUCT':
+                selector = 'product';
+                break;
+        }
+
+        $('.psr-' + selector + '-grey').addClass('active');
+        $('.psr-' + selector + '-color').removeClass('active');
+
+        $(this).nextAll('.psr-' + selector + '-grey').removeClass('active');
+        $(this).nextAll('.psr-' + selector + '-color').addClass('active');
+        savePositionByHook($(this).attr('name'), $(this).val());
+    });
+    function savePositionByHook(hook, value) {
+        $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
+            url: psr_controller_block_url,
+            data: {
+                ajax: true,
+                action: 'SavePositionByHook',
+                hook: hook,
+                value: value,
+            },
+            success: function (data) {
+                if (data === 'success') {
+                    showSuccessMessage(successPosition);
+                } else {
+                    showErrorMessage(errorPosition);
+                }
+            }
+        });
     }
-  }
 
-  $(document).on('change', 'input[name="PSR_REDIRECTION_1"],input[name="PSR_REDIRECTION_2"],input[name="PSR_REDIRECTION_3"]', (e) => {
-    if ($(e.target).val() == 0) {
-      setEnabledPSR('cms', false);
-      setEnabledPSR('url', false);
-    } else if ($(e.target).val() == 1) {
-      setEnabledPSR('cms', true);
-      setEnabledPSR('url', false);
-    } else if ($(e.target).val() == 2) {
-      setEnabledPSR('cms', false);
-      setEnabledPSR('url', true);
-    }
-  });
+    // Tab Appearance
+    var pickrComponents = {
+        // Main components
+        preview: true,
+        opacity: false,
+        hue: true,
 
-  $(document).on('click', '.psre-edit', function () {
-    $('#reminder_listing').removeClass('active');
-    $('#reminder_listing').addClass('inactive');
+        // Input / output Options
+        interaction: {
+            hex: false,
+            rgba: false,
+            hsla: false,
+            hsva: false,
+            cmyk: false,
+            input: true,
+            clear: false,
+            save: true
+        }
+    };
+    var pickr1 = Pickr.create({
+        el: '.ps_colorpicker1',
+        default: psr_icon_color,
+        defaultRepresentation: 'HEX',
+        closeWithKey: 'Escape',
+        adjustableNumbers: true,
+        components: pickrComponents
+    });
+    pickr1.on('change', (...args) => {
+        let pickrColor = pickr1.getColor();
+        let hexaColor = pickrColor.toHEX().toString();
+        $('.psr_icon_color').val(hexaColor);
+    });
 
-    $('#blockDisplay').removeClass('inactive');
-    $('#blockDisplay').addClass('active');
+    var pickr2 = Pickr.create({
+        el: '.ps_colorpicker2',
+        default: psr_text_color,
+        defaultRepresentation: 'HEX',
+        closeWithKey: 'Escape',
+        adjustableNumbers: true,
+        components: pickrComponents
+    });
+    pickr2.on('change', (...args) => {
+        let pickrColor = pickr2.getColor();
+        let hexaColor = pickrColor.toHEX().toString();
+        $('.psr_text_color').val(hexaColor);
+    });
 
-    $('.show-rea-block').removeClass('active');
-    $('.show-rea-block').addClass('inactive');
-    var id = $(this).data('id');
-    let landscape = $('.panel-body-' + id + ' .psr-picto').attr('data-img-url');
-    let landscape2 = $('.panel-body-' + id + ' .psr-picto').attr('src');
-    $('.panel-body-' + id).removeClass('inactive');
-    $('.panel-body-' + id).addClass('active');
-
-    $('#saveContentConfiguration').attr('data-id', id);
-
-    $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
-    $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
-
-    if (typeof landscape === 'undefined' && landscape2 === 'undefined') {
-      $('.psr-picto:visible').hide();
-      $('.svg_chosed_here:visible').hide();
-      $('.landscape').show();
-    }
-  });
-
-  $(document).on('change', 'select[name="psr-language"]', (e) => {
-    let lang = $(e.target).val();
-
-    $('.content_by_lang').removeClass('active');
-    $('.content_by_lang').addClass('inactive');
-    $('.content_by_lang.lang-' + lang).addClass('active');
-    $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
-    $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
-  });
-
-  $(document).on('click', '.refreshPage', function () {
-    location.reload();
-  });
-
-});
-
-/**
- *  Set block active or inactive
- */
-$(document).on('click', '.listing-row .switch-input', (e) => {
-  let status = 1;
-
-  let switchIsOn = $(e.target).hasClass('-checked');
-
-  $(e.target).parent().find('.switch_text').hide();
-
-  if (switchIsOn) {
-    $('input', e.target).attr('checked', false);
-    $(e.target).removeClass('-checked');
-    $(e.target).parent().find('.switch-off').show();
-  } else {
-    $('input', e.target).attr('checked', true);
-    $(e.target).addClass('-checked');
-    $(e.target).parent().find('.switch-on').show();
-  }
-
-  if ($(e.target).hasClass('-checked')) {
-    status = 0;
-    $(e.target).removeClass('-checked');
-  } else {
-    $(e.target).addClass('-checked');
-  }
-
-  $.ajax({
-    type: 'POST',
-    url: psr_controller_block_url,
-    dataType: 'html',
-    async: false,
-    data: {
-      controller: psr_controller_block,
-      action: 'changeBlockStatus',
-      idpsr: $(e.target).parent().attr('data-cart_psreassurance_id'),
-      status: status,
-      ajax: true,
-    },
-    success: (data) => {
-      $.growl.notice({
-        title: "",
-        size: "large",
-        message: block_updated
-      });
-    },
-    error: (data) => {
-      $.growl.error({
-        title: "",
-        size: "large",
-        message: active_error
-      });
-    }
-  });
-
-});
-
-/**
- *  Switch management
- */
-
-$(document).on('click', '.switch-input', (e) => {
-  let switchIsOn = $(e.target).hasClass('-checked');
-
-  $(e.target).parent().find('.switch_text').hide();
-
-  if (switchIsOn) {
-    $('input', e.target).attr('checked', false);
-    $(e.target).removeClass('-checked');
-    $(e.target).parent().find('.switch-off').show();
-  } else {
-    $('input', e.target).attr('checked', true);
-    $(e.target).addClass('-checked');
-    $(e.target).parent().find('.switch-on').show();
-  }
-})
-
-
-$(document).on('change', '.show-rea-block.active .slide_image', function (e) {
-  let input = this;
-  let id = $(this).attr('data-preview');
-
-  if (input.files && input.files[0]) {
-
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      if ($('.' + id).hasClass('hide')) {
-        $('.' + id).removeClass('hide');
-      }
-      $('.' + id).attr('src', e.target.result);
-    }
-
-    reader.readAsDataURL(input.files[0]);
-    $(".show-rea-block.active .slide_url").attr('value', input.files[0].name);
-    $('.psr-picto').show();
-    $('.picto_by_module').hide();
-  }
-});
-
-$(".show-rea-block.active .slide_url").each(function () {
-  var str = $(this).attr('value');
-  var delimiter = '/';
-  var split = str.split(delimiter);
-  var image_name = split[split.length - 1];
-  $(this).attr('value', image_name);
-});
-
-$(document).on('change', '.show-rea-block.active :file', function () {
-  var input = $(this),
-      numFiles = input.get(0).files ? input.get(0).files.length : 1,
-      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-  input.trigger('fileselect', [numFiles, label]);
-});
-
-$('.show-rea-block.active :file').on('fileselect', function (event, numFiles, label) {
-  var input = $(this).parents('.input-group').find(':text'),
-      log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-  if (input.length) {
-    input.val(log);
-  } else {
-    if (log) {
-      conole.log(log);
-    }
-  }
-});
-
-$(document).on('click', '.show-rea-block.active .select-none', function () {
-  $('.show-rea-block.active .psr-picto').attr('data-image', 'landscape');
-  $('.show-rea-block.active .psr-picto i').html('landscape');
-});
-
-
-/**
- * Close popin Reassurance if click outside
- */
-$(document).on('click', 'body', (e) => {
-  let isInside = $(e.target).closest('.modify_icon').length;
-  let isPopin = $(e.target).closest('#reassurance_block').length;
-
-  if (!isInside && !isPopin) {
-    $("#reassurance_block").fadeOut(300);
-  }
-});
-
-/**
- * Show popin Reassurance and move it into the right place
- */
-$(document).on('click', '.modify_icon', (e) => {
-  let position = $(e.target).offset();
-  let offset = $(e.target).width();
-  let top = position.top / 2;
-  let left = position.left / 2 - offset;
-
-  $('#reassurance_block').show();
-  $('#reassurance_block').css('top', top + 'px');
-  $('#reassurance_block').css('left', left + 'px');
-});
-
-/**
- * Reassurance Block select category
- */
-$(document).on('click', '#reassurance_block .category_select div i', (e) => {
-  let category = $(e.target).attr('data-id');
-
-  $('#reassurance_block .category_select div').removeClass('active');
-  $(e.target).parent().addClass('active');
-
-  $('#reassurance_block .category_reassurance').removeClass('active');
-  $('#reassurance_block .cat_' + category).addClass('active');
-});
-
-/**
- * Reassurance Block select picto
- */
-$(document).on('click', '#reassurance_block .category_reassurance .svg', (e) => {
-  let svg = $(e.target)[0].outerHTML;
-  let imgUrl = $(e.target).attr('src');
-
-
-  // Popin : select the icon
-  $('#reassurance_block .category_reassurance img.svg.selected').removeClass('selected');
-  $(e.target).addClass('selected');
-  // Hide the initial icon
-  $('.landscape').hide();
-  $('.psr-picto').hide();
-  // Show the image
-  $('.svg_chosed_here').show();
-  $('.svg_chosed_here:visible').html(svg);
-  // Popin : hide it
-  $('#reassurance_block').fadeOut(300);
-});
-
-/**
- *   Reassurance Block select none
- */
-$(document).on('click', '.select_none', (e) => {
-  $('#reassurance_block .category_reassurance svg').removeClass('selected');
-  $('.psr-picto:visible').attr('src', 'undefined');
-  $('.psr_picto_showing:visible svg.replaced-svg').attr('data-img-url', 'undefined');
-
-  $('.svg_chosed_here svg').attr('data-img-url', 'undefined');
-  $('.psr-picto:visible').hide();
-  $('.svg_chosed_here:visible').hide();
-  $('.landscape').show();
-  $('#reassurance_block').fadeOut(300);
-});
-
-/**
- * input text limitation
- */
-$(document).on('keydown', '.show-rea-block.active .content_by_lang input[type="text"]', function () {
-  maximum = 100;
-  var champ = $(this).val();
-  var indic = 0;
-
-  if (champ.length > maximum) {
-    $(this).val($(this).val().substring(0, maximum - 1));
-  } else {
-    indic = champ.length;
-  }
-
-  $('.limit_text:visible').text(indic);
-});
-
-/**
- * limiteur textarea text limitation
- */
-$(document).on('keydown', '.show-rea-block.active .content_by_lang textarea', function () {
-  maximum = 100;
-  var champ = $(this).val();
-  var indic = 0;
-
-  if (champ.length > maximum) {
-    $(this).val($(this).val().substring(0, maximum - 1));
-  } else {
-    indic = champ.length;
-  }
-  $('.limit_description:visible').text(indic);
-});
-
-/**
- * Add an http if it is missing from the URL
- */
-$(document).on('keyup', '.block_url:visible', (e) => {
-  let url = $(e.target).val();
-  let pattern_for_url = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-  let pattern_for_http = /(http(s)?:\/\/)/g
-
-  // If it is a real URL :
-  if (pattern_for_url.test(url)) {
-    $(e.target).css('background', '#fff');
-    if (!pattern_for_http.test(url)) {
-      $(e.target).val('http://' + url);
-    }
-  } else {
-    $(e.target).css('background', '#ffecec');
-  }
+    // Tab Appearance : Save Color
+    $(document).on('click', '#saveConfiguration', function () {
+        var color1 = $('#color_1').val();
+        var color2 = $('#color_2').val()
+        $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
+            url: psr_controller_block_url,
+            data: {
+                ajax: true,
+                action: 'SaveColor',
+                color1: color1,
+                color2: color2,
+            },
+            success: function (data) {
+                if (data === 'success') {
+                    showSuccessMessage(psre_success);
+                } else {
+                    showErrorMessage(active_error);
+                }
+            }
+        });
+    });
 });

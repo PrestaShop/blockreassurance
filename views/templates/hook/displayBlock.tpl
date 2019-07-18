@@ -28,7 +28,11 @@
                 {if ($block['type_link'] !== $LINK_TYPE_NONE) && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
             <div class="block-icon">
                 {if $block['icon'] != 'undefined'}
-                    <img class="svg" src="{if $block['icon']}{$block['icon']}{elseif $block['custom_icon']}{$block['custom_icon']}{/if}" />
+                    {if $block['icon']}
+                        <img class="svg" src="{$block['icon']}" style="display: none;">
+                    {elseif $block['custom_icon']}
+                        <img src="{$block['custom_icon']}">
+                    {/if}
                 {/if}
             </div>
             <div class="block-title" style="color:{$textColor}">{$block['title']}</div>

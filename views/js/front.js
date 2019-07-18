@@ -22,51 +22,29 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-
 $(window).ready(function () {
-  $(function () {
-    $('.block-reassurance-item img').each(function () {
-      const $img = jQuery(this);
-      const imgID = $img.attr('id');
-      const imgClass = $img.attr('class');
-      const imgURL = $img.attr('src');
+  $('.blockreas_product img.svg, .blockreas img.svg').each(function () {
+    var $img = jQuery(this);
+    var imgID = $img.attr('id');
+    var imgClass = $img.attr('class');
+    var imgURL = $img.attr('src');
 
-      jQuery.get(imgURL, function (data) {
-        // Get the SVG tag, ignore the rest
-        let $svg = jQuery(data).find('svg');
-
-        // Add replaced image's ID to the new SVG
-        if (typeof imgID !== 'undefined') {
-          $svg = $svg.attr('id', imgID);
-        }
-        // Add replaced image's classes to the new SVG
-        if (typeof imgClass !== 'undefined') {
-          $svg = $svg.attr('class', imgClass + ' replaced-svg');
-        }
-
-        $svg = $svg.attr('data-img-url', imgURL);
-
-        // Remove any invalid XML tags as per http://validator.w3.org
-        $svg = $svg.removeAttr('xmlns:a');
-
-        // Check if the viewport is set, else we gonna set it if we can.
-        if (!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
-          $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'));
-        }
-
-        // Replace image with new SVG
-        $img.replaceWith($svg);
-
-        // set color of svg at load
-        $('.block-reassurance-item svg path').css('fill', psr_icon_color);
-
-        $('.block-reassurance-item svg')
-            .attr('height', '30')
-            .attr('width', '30');
-
-        $('.svg').show();
-
-      }, 'xml');
-    });
+    jQuery.get(imgURL, function (data) {
+      // Get the SVG tag, ignore the rest
+      var $svg = jQuery(data).find('svg');
+      // Add replaced image's ID to the new SVG
+      $svg = typeof imgID !== 'undefined' ? $svg.attr('id', imgID) : $svg;
+      // Add replaced image's classes to the new SVG
+      $svg = typeof imgClass !== 'undefined' ? $svg.attr('class', imgClass + ' replaced-svg') : $svg.attr('class', ' replaced-svg');
+      // Add URL in data
+      $svg = $svg.attr('data-img-url', imgURL);
+      // Remove any invalid XML tags as per http://validator.w3.org
+      $svg = $svg.removeAttr('xmlns:a');
+      // Set color defined in backoffice
+      $svg.find('path[fill]').attr('fill', psr_icon_color);
+      $svg.find('path:not([fill])').css('fill', psr_icon_color);
+      // Replace image with new SVG
+      $img.replaceWith($svg);
+    }, 'xml');
   });
 });

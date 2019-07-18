@@ -39,24 +39,15 @@
                 <i class="material-icons landscape">landscape</i>
             </div>
             <div class="svg_chosed_here">
-                {if isset($slide)}
-                    <img class="image-preview-lang img-thumbnail" src="urlimage" alt="" width="24px" height="24px"/>
-                {else}
-                    <span class="psr-picto">
-                        <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
-                    </span>
-                {/if}
+                <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
             </div>
-            <span class="modify_icon"
-                  data-id="{$aBlock['id_psreassurance']}">{l s='Modify icon' mod='psreassurance'}</span>
+            <span class="modify_icon" data-id="{$aBlock['id_psreassurance']}">{l s='Modify icon' mod='psreassurance'}</span>
         </div>
         <div class="input-group upload_file_button">
-            <label class="file_label"
-                   for="file{$aBlock['id_psreassurance']}">{l s='or upload file' mod='psreassurance'}</label>
+            <label class="file_label" for="file{$aBlock['id_psreassurance']}" data-label="{l s='or upload file' mod='psreassurance'}">{l s='or upload file' mod='psreassurance'}</label>
             <label class="input-group-btn">
                 <span>
-                    <i class="icon-file"></i><input id="file{$aBlock['id_psreassurance']}" class="slide_image"
-                                                    data-preview="image-preview-lang" type="file" name="image-lang">
+                    <i class="icon-file"></i><input id="file{$aBlock['id_psreassurance']}" class="slide_image" data-preview="image-preview-lang" type="file" name="image-lang">
                 </span>
             </label>
         </div>
