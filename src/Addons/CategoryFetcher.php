@@ -75,10 +75,10 @@ class CategoryFetcher
     /** @var FactoryInterface */
     private $factory;
 
-    /** @var array */
+    /** @var FactorySettingsInterface */
     private $apiSettings;
 
-    /** @var array */
+    /** @var FactorySettingsInterface */
     private $platformSettings;
 
     /**

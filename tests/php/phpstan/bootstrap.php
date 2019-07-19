@@ -48,4 +48,3 @@ foreach ($constantsToDefine as $constant) {
         define($constant, 'DUMMY_VALUE');
     }
 }
-
