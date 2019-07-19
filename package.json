@@ -4,6 +4,9 @@
   "description": "## About",
   "private": true,
   "scripts": {
+    "lint": [
+      "php-cs-fixer fix --no-interaction --dry-run --diff"
+    ]
   },
   "repository": {
     "type": "git",
