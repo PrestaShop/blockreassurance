@@ -6,10 +6,6 @@ notifications:
 
 jobs:
   include:
-    - stage: "JS"
-      node_js: 8
-    - node_js: 9
-    - node_js: 10
     - stage: "PHP"
       name: "PHPStan on PS nightly and unit tests"
       language: php
@@ -21,7 +17,7 @@ jobs:
         # PHP cs fixer
         - composer run lint
         # PHP Unit
-        - composer run test
+        # - composer run test
         # PHP Stan
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:nightly
         - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
@@ -65,6 +61,3 @@ jobs:
         - composer install
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:1.7.1.2
         - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
-
-script:
-  - composer run-script lint
