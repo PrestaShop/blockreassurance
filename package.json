@@ -1,0 +1,23 @@
+{
+  "name": "blockreassurance",
+  "version": "1.0.0",
+  "description": "## About",
+  "private": true,
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrestaShop/blockreassurance.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "AFL",
+  "bugs": {
+    "url": "https://github.com/PrestaShop/PrestaShop/issues"
+  },
+  "homepage": "https://github.com/PrestaShop/blockreassurance#readme",
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
