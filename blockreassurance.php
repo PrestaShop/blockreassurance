@@ -23,7 +23,6 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -140,7 +139,7 @@ class blockreassurance extends Module implements WidgetInterface
         Configuration::updateValue('PSR_ICON_COLOR', '#F19D76');
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
-        include_once(dirname(__FILE__) . '/sql/install.php');
+        include_once dirname(__FILE__) . '/sql/install.php';
 
         if (parent::install() &&
             $this->registerHook('displayAfterBodyOpeningTag') &&
@@ -165,7 +164,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function uninstall()
     {
-        include_once(dirname(__FILE__) . '/sql/uninstall.php');
+        include_once dirname(__FILE__) . '/sql/uninstall.php';
 
         Configuration::deleteByName('PSR_HOOK_HEADER');
         Configuration::deleteByName('PSR_HOOK_FOOTER');
@@ -223,6 +222,7 @@ class blockreassurance extends Module implements WidgetInterface
 
     /**
      * @return string
+     *
      * @throws PrestaShopException
      */
     public function getContent()
@@ -274,7 +274,7 @@ class blockreassurance extends Module implements WidgetInterface
             'moduleAdminLink' => $moduleAdminLink,
             'img_path' => $this->img_path,
             'allCms' => $allCms,
-            'defaultFormLanguage' => (int)$this->context->employee->id_lang,
+            'defaultFormLanguage' => (int) $this->context->employee->id_lang,
             'img_url' => $this->img_path,
             'old_img_url' => $this->old_path_img,
             'folderIsWritable' => $this->folderUploadFilesHasGoodRights(),
@@ -380,9 +380,6 @@ class blockreassurance extends Module implements WidgetInterface
         return $this->renderTemplateInHook('displayBlockProduct.tpl');
     }
 
-    /**
-     *
-     */
     public function hookActionFrontControllerSetMedia()
     {
         Media::addJsDef(array(
@@ -456,9 +453,9 @@ class blockreassurance extends Module implements WidgetInterface
      * Check if we can display the hook on product page or cart page.
      * The HOOK must be active
      *
-     * @param  int $enableCheckout
-     * @param  int $enableProduct
-     * @param  string $controller
+     * @param int $enableCheckout
+     * @param int $enableProduct
+     * @param string $controller
      *
      * @return bool
      */
@@ -478,7 +475,7 @@ class blockreassurance extends Module implements WidgetInterface
     /**
      * Assign smarty variables and display the hook
      *
-     * @param  string $template
+     * @param string $template
      *
      * @return string
      *

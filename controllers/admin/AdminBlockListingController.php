@@ -23,7 +23,6 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 class AdminBlockListingController extends ModuleAdminController
 {
     /**
@@ -34,8 +33,8 @@ class AdminBlockListingController extends ModuleAdminController
     public function displayAjaxChangeBlockStatus()
     {
         $now = new DateTime();
-        $psreassuranceId = (int)Tools::getValue('idpsr');
-        $newStatus = ((int)Tools::getValue('status') == 1) ? 0 : 1;
+        $psreassuranceId = (int) Tools::getValue('idpsr');
+        $newStatus = ((int) Tools::getValue('status') == 1) ? 0 : 1;
 
         $dataToUpdate = [
             'status' => $newStatus,
@@ -62,10 +61,10 @@ class AdminBlockListingController extends ModuleAdminController
         $result = false;
 
         if (!empty($hook) && in_array($value, array(
-            blockreassurance::POSITION_NONE,
-            blockreassurance::POSITION_BELOW_HEADER,
-            blockreassurance::POSITION_ABOVE_HEADER,
-        ))) {
+                blockreassurance::POSITION_NONE,
+                blockreassurance::POSITION_BELOW_HEADER,
+                blockreassurance::POSITION_ABOVE_HEADER,
+            ))) {
             $result = Configuration::updateValue($hook, $value);
         }
 
@@ -106,9 +105,9 @@ class AdminBlockListingController extends ModuleAdminController
 
         $picto = Tools::getValue('picto');
         $id_block = Tools::getValue('id_block');
-        $type_link = (int)Tools::getValue('typelink');
+        $type_link = (int) Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
-        $psr_languages = (array)json_decode(Tools::getValue('lang_values'));
+        $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
 
         $blockPsr = new ReassuranceActivity($id_block);
         $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
@@ -116,8 +115,8 @@ class AdminBlockListingController extends ModuleAdminController
         if (empty($picto)) {
             $blockPsr->custom_icon = '';
         }
-        $blockPsr->date_add = date("Y-m-d H:i:s");
-        $blockPsr->date_update = date("Y-m-d H:i:s");
+        $blockPsr->date_add = date('Y-m-d H:i:s');
+        $blockPsr->date_update = date('Y-m-d H:i:s');
 
         if (isset($_FILES) && !empty($_FILES)) {
             $customImage = $_FILES['file'];
@@ -154,9 +153,9 @@ class AdminBlockListingController extends ModuleAdminController
                 // Set the position of the Reassurance block
                 $position = $key + 1;
 
-                $dataToUpdate = ['position' => (int)$position];
-                $whereCondition = 'id_psreassurance = ' . (int)$id_block;
-                $updateResult = (bool)Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
+                $dataToUpdate = ['position' => (int) $position];
+                $whereCondition = 'id_psreassurance = ' . (int) $id_block;
+                $updateResult = (bool) Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
 
                 // If the update can't be done, we return false
                 if (!$updateResult) {
