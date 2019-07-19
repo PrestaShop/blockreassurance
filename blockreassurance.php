@@ -191,18 +191,10 @@ class blockreassurance extends Module implements WidgetInterface
         $this->addJsDefList();
 
         $cssAssets = [
+            '//fonts.googleapis.com/icon?family=Material+Icons',
             $this->lib_path . 'pickr/css/pickr.min.css',
             $this->lib_path . 'pickr/css/pickr-override.css',
-            $this->css_path . '/templates/display.css',
-            $this->css_path . '/templates/config.css',
-            $this->css_path . '/templates/listing.css',
-            $this->css_path . '/templates/reassurance_block.css',
-            $this->css_path . '/templates/appearance.css',
-            $this->css_path . 'style.css',
-            $this->css_path . 'faq.css',
-            $this->css_path . 'menu.css',
-            $this->css_path . 'addons-suggestion.css',
-            '//fonts.googleapis.com/icon?family=Material+Icons',
+            $this->css_path . 'back.css',
         ];
 
         $javascriptAssets = [
@@ -300,6 +292,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayAfterBodyOpeningTag($params)
     {
@@ -316,6 +310,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayNavFullWidth($params)
     {
@@ -332,6 +328,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayFooterAfter($params)
     {
@@ -348,6 +346,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayFooterBefore($params)
     {
@@ -364,6 +364,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayReassurance($params)
     {
@@ -378,6 +380,9 @@ class blockreassurance extends Module implements WidgetInterface
         return $this->renderTemplateInHook('displayBlockProduct.tpl');
     }
 
+    /**
+     *
+     */
     public function hookActionFrontControllerSetMedia()
     {
         Media::addJsDef(array(
@@ -386,7 +391,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->controller->registerStylesheet(
             'front-css',
-            'modules/' . $this->name . '/views/css/reassurance.css'
+            'modules/' . $this->name . '/views/css/front.css'
         );
         $this->context->controller->registerJavascript(
             'front-js',
@@ -399,6 +404,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $configuration
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function renderWidget($hookName = null, array $configuration = [])
     {
@@ -417,6 +424,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $configuration
      *
      * @return array
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
@@ -472,6 +481,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param  string $template
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     private function renderTemplateInHook($template)
     {
@@ -490,6 +501,9 @@ class blockreassurance extends Module implements WidgetInterface
         return $this->display(__FILE__, 'views/templates/hook/' . $template);
     }
 
+    /**
+     * @throws PrestaShopException
+     */
     protected function addJsDefList()
     {
         Media::addJsDef(array(
