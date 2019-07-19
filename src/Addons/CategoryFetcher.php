@@ -27,17 +27,18 @@
 namespace PrestaShop\Module\BlockReassurance\Addons;
 
 use Doctrine\Common\Cache\FilesystemCache;
+use DOMDocument;
+use DOMNode;
+use DOMXPath;
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Subscriber\Cache\CacheStorage;
 use GuzzleHttp\Subscriber\Cache\CacheSubscriber;
 use PrestaShop\CircuitBreaker\AdvancedCircuitBreakerFactory;
 use PrestaShop\CircuitBreaker\Contract\FactoryInterface;
+use PrestaShop\CircuitBreaker\Contract\FactorySettingsInterface;
 use PrestaShop\CircuitBreaker\FactorySettings;
 use PrestaShop\CircuitBreaker\Storage\DoctrineCache;
 use Symfony\Component\CssSelector\CssSelectorConverter;
-use DOMDocument;
-use DOMXPath;
-use DOMNode;
 
 /**
  * Class CategoryFetcher helps you to fetch an Addon category data. It calls the Addons

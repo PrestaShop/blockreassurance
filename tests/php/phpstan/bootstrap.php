@@ -1,4 +1,5 @@
 <?php
+
 $rootDir = getenv('_PS_ROOT_DIR_');
 if (!$rootDir) {
     echo '[ERROR] Define _PS_ROOT_DIR_ with the path to PrestaShop folder' . PHP_EOL;
