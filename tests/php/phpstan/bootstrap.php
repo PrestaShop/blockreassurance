@@ -2,7 +2,7 @@
 
 if (!(php_sapi_name() === 'cli-server')) {
     header('HTTP/1.0 403 Forbidden');
-    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+    exit('You are not allowed to access this file. Check ' . basename(__FILE__) . ' for more information.');
 }
 
 $rootDir = getenv('_PS_ROOT_DIR_');
