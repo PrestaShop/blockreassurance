@@ -41,14 +41,12 @@ class blockreassurance extends Module implements WidgetInterface
     public $version;
     /** @var string */
     public $author;
-
     /** @var bool */
     public $need_instance;
     /** @var string */
     public $module_key;
     /** @var string */
     public $author_address;
-
     /** @var string */
     public $controller_name;
     /** @var bool */
@@ -57,7 +55,6 @@ class blockreassurance extends Module implements WidgetInterface
     public $displayName;
     /** @var string */
     public $description;
-
     /** @var string */
     public $js_path;
     /** @var string */
@@ -76,16 +73,12 @@ class blockreassurance extends Module implements WidgetInterface
     public $logo_path;
     /** @var string */
     public $module_path;
-
     /** @var string Text to display when ask for confirmation on uninstall action */
     public $confirmUninstall;
-
     /** @var string */
     public $ps_url;
-
     /** @var string */
     public $folder_file_upload;
-
     /** @var string */
     private $templateFile;
 
