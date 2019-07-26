@@ -24,10 +24,9 @@
  */
 $(window).ready(function () {
   $('.blockreas_product img.svg, .blockreas img.svg').each(function () {
-    var $img = jQuery(this);
-    var imgID = $img.attr('id');
-    var imgClass = $img.attr('class');
-    var imgURL = $img.attr('src');
+    var imgID = $(this).attr('id');
+    var imgClass = $(this).attr('class');
+    var imgURL = $(this).attr('src');
 
     $.ajax({
       url: imgURL,
@@ -35,7 +34,7 @@ $(window).ready(function () {
       success: function(data){
         if ($.isXMLDoc(data)) {
           // Get the SVG tag, ignore the rest
-          var $svg = jQuery(data).find('svg');
+          var $svg = $(data).find('svg');
           // Add replaced image's ID to the new SVG
           $svg = typeof imgID !== 'undefined' ? $svg.attr('id', imgID) : $svg;
           // Add replaced image's classes to the new SVG
@@ -49,9 +48,9 @@ $(window).ready(function () {
           $svg.find('path[fill]').attr('fill', psr_icon_color);
           $svg.find('path:not([fill])').css('fill', psr_icon_color);
           // Replace image with new SVG
-          $img.replaceWith($svg);
+          $(this).replaceWith($svg);
         }
-        $img.removeClass('invisible');
+        $(this).removeClass('invisible');
       }
     });
   });

@@ -26,6 +26,16 @@
 class AdminBlockListingController extends ModuleAdminController
 {
     /**
+     * @param $content
+     * @throws PrestaShopException
+     */
+    protected function ajaxRenderJson($content)
+    {
+        header('Content-Type: application/json');
+        $this->ajaxRender(json_encode($content));
+    }
+
+    /**
      * Enable or disable a block
      *
      * @throws PrestaShopException
@@ -45,8 +55,7 @@ class AdminBlockListingController extends ModuleAdminController
         $updateResult = Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
 
         // Response
-        header('Content-Type: application/json');
-        $this->ajaxRender(json_encode($updateResult ? 'success' : 'error'));
+        $this->ajaxRenderJson($updateResult ? 'success' : 'error');
     }
 
     /**
@@ -68,8 +77,8 @@ class AdminBlockListingController extends ModuleAdminController
             $result = Configuration::updateValue($hook, $value);
         }
 
-        header('Content-Type: application/json');
-        $this->ajaxRender(json_encode($result ? 'success' : 'error'));
+        // Response
+        $this->ajaxRenderJson($result ? 'success' : 'error');
     }
 
     /**
@@ -89,8 +98,7 @@ class AdminBlockListingController extends ModuleAdminController
         }
 
         // Response
-        header('Content-Type: application/json');
-        $this->ajaxRender(json_encode($result ? 'success' : 'error'));
+        $this->ajaxRenderJson($result ? 'success' : 'error');
     }
 
     /**
@@ -137,18 +145,21 @@ class AdminBlockListingController extends ModuleAdminController
             $blockPsr->update();
         }
 
-        $this->ajaxRender(json_encode(empty($errors) ? 'success' : 'error'));
+        // Response
+        $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
     }
 
     /**
      * Reorder the blocks positions
+     *
+     * @throws PrestaShopException
      */
     public function displayAjaxUpdatePosition()
     {
         $blocks = Tools::getValue('blocks');
         $result = false;
 
-        if (!empty($blocks)) {
+        if (!empty($blocks) && is_array($blocks)) {
             foreach ($blocks as $key => $id_block) {
                 // Set the position of the Reassurance block
                 $position = $key + 1;
@@ -165,6 +176,7 @@ class AdminBlockListingController extends ModuleAdminController
             $result = $updateResult ? true : false;
         }
 
-        $this->ajaxRender(json_encode($result ? 'success' : 'error'));
+        // Response
+        $this->ajaxRenderJson($result ? 'success' : 'error');
     }
 }

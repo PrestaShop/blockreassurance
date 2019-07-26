@@ -31,9 +31,9 @@ use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
 {
-    const POSITION_NONE = '0';
-    const POSITION_BELOW_HEADER = '1';
-    const POSITION_ABOVE_HEADER = '2';
+    const POSITION_NONE = 0;
+    const POSITION_BELOW_HEADER = 1;
+    const POSITION_ABOVE_HEADER = 2;
 
     /** @var string */
     public $name;

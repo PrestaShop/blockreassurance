@@ -20,7 +20,8 @@ jobs:
         # - composer run test
         # PHP Stan
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:nightly
-        - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
+        - docker exec -ti temp-ps rm -rf /var/www/html/modules/blockreassurance
+        - docker run --rm --volumes-from temp-ps -v $PWD:/var/www/html/modules/blockreassurance -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/var/www/html/modules/blockreassurance/tests/php/phpstan/phpstan.neon
     - stage: "PHP"
       name: "PHPStan on PS 1.7.5.2"
       language: php
@@ -28,7 +29,8 @@ jobs:
       script:
         - composer install
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:1.7.5.1
-        - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
+        - docker exec -ti temp-ps rm -rf /var/www/html/modules/blockreassurance
+        - docker run --rm --volumes-from temp-ps -v $PWD:/var/www/html/modules/blockreassurance -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/var/www/html/modules/blockreassurance/tests/php/phpstan/phpstan.neon
     - stage: "PHP"
       name: "PHPStan on PS 1.7.4.4"
       language: php
@@ -36,7 +38,8 @@ jobs:
       script:
         - composer install
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:1.7.4.4
-        - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
+        - docker exec -ti temp-ps rm -rf /var/www/html/modules/blockreassurance
+        - docker run --rm --volumes-from temp-ps -v $PWD:/var/www/html/modules/blockreassurance -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/var/www/html/modules/blockreassurance/tests/php/phpstan/phpstan.neon
     - stage: "PHP"
       name: "PHPStan on PS 1.7.3.4"
       language: php
@@ -44,7 +47,8 @@ jobs:
       script:
         - composer install
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:1.7.3.4
-        - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
+        - docker exec -ti temp-ps rm -rf /var/www/html/modules/blockreassurance
+        - docker run --rm --volumes-from temp-ps -v $PWD:/var/www/html/modules/blockreassurance -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/var/www/html/modules/blockreassurance/tests/php/phpstan/phpstan.neon
     - stage: "PHP"
       name: "PHPStan on PS 1.7.2.5"
       language: php
@@ -52,7 +56,8 @@ jobs:
       script:
         - composer install
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:1.7.2.5
-        - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
+        - docker exec -ti temp-ps rm -rf /var/www/html/modules/blockreassurance
+        - docker run --rm --volumes-from temp-ps -v $PWD:/var/www/html/modules/blockreassurance -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/var/www/html/modules/blockreassurance/tests/php/phpstan/phpstan.neon
     - stage: "PHP"
       name: "PHPStan on PS 1.7.1.2"
       language: php
@@ -60,4 +65,5 @@ jobs:
       script:
         - composer install
         - docker run -tid --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:1.7.1.2
-        - docker run --rm --volumes-from temp-ps -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/php/phpstan/phpstan.neon
+        - docker exec -ti temp-ps rm -rf /var/www/html/modules/blockreassurance
+        - docker run --rm --volumes-from temp-ps -v $PWD:/var/www/html/modules/blockreassurance -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/var/www/html/modules/blockreassurance/tests/php/phpstan/phpstan.neon
