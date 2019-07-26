@@ -27,6 +27,7 @@ class AdminBlockListingController extends ModuleAdminController
 {
     /**
      * @param $content
+     *
      * @throws PrestaShopException
      */
     protected function ajaxRenderJson($content)
