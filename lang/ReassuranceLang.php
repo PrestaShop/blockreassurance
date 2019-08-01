@@ -27,7 +27,7 @@
 class ReassuranceLang extends DataLangCore
 {
     // Don't replace domain in init() with $this->domain for translation parsing
-    protected $domain = 'Modules.Blockreassurance.Shop      ';
+    protected $domain = 'Modules.Blockreassurance.Shop';
 
     protected $keys = array('id_reassurance');
 
