@@ -152,7 +152,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         $sqlInsertPSReassurance = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (id_psreassurance, icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES ';
 
-        $sqlQueries[] = $sqlInsertPSReassurance . "(1, '"  .$this->img_path . "reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
+        $sqlQueries[] = $sqlInsertPSReassurance . "(1, '" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
         $sqlQueries[] = $sqlInsertPSReassurance . "(2, '" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
         $sqlQueries[] = $sqlInsertPSReassurance . "(3, '" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
 
