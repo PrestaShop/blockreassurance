@@ -125,6 +125,51 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function install()
     {
+        // SQL
+        $sqlQueries = [];
+        $sqlQueries[] = ' CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'psreassurance` (
+            `id_psreassurance` int(10) unsigned NOT NULL AUTO_INCREMENT,
+            `icon` varchar(255) NULL,
+            `custom_icon` varchar(255) NULL,
+            `status` int(10) unsigned NOT NULL,
+            `position` int(10) unsigned NOT NULL,
+            `id_shop` int(10) unsigned NOT NULL,
+            `type_link` int(10) unsigned NULL,
+            `id_cms` int(10) unsigned NULL,
+            `date_add` datetime NOT NULL,
+            `date_upd` datetime NULL,
+            PRIMARY KEY (`id_psreassurance`)
+        ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
+        $sqlQueries[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'psreassurance_lang` (
+            `id_psreassurance` int(10) unsigned NOT NULL,
+            `id_lang` int(10) unsigned NOT NULL,
+            `id_shop` int(10) unsigned NOT NULL,
+            `title` varchar(255) NOT NULL,
+            `description` varchar(255) NOT NULL,
+            `link` varchar(255) NOT NULL,
+            PRIMARY KEY (`id_psreassurance`,`id_shop`,`id_lang`)
+        ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
+
+        $sqlInsertPSReassurance = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (id_psreassurance, icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES ';
+
+        $sqlQueries[] = $sqlInsertPSReassurance . "(1, '".$this->img_path."reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
+        $sqlQueries[] = $sqlInsertPSReassurance . "(2, '".$this->img_path."reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
+        $sqlQueries[] = $sqlInsertPSReassurance . "(3, '".$this->img_path."reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
+
+        $sqlInsertPSReassuranceLang = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES ';
+        foreach (Language::getLanguages(false) as $lang) {
+            $sqlQueries[] = $sqlInsertPSReassuranceLang . '(1, ' . $lang['id_lang'] . ", 1, 'Security Policy', '(edit with Customer reassurance module)', '')";
+            $sqlQueries[] = $sqlInsertPSReassuranceLang . '(2, ' . $lang['id_lang'] . ", 1, 'Delivery Policy', '(edit with Customer reassurance module)', '')";
+            $sqlQueries[] = $sqlInsertPSReassuranceLang . '(3, ' . $lang['id_lang'] . ", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
+        }
+
+        foreach ($sqlQueries as $query) {
+            if (Db::getInstance()->execute($query) == false) {
+                return false;
+            }
+        }
+
+        // Configuration
         Configuration::updateValue('PSR_HOOK_HEADER', self::POSITION_NONE);
         Configuration::updateValue('PSR_HOOK_FOOTER', self::POSITION_NONE);
         Configuration::updateValue('PSR_HOOK_PRODUCT', self::POSITION_BELOW_HEADER);
@@ -132,8 +177,7 @@ class blockreassurance extends Module implements WidgetInterface
         Configuration::updateValue('PSR_ICON_COLOR', '#F19D76');
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
-        include_once dirname(__FILE__) . '/sql/install.php';
-
+        // Hooks
         if (parent::install() &&
             $this->registerHook('displayAfterBodyOpeningTag') &&
             $this->registerHook('displayNavFullWidth') &&
@@ -157,8 +201,13 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function uninstall()
     {
-        include_once dirname(__FILE__) . '/sql/uninstall.php';
+        // SQL
+        $sql = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'psreassurance`, `' . _DB_PREFIX_ . 'psreassurance_lang`';
+        if (Db::getInstance()->execute($sql) == false) {
+            return false;
+        }
 
+        // Configuration
         Configuration::deleteByName('PSR_HOOK_HEADER');
         Configuration::deleteByName('PSR_HOOK_FOOTER');
         Configuration::deleteByName('PSR_HOOK_PRODUCT');
@@ -290,7 +339,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayAfterBodyOpeningTag($params)
     {
-        $enable = Configuration::get('PSR_HOOK_HEADER');
+        $enable = (int)Configuration::get('PSR_HOOK_HEADER');
 
         if ($enable !== self::POSITION_ABOVE_HEADER) {
             return '';
@@ -308,7 +357,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayNavFullWidth($params)
     {
-        $enable = Configuration::get('PSR_HOOK_HEADER');
+        $enable = (int)Configuration::get('PSR_HOOK_HEADER');
 
         if ($enable !== self::POSITION_BELOW_HEADER) {
             return '';
@@ -326,7 +375,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayFooterAfter($params)
     {
-        $enable = Configuration::get('PSR_HOOK_FOOTER');
+        $enable = (int)Configuration::get('PSR_HOOK_FOOTER');
 
         if ($enable !== self::POSITION_BELOW_HEADER) {
             return '';
@@ -344,7 +393,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayFooterBefore($params)
     {
-        $enable = Configuration::get('PSR_HOOK_FOOTER');
+        $enable = (int)Configuration::get('PSR_HOOK_FOOTER');
 
         if ($enable !== self::POSITION_ABOVE_HEADER) {
             return '';
