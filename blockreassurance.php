@@ -150,11 +150,11 @@ class blockreassurance extends Module implements WidgetInterface
             PRIMARY KEY (`id_psreassurance`,`id_shop`,`id_lang`)
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
 
-        $sqlInsertPSReassurance = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (id_psreassurance, icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES ';
+        $sqlInsertPSReassurance = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES ';
 
-        $sqlQueries[] = $sqlInsertPSReassurance . "(1, '" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
-        $sqlQueries[] = $sqlInsertPSReassurance . "(2, '" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
-        $sqlQueries[] = $sqlInsertPSReassurance . "(3, '" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
+        $sqlQueries[] = $sqlInsertPSReassurance . "('" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
+        $sqlQueries[] = $sqlInsertPSReassurance . "('" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
+        $sqlQueries[] = $sqlInsertPSReassurance . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
 
         $sqlInsertPSReassuranceLang = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES ';
         foreach (Language::getLanguages(false) as $lang) {
@@ -339,13 +339,9 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayAfterBodyOpeningTag($params)
     {
-        $enable = (int) Configuration::get('PSR_HOOK_HEADER');
+        $position = (int) Configuration::get('PSR_HOOK_HEADER');
 
-        if ($enable !== self::POSITION_ABOVE_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlock.tpl');
+        return $position === self::POSITION_ABOVE_HEADER ? $this->renderTemplateInHook('displayBlock.tpl') : '';
     }
 
     /**
@@ -357,13 +353,9 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayNavFullWidth($params)
     {
-        $enable = (int) Configuration::get('PSR_HOOK_HEADER');
+        $position = (int) Configuration::get('PSR_HOOK_HEADER');
 
-        if ($enable !== self::POSITION_BELOW_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlock.tpl');
+        return $position === self::POSITION_BELOW_HEADER ? $this->renderTemplateInHook('displayBlock.tpl') : '';
     }
 
     /**
@@ -375,13 +367,9 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayFooterAfter($params)
     {
-        $enable = (int) Configuration::get('PSR_HOOK_FOOTER');
+        $position = (int) Configuration::get('PSR_HOOK_FOOTER');
 
-        if ($enable !== self::POSITION_BELOW_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlockWhite.tpl');
+        return $position === self::POSITION_BELOW_HEADER ? $this->renderTemplateInHook('displayBlockWhite.tpl') : '';
     }
 
     /**
@@ -393,13 +381,9 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayFooterBefore($params)
     {
-        $enable = (int) Configuration::get('PSR_HOOK_FOOTER');
+        $position = (int) Configuration::get('PSR_HOOK_FOOTER');
 
-        if ($enable !== self::POSITION_ABOVE_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlockWhite.tpl');
+        return $position === self::POSITION_ABOVE_HEADER ? $this->renderTemplateInHook('displayBlockWhite.tpl') : '';
     }
 
     /**
