@@ -150,17 +150,15 @@ class blockreassurance extends Module implements WidgetInterface
             PRIMARY KEY (`id_psreassurance`,`id_shop`,`id_lang`)
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
 
-        $sqlInsertPSReassurance = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES ';
-
-        $sqlQueries[] = $sqlInsertPSReassurance . "('" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now())";
-        $sqlQueries[] = $sqlInsertPSReassurance . "('" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now())";
-        $sqlQueries[] = $sqlInsertPSReassurance . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
-
-        $sqlInsertPSReassuranceLang = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES ';
+        $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES '
+            . "('" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now()),"
+            . "('" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now()),"
+            . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
         foreach (Language::getLanguages(false) as $lang) {
-            $sqlQueries[] = $sqlInsertPSReassuranceLang . '(1, ' . $lang['id_lang'] . ", 1, 'Security Policy', '(edit with Customer reassurance module)', '')";
-            $sqlQueries[] = $sqlInsertPSReassuranceLang . '(2, ' . $lang['id_lang'] . ", 1, 'Delivery Policy', '(edit with Customer reassurance module)', '')";
-            $sqlQueries[] = $sqlInsertPSReassuranceLang . '(3, ' . $lang['id_lang'] . ", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
+            $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES '
+                . '(1, ' . $lang['id_lang'] . ", 1, 'Security Policy', '(edit with Customer reassurance module)', ''),"
+                . '(2, ' . $lang['id_lang'] . ", 1, 'Delivery Policy', '(edit with Customer reassurance module)', ''),"
+                . '(3, ' . $lang['id_lang'] . ", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
         }
 
         foreach ($sqlQueries as $query) {

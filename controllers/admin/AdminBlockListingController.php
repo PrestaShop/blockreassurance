@@ -74,7 +74,8 @@ class AdminBlockListingController extends ModuleAdminController
                 blockreassurance::POSITION_NONE,
                 blockreassurance::POSITION_BELOW_HEADER,
                 blockreassurance::POSITION_ABOVE_HEADER,
-            ))) {
+            ))
+        ) {
             $result = Configuration::updateValue($hook, $value);
         }
 
