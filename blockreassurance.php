@@ -96,9 +96,8 @@ class blockreassurance extends Module implements WidgetInterface
         $this->bootstrap = true;
         parent::__construct();
         if ($this->context->link == null) {
-            $protocol_link = (Tools::usingSecureMode() && Configuration::get('PS_SSL_ENABLED')) ? 'https://' : 'http://';
-            $protocol_content = (Tools::usingSecureMode() && Configuration::get('PS_SSL_ENABLED')) ? 'https://' : 'http://';
-            $this->context->link = new Link($protocol_link, $protocol_content);
+            $protocolPrefix = Tools::getCurrentUrlProtocolPrefix();
+            $this->context->link = new Link($protocolPrefix, $protocolPrefix);
         }
 
         $this->displayName = $this->trans('blockreassurance', array(), 'Modules.Blockreassurance.Admin');
