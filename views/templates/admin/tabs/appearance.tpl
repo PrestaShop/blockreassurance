@@ -67,7 +67,7 @@
     </div>
 
     <div class="panel-footer">
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-offset-11">
+        <div class="col-xs-12 text-right">
             <button name="saveConfiguration" id="saveConfiguration" type="submit" class="btn btn-primary">{l s='Save' mod='psreassurance'}</button>
         </div>
     </div>
