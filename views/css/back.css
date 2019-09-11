@@ -96,6 +96,9 @@
 .customradiodesign {
     cursor: pointer;
 }
+.customradiodesign > div {
+    display: inline-block;
+}
 .customradiodesign input[type=checkbox]:not(old),
 .customradiodesign input[type=radio]:not(old) {
     width: 20px;
@@ -107,7 +110,6 @@
 .customradiodesign input[type=checkbox]:not(old) + label,
 .customradiodesign input[type=radio]:not(old) + label {
     display: inline-block;
-    margin-left: -2em;
     line-height: 1.5em;
 }
 .customradiodesign input[type=radio]:not(old) + label > span {
@@ -149,6 +151,7 @@
     background: rgb(90, 199, 215);
 }
 .customradiodesign label {
+    cursor: pointer;
     font-weight: normal;
 }
 
