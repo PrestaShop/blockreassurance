@@ -105,6 +105,9 @@ class blockreassurance extends Module implements WidgetInterface
         $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', array(), 'Modules.Blockreassurance.Admin');
 
         // Settings paths
+        if (!$this->_path) {
+            $this->_path = __PS_BASE_URI__ . 'modules/' . $this->name . '/';
+        }
         $this->js_path = $this->_path . 'views/js/';
         $this->css_path = $this->_path . 'views/css/';
         $this->img_path = $this->_path . 'views/img/';
