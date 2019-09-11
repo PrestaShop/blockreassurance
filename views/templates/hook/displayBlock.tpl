@@ -29,7 +29,7 @@
             <div class="block-icon">
                 {if $block['icon'] != 'undefined'}
                     {if $block['icon']}
-                        <img class="svg" src="{$block['icon']}"">
+                        <img class="svg invisible" src="{$block['icon']}"">
                     {elseif $block['custom_icon']}
                         <img src="{$block['custom_icon']}">
                     {/if}

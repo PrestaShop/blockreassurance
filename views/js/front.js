@@ -24,9 +24,10 @@
  */
 $(window).ready(function () {
   $('.blockreas_product img.svg, .blockreas img.svg').each(function () {
-    var imgID = $(this).attr('id');
-    var imgClass = $(this).attr('class');
-    var imgURL = $(this).attr('src');
+    var imgObject = $(this);
+    var imgID = imgObject.attr('id');
+    var imgClass = imgObject.attr('class');
+    var imgURL = imgObject.attr('src');
 
     $.ajax({
       url: imgURL,
@@ -48,9 +49,9 @@ $(window).ready(function () {
           $svg.find('path[fill]').attr('fill', psr_icon_color);
           $svg.find('path:not([fill])').css('fill', psr_icon_color);
           // Replace image with new SVG
-          $(this).replaceWith($svg);
+          imgObject.replaceWith($svg);
         }
-        $(this).removeClass('invisible');
+        imgObject.removeClass('invisible');
       }
     });
   });
