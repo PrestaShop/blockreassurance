@@ -1,0 +1,16 @@
+{
+  "name": "blockreassurance",
+  "description": "Customer reassurance block",
+  "keywords": [],
+  "author": {
+      "name": "PrestaShop SA",
+      "email": "contact@prestashop.com"
+  },
+  "license": "AFL-3.0",
+  "bugs": {
+    "url": "https://github.com/PrestaShop/PrestaShop/issues"
+  },
+  "homepage": "https://github.com/PrestaShop/blockreassurance#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}

@@ -1,0 +1,11 @@
+GitHub contributors:
+--------------------------------
+- Alex Sampaio
+- AlexEven
+- Franck Lefebvre
+- Julien Bourdeau
+- Martin Fojtík
+- Mathieu Ferment
+- Mickaël Andrieu
+- Maxime Biloé
+- Pablo Polyte

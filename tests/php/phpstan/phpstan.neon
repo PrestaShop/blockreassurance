@@ -1,0 +1,8 @@
+parameters:
+  reportUnmatchedIgnoredErrors: false
+  bootstrap: /var/www/html/modules/blockreassurance/tests/php/phpstan/bootstrap.php
+  paths:
+    - /var/www/html/modules/blockreassurance/src
+  ignoreErrors:
+
+  level: 5

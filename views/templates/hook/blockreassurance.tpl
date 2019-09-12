@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2019 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,16 +18,16 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2019 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {if $elements}
-  <div id="block-reassurance">
-    <ul>
-      {foreach from=$elements item=element}
-        <li><img src="{$element.image}" alt="{$element.text|escape:'quotes'}" /> <span>{$element.text}</span></li>
-      {/foreach}
-    </ul>
-  </div>
+    <div id="block-reassurance">
+        <ul>
+            {foreach from=$elements item=element}
+                <li><img src="{$element.image}" alt="{$element.text|escape:'quotes'}"/> <span>{$element.text}</span></li>
+            {/foreach}
+        </ul>
+    </div>
 {/if}
