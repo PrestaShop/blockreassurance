@@ -103,6 +103,7 @@
 .customradiodesign input[type=radio]:not(old) {
     width: 20px;
     margin: 0;
+    margin-left: -20px;
     padding: 0;
     font-size: 1em;
     opacity: 0;
@@ -485,10 +486,12 @@
 .psr-checkout-grey.active {
     display: block;
 }
+#display label > div > .input_img:not(:checked) ~ img {
+    border: 1px solid #d3d8db;
+}
 #display label > div > .input_img:checked ~ img {
     border: 2px solid #00b9d9;
 }
-
 
 /* Tab Appearance */
 #appearance .panel-body {
