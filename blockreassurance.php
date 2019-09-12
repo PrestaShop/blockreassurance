@@ -539,7 +539,6 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_controller_block_url' => $this->context->link->getAdminLink('AdminBlockListing'),
             'psr_controller_block' => 'AdminBlockListing',
-
             'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
             'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
             'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
