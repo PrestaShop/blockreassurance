@@ -23,19 +23,29 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 class AdminBlockListingController extends ModuleAdminController
 {
+    /**
+     * @param $content
+     *
+     * @throws PrestaShopException
+     */
+    protected function ajaxRenderJson($content)
+    {
+        header('Content-Type: application/json');
+        $this->ajaxRender(json_encode($content));
+    }
+
     /**
      * Enable or disable a block
      *
      * @throws PrestaShopException
      */
-    public function ajaxProcessChangeBlockStatus()
+    public function displayAjaxChangeBlockStatus()
     {
         $now = new DateTime();
-        $psreassuranceId = (int)Tools::getValue('idpsr');
-        $newStatus = ((int)Tools::getValue('status') == 1) ? 0 : 1;
+        $psreassuranceId = (int) Tools::getValue('idpsr');
+        $newStatus = ((int) Tools::getValue('status') == 1) ? 0 : 1;
 
         $dataToUpdate = [
             'status' => $newStatus,
@@ -45,7 +55,8 @@ class AdminBlockListingController extends ModuleAdminController
 
         $updateResult = Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
 
-        $this->ajaxDie(json_encode($updateResult ? 'success' : 'error'));
+        // Response
+        $this->ajaxRenderJson($updateResult ? 'success' : 'error');
     }
 
     /**
@@ -53,18 +64,23 @@ class AdminBlockListingController extends ModuleAdminController
      *
      * @throws PrestaShopException
      */
-    public function ajaxProcessSavePositionByHook()
+    public function displayAjaxSavePositionByHook()
     {
         $hook = Tools::getValue('hook');
         $value = Tools::getValue('value');
+        $result = false;
 
-        if (empty($hook) || !in_array($value, array('0', '1'))) {
-            $this->ajaxDie(json_encode('error'));
+        if (!empty($hook) && in_array($value, array(
+                blockreassurance::POSITION_NONE,
+                blockreassurance::POSITION_BELOW_HEADER,
+                blockreassurance::POSITION_ABOVE_HEADER,
+            ))
+        ) {
+            $result = Configuration::updateValue($hook, $value);
         }
 
-        $updateResult = Configuration::updateValue($hook, $value);
-
-        $this->ajaxDie(json_encode($updateResult ? 'success' : 'error'));
+        // Response
+        $this->ajaxRenderJson($result ? 'success' : 'error');
     }
 
     /**
@@ -72,19 +88,19 @@ class AdminBlockListingController extends ModuleAdminController
      *
      * @throws PrestaShopException
      */
-    public function ajaxProcessSaveColor()
+    public function displayAjaxSaveColor()
     {
         $color1 = Tools::getValue('color1');
         $color2 = Tools::getValue('color2');
+        $result = false;
 
-        if (empty($color1) || empty($color2)) {
-            $this->ajaxDie(json_encode('error'));
+        if (!empty($color1) && !empty($color2)) {
+            $result = Configuration::updateValue('PSR_ICON_COLOR', $color1)
+                && Configuration::updateValue('PSR_TEXT_COLOR', $color2);
         }
 
-        $updateResult = Configuration::updateValue('PSR_ICON_COLOR', $color1)
-            && Configuration::updateValue('PSR_TEXT_COLOR', $color2);
-
-        $this->ajaxDie(json_encode($updateResult ? 'success' : 'error'));
+        // Response
+        $this->ajaxRenderJson($result ? 'success' : 'error');
     }
 
     /**
@@ -93,26 +109,24 @@ class AdminBlockListingController extends ModuleAdminController
      * @throws PrestaShopDatabaseException
      * @throws PrestaShopException
      */
-    public function ajaxProcessSaveBlockContent()
+    public function displayAjaxSaveBlockContent()
     {
         $errors = [];
 
         $picto = Tools::getValue('picto');
         $id_block = Tools::getValue('id_block');
-        $type_link = (int)Tools::getValue('typelink');
+        $type_link = (int) Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
-        $psr_languages = (array)json_decode(Tools::getValue('lang_values'));
+        $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
 
         $blockPsr = new ReassuranceActivity($id_block);
         $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
-
         $blockPsr->icon = $picto;
         if (empty($picto)) {
             $blockPsr->custom_icon = '';
         }
-
-        $blockPsr->date_add = date("Y-m-d H:i:s");
-        $blockPsr->date_update = date("Y-m-d H:i:s");
+        $blockPsr->date_add = date('Y-m-d H:i:s');
+        $blockPsr->date_update = date('Y-m-d H:i:s');
 
         if (isset($_FILES) && !empty($_FILES)) {
             $customImage = $_FILES['file'];
@@ -127,45 +141,44 @@ class AdminBlockListingController extends ModuleAdminController
                 $blockPsr->icon = '';
             } else {
                 $errors[] = $validUpload;
-                $this->ajaxDie(json_encode($errors));
             }
         }
-        $blockPsr->update();
+        if (empty($errors)) {
+            $blockPsr->update();
+        }
 
-        $this->ajaxDie(json_encode('success'));
+        // Response
+        $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
     }
 
     /**
      * Reorder the blocks positions
      *
-     * @return bool
+     * @throws PrestaShopException
      */
-    public function ajaxProcessUpdatePosition()
+    public function displayAjaxUpdatePosition()
     {
         $blocks = Tools::getValue('blocks');
+        $result = false;
 
-        if (empty($blocks)) {
-            return false;
-        }
+        if (!empty($blocks) && is_array($blocks)) {
+            foreach ($blocks as $key => $id_block) {
+                // Set the position of the Reassurance block
+                $position = $key + 1;
 
-        foreach ($blocks as $key => $id_block) {
-            // Set the position of the Reassurance block
-            $position = $key + 1;
+                $dataToUpdate = ['position' => (int) $position];
+                $whereCondition = 'id_psreassurance = ' . (int) $id_block;
+                $updateResult = (bool) Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
 
-            $dataToUpdate = [
-                'position' => (int)$position,
-            ];
-
-            $whereCondition = 'id_psreassurance = ' . (int)$id_block;
-
-            $updateResult = (bool)Db::getInstance()->update('psreassurance', $dataToUpdate, $whereCondition);
-
-            // If the update can't be done, we return false
-            if (!$updateResult) {
-                return false;
+                // If the update can't be done, we return false
+                if (!$updateResult) {
+                    break;
+                }
             }
+            $result = $updateResult ? true : false;
         }
 
-        return true;
+        // Response
+        $this->ajaxRenderJson($result ? 'success' : 'error');
     }
 }

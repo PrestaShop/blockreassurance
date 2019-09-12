@@ -23,7 +23,6 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 class ReassuranceActivity extends ObjectModel
 {
     const TYPE_LINK_NONE = 0;
@@ -43,7 +42,6 @@ class ReassuranceActivity extends ObjectModel
     public $id_cms;
     public $date_add;
     public $date_upd;
-
 
     /**
      * @see ObjectModel::$definition
@@ -65,7 +63,7 @@ class ReassuranceActivity extends ObjectModel
             'link' => array('type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255),
             'date_add' => array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),
             'date_upd' => array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),
-        )
+        ),
     );
 
     /**
@@ -73,13 +71,14 @@ class ReassuranceActivity extends ObjectModel
      * @param int $id_shop
      *
      * @return array
+     *
      * @throws PrestaShopDatabaseException
      */
     public static function getAllBlockByLang($id_lang = 1, $id_shop = 1)
     {
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE prl.id_lang = "' . (int)$id_lang . '" AND prl.id_shop = "' . (int)$id_shop . '"
+            WHERE prl.id_lang = "' . (int) $id_lang . '" AND prl.id_shop = "' . (int) $id_shop . '"
             ORDER BY pr.position';
 
         $result = Db::getInstance()->executeS($sql);
@@ -145,6 +144,7 @@ class ReassuranceActivity extends ObjectModel
      * @param int $id_shop
      *
      * @return array
+     *
      * @throws PrestaShopDatabaseException
      */
     public static function getAllBlockByShop($id_shop = 1)
@@ -153,7 +153,7 @@ class ReassuranceActivity extends ObjectModel
 
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE prl.id_shop = "' . (int)$id_shop . '"
+            WHERE prl.id_shop = "' . (int) $id_shop . '"
             GROUP BY prl.id_lang, pr.id_psreassurance
             ORDER BY pr.position';
 
@@ -173,6 +173,7 @@ class ReassuranceActivity extends ObjectModel
      * @param int $id_shop
      *
      * @return array
+     *
      * @throws PrestaShopDatabaseException
      */
     public static function getAllBlockByStatus($id_lang = 1, $id_shop = 1)
@@ -180,8 +181,8 @@ class ReassuranceActivity extends ObjectModel
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
             WHERE 
-                prl.id_lang = "' . (int)$id_lang . '" 
-                AND prl.id_shop = "' . (int)$id_shop . '"
+                prl.id_lang = "' . (int) $id_lang . '" 
+                AND prl.id_shop = "' . (int) $id_shop . '"
                 AND pr.status = 1
             ORDER BY pr.position';
 

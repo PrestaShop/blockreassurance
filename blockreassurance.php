@@ -23,7 +23,6 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -32,8 +31,9 @@ use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
 {
-    const POSITION_BELOW_HEADER = '1';
-    const POSITION_ABOVE_HEADER = '2';
+    const POSITION_NONE = 0;
+    const POSITION_BELOW_HEADER = 1;
+    const POSITION_ABOVE_HEADER = 2;
 
     /** @var string */
     public $name;
@@ -41,14 +41,12 @@ class blockreassurance extends Module implements WidgetInterface
     public $version;
     /** @var string */
     public $author;
-
     /** @var bool */
     public $need_instance;
     /** @var string */
     public $module_key;
     /** @var string */
     public $author_address;
-
     /** @var string */
     public $controller_name;
     /** @var bool */
@@ -57,7 +55,6 @@ class blockreassurance extends Module implements WidgetInterface
     public $displayName;
     /** @var string */
     public $description;
-
     /** @var string */
     public $js_path;
     /** @var string */
@@ -76,16 +73,12 @@ class blockreassurance extends Module implements WidgetInterface
     public $logo_path;
     /** @var string */
     public $module_path;
-
     /** @var string Text to display when ask for confirmation on uninstall action */
     public $confirmUninstall;
-
     /** @var string */
     public $ps_url;
-
     /** @var string */
     public $folder_file_upload;
-
     /** @var string */
     private $templateFile;
 
@@ -102,11 +95,18 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->bootstrap = true;
         parent::__construct();
+        if ($this->context->link == null) {
+            $protocolPrefix = Tools::getCurrentUrlProtocolPrefix();
+            $this->context->link = new Link($protocolPrefix, $protocolPrefix);
+        }
 
         $this->displayName = $this->trans('blockreassurance', array(), 'Modules.Blockreassurance.Admin');
         $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', array(), 'Modules.Blockreassurance.Admin');
 
         // Settings paths
+        if (!$this->_path) {
+            $this->_path = __PS_BASE_URI__ . 'modules/' . $this->name . '/';
+        }
         $this->js_path = $this->_path . 'views/js/';
         $this->css_path = $this->_path . 'views/css/';
         $this->img_path = $this->_path . 'views/img/';
@@ -132,16 +132,57 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function install()
     {
-        Configuration::updateValue('PSR_HOOK_HEADER', '0');
-        Configuration::updateValue('PSR_HOOK_FOOTER', '0');
-        Configuration::updateValue('PSR_HOOK_PRODUCT', '1');
-        Configuration::updateValue('PSR_HOOK_CHECKOUT', '1');
+        // SQL
+        $sqlQueries = [];
+        $sqlQueries[] = ' CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'psreassurance` (
+            `id_psreassurance` int(10) unsigned NOT NULL AUTO_INCREMENT,
+            `icon` varchar(255) NULL,
+            `custom_icon` varchar(255) NULL,
+            `status` int(10) unsigned NOT NULL,
+            `position` int(10) unsigned NOT NULL,
+            `id_shop` int(10) unsigned NOT NULL,
+            `type_link` int(10) unsigned NULL,
+            `id_cms` int(10) unsigned NULL,
+            `date_add` datetime NOT NULL,
+            `date_upd` datetime NULL,
+            PRIMARY KEY (`id_psreassurance`)
+        ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
+        $sqlQueries[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'psreassurance_lang` (
+            `id_psreassurance` int(10) unsigned NOT NULL,
+            `id_lang` int(10) unsigned NOT NULL,
+            `id_shop` int(10) unsigned NOT NULL,
+            `title` varchar(255) NOT NULL,
+            `description` varchar(255) NOT NULL,
+            `link` varchar(255) NOT NULL,
+            PRIMARY KEY (`id_psreassurance`,`id_shop`,`id_lang`)
+        ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
+
+        $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (icon, custom_icon, status, position, id_shop, type_link, id_cms, date_add) VALUES '
+            . "('" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, 1, null, null, now()),"
+            . "('" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, 1, null, null, now()),"
+            . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
+        foreach (Language::getLanguages(false) as $lang) {
+            $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES '
+                . '(1, ' . $lang['id_lang'] . ", 1, 'Security Policy', '(edit with Customer reassurance module)', ''),"
+                . '(2, ' . $lang['id_lang'] . ", 1, 'Delivery Policy', '(edit with Customer reassurance module)', ''),"
+                . '(3, ' . $lang['id_lang'] . ", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
+        }
+
+        foreach ($sqlQueries as $query) {
+            if (Db::getInstance()->execute($query) == false) {
+                return false;
+            }
+        }
+
+        // Configuration
+        Configuration::updateValue('PSR_HOOK_HEADER', self::POSITION_NONE);
+        Configuration::updateValue('PSR_HOOK_FOOTER', self::POSITION_NONE);
+        Configuration::updateValue('PSR_HOOK_PRODUCT', self::POSITION_BELOW_HEADER);
+        Configuration::updateValue('PSR_HOOK_CHECKOUT', self::POSITION_BELOW_HEADER);
         Configuration::updateValue('PSR_ICON_COLOR', '#F19D76');
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
-        $languages = Language::getLanguages(false);
-        include_once(dirname(__FILE__) . '/sql/install.php');
-
+        // Hooks
         if (parent::install() &&
             $this->registerHook('displayAfterBodyOpeningTag') &&
             $this->registerHook('displayNavFullWidth') &&
@@ -165,8 +206,13 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function uninstall()
     {
-        include_once(dirname(__FILE__) . '/sql/uninstall.php');
+        // SQL
+        $sql = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'psreassurance`, `' . _DB_PREFIX_ . 'psreassurance_lang`';
+        if (Db::getInstance()->execute($sql) == false) {
+            return false;
+        }
 
+        // Configuration
         Configuration::deleteByName('PSR_HOOK_HEADER');
         Configuration::deleteByName('PSR_HOOK_FOOTER');
         Configuration::deleteByName('PSR_HOOK_PRODUCT');
@@ -191,27 +237,17 @@ class blockreassurance extends Module implements WidgetInterface
         $this->addJsDefList();
 
         $cssAssets = [
+            '//fonts.googleapis.com/icon?family=Material+Icons',
             $this->lib_path . 'pickr/css/pickr.min.css',
             $this->lib_path . 'pickr/css/pickr-override.css',
-            $this->css_path . '/templates/display.css',
-            $this->css_path . '/templates/config.css',
-            $this->css_path . '/templates/listing.css',
-            $this->css_path . '/templates/reassurance_block.css',
-            $this->css_path . '/templates/appearance.css',
-            $this->css_path . 'style.css',
-            $this->css_path . 'faq.css',
-            $this->css_path . 'menu.css',
-            $this->css_path . 'addons-suggestion.css',
-            '//fonts.googleapis.com/icon?family=Material+Icons',
+            $this->css_path . 'back.css',
         ];
 
         $javascriptAssets = [
+            // Libraries
             $this->lib_path . '/pickr/js/pickr.js',
-            $this->js_path . '/appearance/colorpicker.js',
-            $this->js_path . 'back.js',
-            $this->js_path . 'svg-utils.js',
-            $this->js_path . 'menu.js',
             $this->js_path . 'vue.min.js',
+            $this->js_path . 'back.js',
         ];
 
         $this->context->controller->addCSS($cssAssets, 'all');
@@ -233,6 +269,7 @@ class blockreassurance extends Module implements WidgetInterface
 
     /**
      * @return string
+     *
      * @throws PrestaShopException
      */
     public function getContent()
@@ -284,7 +321,7 @@ class blockreassurance extends Module implements WidgetInterface
             'moduleAdminLink' => $moduleAdminLink,
             'img_path' => $this->img_path,
             'allCms' => $allCms,
-            'defaultFormLanguage' => (int)$this->context->employee->id_lang,
+            'defaultFormLanguage' => (int) $this->context->employee->id_lang,
             'img_url' => $this->img_path,
             'old_img_url' => $this->old_path_img,
             'folderIsWritable' => $this->folderUploadFilesHasGoodRights(),
@@ -302,70 +339,64 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayAfterBodyOpeningTag($params)
     {
-        $enable = Configuration::get('PSR_HOOK_HEADER');
+        $position = (int) Configuration::get('PSR_HOOK_HEADER');
 
-        if ($enable !== self::POSITION_ABOVE_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlock.tpl');
+        return $position === self::POSITION_ABOVE_HEADER ? $this->renderTemplateInHook('displayBlock.tpl') : '';
     }
 
     /**
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayNavFullWidth($params)
     {
-        $enable = Configuration::get('PSR_HOOK_HEADER');
+        $position = (int) Configuration::get('PSR_HOOK_HEADER');
 
-        if ($enable !== self::POSITION_BELOW_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlock.tpl');
+        return $position === self::POSITION_BELOW_HEADER ? $this->renderTemplateInHook('displayBlock.tpl') : '';
     }
 
     /**
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayFooterAfter($params)
     {
-        $enable = Configuration::get('PSR_HOOK_FOOTER');
+        $position = (int) Configuration::get('PSR_HOOK_FOOTER');
 
-        if ($enable !== self::POSITION_BELOW_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlockWhite.tpl');
+        return $position === self::POSITION_BELOW_HEADER ? $this->renderTemplateInHook('displayBlockWhite.tpl') : '';
     }
 
     /**
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayFooterBefore($params)
     {
-        $enable = Configuration::get('PSR_HOOK_FOOTER');
+        $position = (int) Configuration::get('PSR_HOOK_FOOTER');
 
-        if ($enable !== self::POSITION_ABOVE_HEADER) {
-            return '';
-        }
-
-        return $this->renderTemplateInHook('displayBlockWhite.tpl');
+        return $position === self::POSITION_ABOVE_HEADER ? $this->renderTemplateInHook('displayBlockWhite.tpl') : '';
     }
 
     /**
      * @param array $params
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function hookdisplayReassurance($params)
     {
@@ -388,12 +419,11 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->controller->registerStylesheet(
             'front-css',
-            'modules/' . $this->name . '/views/css/reassurance.css'
+            'modules/' . $this->name . '/views/css/front.css'
         );
-
         $this->context->controller->registerJavascript(
-            'svg',
-            'modules/' . $this->name . '/views/js/svg-utils.js'
+            'front-js',
+            'modules/' . $this->name . '/views/js/front.js'
         );
     }
 
@@ -402,6 +432,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $configuration
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function renderWidget($hookName = null, array $configuration = [])
     {
@@ -420,6 +452,8 @@ class blockreassurance extends Module implements WidgetInterface
      * @param array $configuration
      *
      * @return array
+     *
+     * @throws PrestaShopDatabaseException
      */
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
@@ -450,9 +484,9 @@ class blockreassurance extends Module implements WidgetInterface
      * Check if we can display the hook on product page or cart page.
      * The HOOK must be active
      *
-     * @param  int $enableCheckout
-     * @param  int $enableProduct
-     * @param  string $controller
+     * @param int $enableCheckout
+     * @param int $enableProduct
+     * @param string $controller
      *
      * @return bool
      */
@@ -472,9 +506,11 @@ class blockreassurance extends Module implements WidgetInterface
     /**
      * Assign smarty variables and display the hook
      *
-     * @param  string $template
+     * @param string $template
      *
      * @return string
+     *
+     * @throws PrestaShopDatabaseException
      */
     private function renderTemplateInHook($template)
     {
@@ -493,6 +529,9 @@ class blockreassurance extends Module implements WidgetInterface
         return $this->display(__FILE__, 'views/templates/hook/' . $template);
     }
 
+    /**
+     * @throws PrestaShopException
+     */
     protected function addJsDefList()
     {
         Media::addJsDef(array(
@@ -500,7 +539,6 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_controller_block_url' => $this->context->link->getAdminLink('AdminBlockListing'),
             'psr_controller_block' => 'AdminBlockListing',
-
             'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
             'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
             'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
