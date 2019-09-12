@@ -118,8 +118,8 @@ $(window).ready(function () {
     $(document).on('change', 'select[name="psr-language"]', (e) => {
         var lang = $(e.target).val();
 
-        $('.content_by_lang.lang-' + lang).addClass('active');
         $('.content_by_lang').removeClass('active').addClass('inactive');
+        $('.content_by_lang.lang-' + lang).addClass('active');
         $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
         $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
     });
