@@ -51,11 +51,11 @@
         </form>
     {/foreach}
     <div class="panel-footer">
-        <div class="col-lg-10 col-xs-10">
+        <div class="col-xs-6 text-left">
             <button name="refreshPage" type="submit"
                     class="btn btn-secondary refreshPage">{l s='Return' mod='psreassurance'}</button>
         </div>
-        <div class="col-lg-1 col-xs-1">
+        <div class="col-xs-6 text-right">
             <input name="saveContentConfiguration" id="saveContentConfiguration" data-id="" type="submit"
                    class="btn btn-primary" value="{l s='Save' mod='psreassurance'}">
         </div>
