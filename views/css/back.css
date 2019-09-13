@@ -386,12 +386,19 @@
     padding-right: 25px;
     padding-top: 6px;
 }
+#blockDisplay .panel-footer .text-left,
+#blockDisplay .panel-footer .text-right {
+    color: inherit;
+    padding-right: inherit;
+    padding-top: 6px;
+}
 #blockDisplay .customradiodesign label {
     font-weight: normal;
 }
 #blockDisplay .refreshPage {
     background-color: transparent;
-    color: #00b9d9;
+    border-color: #6C868E;
+    color: #6C868E;
 }
 #blockDisplay .picto-url {
     padding-right: 5px !important;
@@ -402,7 +409,6 @@
 #blockDisplay .input-redirection {
     padding-right: 40px;
 }
-
 
 /* Tab Content : Edit : Select Icon */
 .select_none {

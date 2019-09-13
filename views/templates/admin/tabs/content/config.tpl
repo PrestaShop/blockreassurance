@@ -52,8 +52,8 @@
     {/foreach}
     <div class="panel-footer">
         <div class="col-xs-6 text-left">
-            <button name="refreshPage" type="submit"
-                    class="btn btn-secondary refreshPage">{l s='Return' mod='psreassurance'}</button>
+            <input name="refreshPage" type="submit"
+                    class="btn btn-primary refreshPage" value="{l s='Return' mod='psreassurance'}">
         </div>
         <div class="col-xs-6 text-right">
             <input name="saveContentConfiguration" id="saveContentConfiguration" data-id="" type="submit"
