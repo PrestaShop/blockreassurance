@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="form-group psr-url {if $aBlock['type_link'] != $LINK_TYPE_URL} inactive{/if}" data-type="url">
+<div class="form-group psr-url {if (isset($aBlock) && $aBlock['type_link'] != $LINK_TYPE_URL) || !isset($aBlock)} inactive{/if}" data-type="url">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
@@ -40,7 +40,7 @@
                     <span class="input-group-text picto-url"><i class="material-icons">link</i></span>
                 </div>
                 <input class="block_url form-control" type="text" name="URL"
-                       value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['url']}">
+                       value="{if isset($aBlock)}{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['url']}{/if}">
             </div>
         </div>
     {/foreach}

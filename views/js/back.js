@@ -91,6 +91,28 @@ $(window).ready(function () {
         });
     });
 
+    // Tab Content : Add
+    $(document).on('click', '.psre-add', function () {
+      $('.landscape').show();
+
+      $('#reminder_listing').removeClass('active').addClass('inactive');
+      $('#blockDisplay').removeClass('inactive').addClass('active');
+      $('.show-rea-block').removeClass('active').addClass('inactive');
+
+      $('.panel-body-').removeClass('inactive').addClass('active');
+      $('#saveContentConfiguration').attr('data-id', '');
+
+      $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
+      $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
+
+      var landscape = $('.panel-body- .psr-picto').attr('src');
+      if (typeof landscape === 'undefined' || landscape === 'undefined') {
+        $('.psr-picto:visible').hide();
+        $('.svg_chosed_here:visible').hide();
+        $('.landscape').show();
+      }
+    });
+
     // Tab Content : Edit
     $(document).on('click', '.psre-edit', function () {
         $('.landscape').hide();
@@ -246,7 +268,7 @@ $(window).ready(function () {
     });
 
     // Tab Content : Edit : Redirect
-    $(document).on('change', 'input[name="PSR_REDIRECTION_1"],input[name="PSR_REDIRECTION_2"],input[name="PSR_REDIRECTION_3"]', (e) => {
+    $(document).on('change', 'input[name^="PSR_REDIRECTION_"]', (e) => {
         function setEnabledPSR(psr, state) {
             if (state) {
                 $('.psr-' + psr).removeClass('inactive').addClass('active');
@@ -299,6 +321,7 @@ $(window).ready(function () {
             iconSrc = iconReplaced;
         }
 
+        var minimalData = false;
         $('.show-rea-block.active .content_by_lang').each(function (index, elem) {
             var lang = $(elem).attr('data-lang');
             var type = $(elem).attr('data-type');
@@ -313,7 +336,14 @@ $(window).ready(function () {
             } else if (typeof($('input', elem).val()) != 'undefined') {
                 dataToSave[lang][type] = $('input', elem).val();
             }
+            if (!minimalData && lang == psr_lang && type == 'title' && dataToSave[lang][type].length > 0) {
+                minimalData = true;
+            }
         });
+        if (!minimalData) {
+            showErrorMessage(min_field_error);
+            return;
+        }
 
         var formData = new FormData();
         formData.append('ajax', true);

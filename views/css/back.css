@@ -253,6 +253,14 @@
 .psrea-flex {
     display: flex !important;
 }
+.psre-add {
+    color: #B1C0C4;
+    cursor: pointer;
+    float: right;
+}
+.psre-add i {
+    font-size: 1.5em !important;
+}
 .psre-edit {
     cursor: pointer;
 }

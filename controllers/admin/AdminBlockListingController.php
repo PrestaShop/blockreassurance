@@ -115,11 +115,18 @@ class AdminBlockListingController extends ModuleAdminController
 
         $picto = Tools::getValue('picto');
         $id_block = Tools::getValue('id_block');
+        $id_block = empty($id_block) ? null : $id_block;
         $type_link = (int) Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
         $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
 
         $blockPsr = new ReassuranceActivity($id_block);
+        if (!$id_block) {
+            // Last position
+            $blockPsr->position = Db::getInstance()->getValue('SELECT MAX(position) AS max FROM '. _DB_PREFIX_.'psreassurance');
+            $blockPsr->position = $blockPsr->position ? $blockPsr->position + 1 : 1;
+            $blockPsr->status = false;
+        }
         $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
         $blockPsr->icon = $picto;
         if (empty($picto)) {
@@ -144,7 +151,11 @@ class AdminBlockListingController extends ModuleAdminController
             }
         }
         if (empty($errors)) {
-            $blockPsr->update();
+            if ($id_block) {
+                $blockPsr->update();
+            } else {
+                $blockPsr->add();
+            }
         }
 
         // Response

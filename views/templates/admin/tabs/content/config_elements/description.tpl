@@ -39,8 +39,8 @@
                         name="description-{$language.id_lang|escape:'htmlall':'UTF-8'}"
                         max="100"
                         class="form-control"
-                        value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}"
-                >{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}</textarea>
+                        value="{if isset($aBlock)}{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}{/if}"
+                >{if isset($aBlock)}{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}{/if}</textarea>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 help-block">

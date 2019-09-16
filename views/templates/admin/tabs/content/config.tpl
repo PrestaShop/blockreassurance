@@ -28,6 +28,26 @@
         {l s='Reassurance Block' mod='psreassurance'}
     </div>
     {include file="./config_elements/reassurance_block.tpl"}
+    <form class="form_" method="post" ENCTYPE="multipart/form-data">
+      <div class="panel-body- show-rea-block inactive">
+          {* icon *}
+          {include file="./config_elements/icon.tpl"}
+          {* language *}
+          {include file="./config_elements/language.tpl"}
+          {foreach from=$languages item=language}
+              {* title *}
+              {include file="./config_elements/title.tpl"}
+              {* description *}
+              {include file="./config_elements/description.tpl"}
+          {/foreach}
+          {* redirection *}
+          {include file="./config_elements/redirection.tpl"}
+          {* CMS *}
+          {include file="./config_elements/cms.tpl"}
+          {* URL *}
+          {include file="./config_elements/url.tpl"}
+      </div>
+    </form>
     {foreach from=$allblock item=$aBlock key=$key}
         <form class="form_{$aBlock['id_psreassurance']}" method="post" ENCTYPE="multipart/form-data">
             <div class="panel-body-{$aBlock['id_psreassurance']} show-rea-block inactive">
