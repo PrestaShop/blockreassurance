@@ -308,6 +308,11 @@
     font-weight: normal;
 }
 
+.msgRecommendation {
+    color: #6C868E;
+    margin-top: 20px;
+}
+
 /* Tab Content : Edit */
 .inactive {
     display: none;

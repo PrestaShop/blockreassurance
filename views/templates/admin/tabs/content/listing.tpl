@@ -26,6 +26,7 @@
 <div id="reminder_listing" class="panel panel-default col-lg-10 col-lg-offset-1 col-xs-12 col-xs-offset-0">
     <div class="panel-heading">
         {l s='Block Content' mod='psreassurance'}
+      <span class="psre-add"><i class="material-icons">add_circle</i></span>
     </div>
     <div class="panel-body first-body">
         <div class="clearfix">
@@ -95,6 +96,9 @@
                     {/foreach}
                 </div>
             </div>
+        </div>
+        <div class="msgRecommendation">
+            {l s='We recommend 3 blocks at maximum.' mod='psreassurance'}
         </div>
     </div>
 </div>
