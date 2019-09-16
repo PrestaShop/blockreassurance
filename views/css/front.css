@@ -6,8 +6,6 @@
 
 .blockreas .reass-item {
     display: inline-block;
-    width: 360px;
-    margin: 0 auto;
     text-align: center;
     vertical-align: top;
 }

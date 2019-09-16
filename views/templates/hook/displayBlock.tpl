@@ -23,8 +23,22 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 <div class="blockreas">
-    {foreach from=$blocks item=$block key=$key}
-        <div class="reass-item" style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
+    {assign var=numCols value=$blocks|@count}
+    {assign var=numColsRemaining value=($numCols % 4)}
+    {foreach from=$blocks item=$block key=$key name=blocks}
+        {assign var=idxCol value=($smarty.foreach.blocks.index + 1)}
+        {assign var=sizeCol value=3}
+        {assign var=offsetCol value=""}
+        {if $idxCol > ($numCols - $numColsRemaining)}
+            {if $numColsRemaining == 2}
+                {if !$smarty.foreach.blocks.last}
+                    {assign var=offsetCol value="offset-sm-3"}
+                {/if}
+            {else}
+                {assign var=sizeCol value=(12 / $numColsRemaining)}
+            {/if}
+        {/if}
+        <div class="reass-item col-sm-{$sizeCol} {$offsetCol}" style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
                 {if ($block['type_link'] !== $LINK_TYPE_NONE) && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
             <div class="block-icon">
                 {if $block['icon'] != 'undefined'}
