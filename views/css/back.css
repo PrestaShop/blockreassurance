@@ -277,7 +277,7 @@
     margin: -2px 5px 0 0;
 }
 .switch-input, .switch-input:after {
-    background: #FFFFFF;
+    background: #D96D6E;
     border: 2px solid #BBCDD2;
     border-radius: 30px;
     box-sizing: border-box;
@@ -285,6 +285,8 @@
     transition: all 0.5s;
 }
 .switch-input:after {
+    background: #FFFFFF;
+    color: #D96D6E;
     display: block;
     content: 'close';
     height: 30px;
