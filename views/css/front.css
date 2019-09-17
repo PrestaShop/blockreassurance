@@ -1,7 +1,7 @@
 .blockreas {
     padding-top: 10px;
     text-align: center;
-    width: 100%
+    width: 100%;
 }
 
 .blockreas .reass-item {
@@ -11,17 +11,40 @@
 }
 
 .blockreas .block-title {
-    font-weight:bold
+    font-weight: bold;
 }
 
 .blockreas .block-icon,
 .blockreas .block-icon img,
 .blockreas .block-icon svg {
-    height:70px
+    height: 70px;
+}
+
+@media (max-width:575px) {
+    .blockreas {
+        text-align:left;
+    }
+    .blockreas .block-icon {
+        display: inline-block;
+        height: 35px;
+        float: left;
+        margin: 10px;
+        width: 35px;
+    }
+    .blockreas .block-icon img,
+    .blockreas .block-icon svg {
+        height: 35px;
+        width: 35px;
+    }
+    .blockreas .block-title {
+        display: inline-block;
+        height: 35px;
+        padding-top: 10px;
+    }
 }
 
 .blockreas_product {
-    margin-top:25px
+    margin-top: 25px;
 }
 
 .blockreas_product .item-product {
@@ -35,6 +58,6 @@
 
 .blockreas_product .item-product img,
 .blockreas_product .item-product svg {
-    height:35px;
-    width:35px;
+    height: 35px;
+    width: 35px;
 }

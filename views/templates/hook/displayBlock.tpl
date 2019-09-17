@@ -24,26 +24,38 @@
 *}
 <div class="blockreas">
     {assign var=numCols value=$blocks|@count}
-    {assign var=numColsRemaining value=($numCols % 4)}
+    {assign var=numColsRemaining_md value=($numCols % 4)}
+    {assign var=numColsRemaining_sm value=($numCols % 2)}
+    <div class="row">
     {foreach from=$blocks item=$block key=$key name=blocks}
         {assign var=idxCol value=($smarty.foreach.blocks.index + 1)}
-        {assign var=sizeCol value=3}
-        {assign var=offsetCol value=""}
-        {if $idxCol > ($numCols - $numColsRemaining)}
-            {if $numColsRemaining == 2}
+        {assign var=sizeCol_md value=3}
+        {assign var=offsetCol_md value="offset-md-0"}
+        {assign var=sizeCol_sm value=6}
+        {assign var=offsetCol_sm value="offset-sm-0"}
+        {if $idxCol > ($numCols - $numColsRemaining_md)}
+            {if $numColsRemaining_md == 2}
                 {if !$smarty.foreach.blocks.last}
-                    {assign var=offsetCol value="offset-sm-3"}
+                    {assign var=offsetCol_md value="offset-md-3"}
                 {/if}
             {else}
-                {assign var=sizeCol value=(12 / $numColsRemaining)}
+                {assign var=sizeCol_md value=(12 / $numColsRemaining_md)}
             {/if}
         {/if}
-        <div class="reass-item col-sm-{$sizeCol} {$offsetCol}" style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
-                {if ($block['type_link'] !== $LINK_TYPE_NONE) && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
+        {if $idxCol > ($numCols - $numColsRemaining_sm)}
+            {if $numColsRemaining_md == 1}
+                {assign var=offsetCol_sm value="offset-sm-3"}
+            {else}
+                {assign var=sizeCol_sm value=(12 / $numColsRemaining_md)}
+            {/if}
+        {/if}
+        <div class="col-md-{$sizeCol_md} {$offsetCol_md} col-sm-{$sizeCol_sm} {$offsetCol_sm} col-xs-12"
+            {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;"{/if}
+            {if ($block['type_link'] !== $LINK_TYPE_NONE) && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
             <div class="block-icon">
                 {if $block['icon'] != 'undefined'}
                     {if $block['icon']}
-                        <img class="svg invisible" src="{$block['icon']}"">
+                        <img class="svg invisible" src="{$block['icon']}">
                     {elseif $block['custom_icon']}
                         <img src="{$block['custom_icon']}">
                     {/if}
@@ -52,6 +64,7 @@
             <div class="block-title" style="color:{$textColor}">{$block['title']}</div>
             <p style="color:{$textColor};">{$block['description'] nofilter}</p>
         </div>
+        {if $idxCol % 4 == 0}</div><div class="row">{/if}
     {/foreach}
-    <div class="clearfix"></div>
+    </div>
 </div>
