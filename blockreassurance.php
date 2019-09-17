@@ -307,10 +307,10 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->smarty->assign(array(
             'addons_category' => $categoryFetcher,
-            'psr_hook_header' => Configuration::get('PSR_HOOK_HEADER'),
-            'psr_hook_footer' => Configuration::get('PSR_HOOK_FOOTER'),
-            'psr_hook_product' => Configuration::get('PSR_HOOK_PRODUCT'),
-            'psr_hook_checkout' => Configuration::get('PSR_HOOK_CHECKOUT'),
+            'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
+            'psr_hook_footer' => (int) Configuration::get('PSR_HOOK_FOOTER'),
+            'psr_hook_product' => (int) Configuration::get('PSR_HOOK_PRODUCT'),
+            'psr_hook_checkout' => (int) Configuration::get('PSR_HOOK_CHECKOUT'),
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'logo_path' => $this->logo_path,
@@ -400,8 +400,8 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayReassurance($params)
     {
-        $enableCheckout = Configuration::get('PSR_HOOK_CHECKOUT');
-        $enableProduct = Configuration::get('PSR_HOOK_PRODUCT');
+        $enableCheckout = (int) Configuration::get('PSR_HOOK_CHECKOUT');
+        $enableProduct = (int) Configuration::get('PSR_HOOK_PRODUCT');
         $controller = Tools::getValue('controller');
 
         if (!$this->shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)) {
@@ -492,11 +492,11 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)
     {
-        if ($enableProduct === '1' && $controller === 'product') {
+        if ($enableProduct === self::POSITION_BELOW_HEADER && $controller === 'product') {
             return true;
         }
 
-        if ($enableCheckout === '1' && $controller === 'cart') {
+        if ($enableCheckout === self::POSITION_BELOW_HEADER && ($controller === 'cart' || $controller === 'order')) {
             return true;
         }
 
