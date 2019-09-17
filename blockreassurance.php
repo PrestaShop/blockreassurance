@@ -539,7 +539,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_controller_block_url' => $this->context->link->getAdminLink('AdminBlockListing'),
             'psr_controller_block' => 'AdminBlockListing',
-            'psr_lang' => $this->context->language->id,
+            'psr_lang' => (int) Configuration::get('PS_LANG_DEFAULT'),
             'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
             'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
             'min_field_error' => $this->trans('The Title field is required at least in your default language.', array(), 'Modules.Blockreassurance.Admin'),
