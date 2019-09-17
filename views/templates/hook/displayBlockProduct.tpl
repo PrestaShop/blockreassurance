@@ -37,7 +37,7 @@
                 {/if}&nbsp;
             </span>
             <span class="block-title" style="color:{$textColor};">{$block['title']}<span>
-            <p style="color:{$textColor};">{$block['description'] nofilter}</p>
+            <p style="color:{$textColor};">{if empty($block['description'])}&nbsp;{else}{$block['description'] nofilter}{/if}</p>
         </div>
     {/foreach}
     <div class="clearfix"></div>
