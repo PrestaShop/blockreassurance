@@ -25,8 +25,7 @@
 
 <div class="blockreas_product">
     {foreach from=$blocks item=$block key=$key}
-        <div class="resize"
-             style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
+        <div style="{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])}cursor:pointer;{/if}"
                 {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
             <span class="item-product">
                 {if $block['icon'] != 'undefined'}

@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel panel-default col-lg-10 col-lg-offset-1 col-md-12 col-md-offset-0">
+<div class="panel panel-default col-lg-10 col-lg-offset-1 col-xs-12 col-xs-offset-0">
     <div class="panel-heading">
         {l s='Customize Module Design' mod='psreassurance'}
     </div>

@@ -30,24 +30,24 @@
     </div>
     <div class="panel-body first-body">
         <div class="clearfix">
-            <div class="listing-table col-lg-12  col-xs-12">
+            <div class="listing-table col-xs-12">
                 <div class="listing-head row">
-                    <div class="col-lg-1 col-xs-1 content-header">{l s='Position' mod='psreassurance'}</div>
-                    <div class="col-lg-1 col-xs-1 content-header">{l s='Image' mod='psreassurance'}</div>
-                    <div class="col-lg-1 col-xs-1 block-title content-header">{l s='Title' mod='psreassurance'}</div>
-                    <div class="col-lg-4 col-xs-4 content-header">{l s='Description' mod='psreassurance'}</div>
-                    <div class="col-lg-2 col-xs-2 content-header">{l s='Redirection' mod='psreassurance'}</div>
-                    <div class="col-lg-2 col-xs-1 content-header">{l s='Actions' mod='psreassurance'}</div>
+                    <div class="col-xs-1 content-header">{l s='Position' mod='psreassurance'}</div>
+                    <div class="col-xs-1 content-header">{l s='Image' mod='psreassurance'}</div>
+                    <div class="col-xs-2 content-header">{l s='Title' mod='psreassurance'}</div>
+                    <div class="col-xs-4 content-header">{l s='Description' mod='psreassurance'}</div>
+                    <div class="col-xs-2 content-header">{l s='Redirection' mod='psreassurance'}</div>
+                    <div class="col-xs-2 content-header">{l s='Actions' mod='psreassurance'}</div>
                 </div>
                 <div class="listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$aBlock key=$key}
                         <div data-id='' class="listing-general-rol row"
                              data-block='{$aBlock.id_psreassurance}'>
                             <div class="listing-row row">
-                                <div class="col-lg-1 col-xs-1">
+                                <div class="col-xs-1">
                                     <i class="material-icons">drag_indicator</i>
                                 </div>
-                                <div class="col-lg-1 col-xs-1 resize">
+                                <div class="col-xs-1">
                                     {if $aBlock['icon'] != 'undefined'}
                                         <img class="svg"
                                              src="{if $aBlock['icon']}{$aBlock['icon']}{else if $aBlock['custom_icon']}{$aBlock['custom_icon']}{/if}"
@@ -56,13 +56,13 @@
                                         {l s='none' mod='psreassurance'}
                                     {/if}
                                 </div>
-                                <div class="col-lg-1 col-xs-1 block-title">
+                                <div class="col-xs-2">
                                     {$aBlock['title']}
                                 </div>
-                                <div class="col-lg-4 col-xs-4">
+                                <div class="col-xs-4">
                                     {$aBlock['description']}
                                 </div>
-                                <div class="col-lg-2 col-xs-2">
+                                <div class="col-xs-2">
                                     {if $aBlock['type_link'] == $LINK_TYPE_NONE}
                                         {l s='None' mod='psreassurance'}
                                     {elseif $aBlock['type_link'] == $LINK_TYPE_URL}
@@ -71,7 +71,7 @@
                                         {l s='CMS Page' mod='psreassurance'}
                                     {/if}
                                 </div>
-                                <div class="col-lg-2 col-xs-2 inline-flex">
+                                <div class="col-xs-2 inline-flex">
                                     <label class="col-lg-12 col-xs-12"
                                            id="reminder_active_{$aBlock['id_psreassurance']}"
                                            for="reminder_active_{$aBlock['id_psreassurance']}"
