@@ -168,7 +168,7 @@ $(window).ready(function () {
     });
 
     // Tab Content : Edit : Modify icon : Tabs
-    $(document).on('click', '#reassurance_block .category_select div i', (e) => {
+    $(document).on('click', '#reassurance_block .category_select div img', (e) => {
         var category = $(e.target).attr('data-id');
         // Change the tab
         $('#reassurance_block .category_select div').removeClass('active');

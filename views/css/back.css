@@ -362,11 +362,13 @@
     border-bottom: 2px solid #00b8df;
     background: #f2f9fb;
 }
-#reassurance_block .category_select div i {
-    padding: 7px;
+#reassurance_block .category_select div img {
     cursor: pointer;
+    height: 38px;
+    padding: 7px;
+    width: 38px;
 }
-#reassurance_block .category_select div i:hover {
+#reassurance_block .category_select div img:hover {
     opacity: .5;
 }
 #reassurance_block .category_reassurance {
