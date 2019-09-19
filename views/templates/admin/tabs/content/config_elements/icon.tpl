@@ -34,20 +34,20 @@
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 first-block">
         <div class="psr_picto_showing input-group col-lg-4">
             <img class="psr-picto picto_by_module svg"
-                 src="{if isset($aBlock) && $aBlock['icon']}{$aBlock['icon']}{elseif isset($aBlock) && $aBlock['custom_icon']}{$aBlock['custom_icon']}{/if}"/>
+                 src="{if isset($block) && $block['icon']}{$block['icon']}{elseif isset($block) && $block['custom_icon']}{$block['custom_icon']}{/if}"/>
             <div>
                 <i class="material-icons landscape">landscape</i>
             </div>
             <div class="svg_chosed_here">
                 <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
             </div>
-            <span class="modify_icon" data-id="{if isset($aBlock)}{$aBlock['id_psreassurance']}{/if}">{l s='Modify icon' mod='psreassurance'}</span>
+            <span class="modify_icon" data-id="{if isset($block)}{$block['id_psreassurance']}{/if}">{l s='Modify icon' mod='psreassurance'}</span>
         </div>
         <div class="input-group upload_file_button">
-            <label class="file_label" for="file{if isset($aBlock)}{$aBlock['id_psreassurance']}{/if}" data-label="{l s='or upload file' mod='psreassurance'}">{l s='or upload file' mod='psreassurance'}</label>
+            <label class="file_label" for="file{if isset($block)}{$block['id_psreassurance']}{/if}" data-label="{l s='or upload file' mod='psreassurance'}">{l s='or upload file' mod='psreassurance'}</label>
             <label class="input-group-btn">
                 <span>
-                    <i class="icon-file"></i><input id="file{if isset($aBlock)}{$aBlock['id_psreassurance']}{/if}" class="slide_image" data-preview="image-preview-lang" type="file" name="image-lang">
+                    <i class="icon-file"></i><input id="file{if isset($block)}{$block['id_psreassurance']}{/if}" class="slide_image" data-preview="image-preview-lang" type="file" name="image-lang">
                 </span>
             </label>
         </div>

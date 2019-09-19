@@ -48,9 +48,9 @@
           {include file="./config_elements/url.tpl"}
       </div>
     </form>
-    {foreach from=$allblock item=$aBlock key=$key}
-        <form class="form_{$aBlock['id_psreassurance']}" method="post" ENCTYPE="multipart/form-data">
-            <div class="panel-body-{$aBlock['id_psreassurance']} show-rea-block inactive">
+    {foreach from=$allblock item=$block key=$key}
+        <form class="form_{$block['id_psreassurance']}" method="post" ENCTYPE="multipart/form-data">
+            <div class="panel-body-{$block['id_psreassurance']} show-rea-block inactive">
                 {* icon *}
                 {include file="./config_elements/icon.tpl"}
                 {* language *}

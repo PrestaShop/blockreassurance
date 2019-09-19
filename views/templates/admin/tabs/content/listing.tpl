@@ -40,52 +40,52 @@
                     <div class="col-xs-2 content-header">{l s='Actions' mod='psreassurance'}</div>
                 </div>
                 <div class="listing-body col-lg-12  col-xs-12">
-                    {foreach from=$allblock item=$aBlock key=$key}
+                    {foreach from=$allblock item=$block key=$key}
                         <div data-id='' class="listing-general-rol row"
-                             data-block='{$aBlock.id_psreassurance}'>
+                             data-block='{$block.id_psreassurance}'>
                             <div class="listing-row row">
                                 <div class="col-xs-1">
                                     <i class="material-icons">drag_indicator</i>
                                 </div>
                                 <div class="col-xs-1">
-                                    {if $aBlock['icon'] != 'undefined'}
+                                    {if $block['icon'] != 'undefined'}
                                         <img class="svg"
-                                             src="{if $aBlock['icon']}{$aBlock['icon']}{else if $aBlock['custom_icon']}{$aBlock['custom_icon']}{/if}"
+                                             src="{if $block['icon']}{$block['icon']}{else if $block['custom_icon']}{$block['custom_icon']}{/if}"
                                         />
                                     {else}
                                         {l s='none' mod='psreassurance'}
                                     {/if}
                                 </div>
                                 <div class="col-xs-2">
-                                    {$aBlock['title']}
+                                    {$block['title']}
                                 </div>
                                 <div class="col-xs-4">
-                                    {$aBlock['description']}
+                                    {$block['description']}
                                 </div>
                                 <div class="col-xs-2">
-                                    {if $aBlock['type_link'] == $LINK_TYPE_NONE}
+                                    {if $block['type_link'] == $LINK_TYPE_NONE}
                                         {l s='None' mod='psreassurance'}
-                                    {elseif $aBlock['type_link'] == $LINK_TYPE_URL}
+                                    {elseif $block['type_link'] == $LINK_TYPE_URL}
                                         {l s='Url link' mod='psreassurance'}
-                                    {elseif $aBlock['type_link'] == $LINK_TYPE_CMS}
+                                    {elseif $block['type_link'] == $LINK_TYPE_CMS}
                                         {l s='CMS Page' mod='psreassurance'}
                                     {/if}
                                 </div>
                                 <div class="col-xs-2 inline-flex">
                                     <label class="col-lg-12 col-xs-12"
-                                           id="reminder_active_{$aBlock['id_psreassurance']}"
-                                           for="reminder_active_{$aBlock['id_psreassurance']}"
-                                           data-cart_psreassurance_id='{$aBlock['id_psreassurance']}'>
-                                        <section class="switch-input {if $aBlock['status']}-checked{/if}">
+                                           id="reminder_active_{$block['id_psreassurance']}"
+                                           for="reminder_active_{$block['id_psreassurance']}"
+                                           data-cart_psreassurance_id='{$block['id_psreassurance']}'>
+                                        <section class="switch-input {if $block['status']}-checked{/if}">
                                             <input data-toggle="switch" class="switch-new" data-inverse="true"
-                                                   type="checkbox" name="reminder_active_{$aBlock['id_psreassurance']}"
+                                                   type="checkbox" name="reminder_active_{$block['id_psreassurance']}"
                                                    checked="">
                                         </section>
-                                        <span class="switch_text switch-on" style="{if !$aBlock['status']}display:none;{/if}">{l s='Activated' mod='psreassurance'}</span>
-                                        <span class="switch_text switch-off" style="{if $aBlock['status']}display:none;{/if}">{l s='Deactivated' mod='psreassurance'}</span>
+                                        <span class="switch_text switch-on" style="{if !$block['status']}display:none;{/if}">{l s='Activated' mod='psreassurance'}</span>
+                                        <span class="switch_text switch-off" style="{if $block['status']}display:none;{/if}">{l s='Deactivated' mod='psreassurance'}</span>
                                     </label>
 
-                                    <span class="psre-edit" data-id="{$aBlock['id_psreassurance']}"><i
+                                    <span class="psre-edit" data-id="{$block['id_psreassurance']}"><i
                                                 class="material-icons">edit</i></span>
                                 </div>
                             </div>

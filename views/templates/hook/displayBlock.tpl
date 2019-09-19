@@ -51,8 +51,7 @@
                 {/if}
             {/if}
             <div class="col-md-{$sizeCol_md} {$offsetCol_md} col-sm-{$sizeCol_sm} {$offsetCol_sm} col-xs-12"
-                {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;"{/if}
-                {if ($block['type_link'] !== $LINK_TYPE_NONE) && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
+                {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;" onclick="window.open('{$block['link']}')"{/if}>
                 <div class="block-icon">
                     {if $block['icon'] != 'undefined'}
                         {if $block['icon']}
