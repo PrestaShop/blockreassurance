@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 <div class="container">
-    <div class="blockreas">
+    <div class="blockreassurance">
         {assign var=numCols value=$blocks|@count}
         {assign var=numColsRemaining_md value=($numCols % 4)}
         {assign var=numColsRemaining_sm value=($numCols % 2)}

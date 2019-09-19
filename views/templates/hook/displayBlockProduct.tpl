@@ -23,10 +23,9 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="blockreas_product">
+<div class="blockreassurance_product">
     {foreach from=$blocks item=$block key=$key}
-        <div{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;"{/if}
-            {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
+        <div{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;" onclick="window.open('{$block['link']}')"{/if}>
             <span class="item-product">
                 {if $block['icon'] != 'undefined'}
                     {if $block['icon']}

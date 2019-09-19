@@ -34,7 +34,7 @@ class blockreassurance extends Module implements WidgetInterface
     const ALLOWED_CONTROLLERS = array(
         'cart',
         'order',
-        'product'
+        'product',
     );
     const POSITION_NONE = 0;
     const POSITION_BELOW_HEADER = 1;

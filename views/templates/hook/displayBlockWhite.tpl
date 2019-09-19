@@ -22,7 +22,7 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-<div class="blockreas col-sm-12">
+<div class="blockreassurance col-sm-12">
     {assign var=numCols value=$blocks|@count}
     {assign var=numColsRemaining_md value=($numCols % 4)}
     {assign var=numColsRemaining_sm value=($numCols % 2)}
@@ -50,8 +50,7 @@
             {/if}
         {/if}
         <div class="col-md-{$sizeCol_md} {$offsetCol_md} col-sm-{$sizeCol_sm} {$offsetCol_sm} col-xs-12"
-            {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;"{/if}
-            {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} onclick="window.open('{$block['link']}')"{/if}>
+            {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;" onclick="window.open('{$block['link']}')"{/if}>
             <div class="block-icon">
                 {if $block['icon'] != 'undefined'}
                     {if $block['icon']}
