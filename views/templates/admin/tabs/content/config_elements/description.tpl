@@ -43,7 +43,7 @@
                 >{if isset($aBlock)}{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}{/if}</textarea>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 help-block">
+        <div class="col-xs-12 help-block">
             <span class="limit_description">0</span>/100 characters
         </div>
     </div>
