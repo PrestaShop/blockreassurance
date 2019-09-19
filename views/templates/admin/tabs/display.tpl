@@ -32,7 +32,7 @@
                 <i class="fa fa-book"></i> {l s='Product pages' mod='psreassurance'}
             </a>
             <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('checkout') }" v-on:click="makeActive('checkout')">
-                <i class="fa fa-clock-o"></i> {l s='Cart pages' mod='psreassurance'}
+                <i class="fa fa-clock-o"></i> {l s='Checkout pages' mod='psreassurance'}
             </a>
         </div>
     </div>
