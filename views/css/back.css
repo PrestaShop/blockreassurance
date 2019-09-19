@@ -114,14 +114,17 @@
     line-height: 1.5em;
 }
 .customradiodesign input[type=radio]:not(old) + label > span {
+    border: 0.0625em solid #6C868E;
     display: inline-block;
     width: 18px;
     height: 18px;
-    margin: 1px 5px 0px 1px;
-    border: 0.0625em solid rgb(37, 185, 215);
+    margin: 1px 5px 0 1px;
     background: #ffffff;
     vertical-align: bottom;
     border-radius: 50%;
+}
+.customradiodesign input[type=radio]:not(old):checked + label > span {
+    border: 0.0625em solid rgb(37, 185, 215);
 }
 .customradiodesign input[type=radio]:not(old):checked + label > span > span {
     display: block;
