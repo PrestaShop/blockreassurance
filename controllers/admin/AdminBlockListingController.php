@@ -123,7 +123,7 @@ class AdminBlockListingController extends ModuleAdminController
         $blockPsr = new ReassuranceActivity($id_block);
         if (!$id_block) {
             // Last position
-            $blockPsr->position = Db::getInstance()->getValue('SELECT MAX(position) AS max FROM ' .  _DB_PREFIX_ . 'psreassurance');
+            $blockPsr->position = Db::getInstance()->getValue('SELECT MAX(position) AS max FROM ' . _DB_PREFIX_ . 'psreassurance');
             $blockPsr->position = $blockPsr->position ? $blockPsr->position + 1 : 1;
             $blockPsr->status = false;
         }
