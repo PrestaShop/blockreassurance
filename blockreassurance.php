@@ -312,10 +312,10 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->smarty->assign(array(
             'addons_category' => $categoryFetcher,
-            'psr_hook_header' => Configuration::getInt('PSR_HOOK_HEADER'),
-            'psr_hook_footer' => Configuration::getInt('PSR_HOOK_FOOTER'),
-            'psr_hook_product' => Configuration::getInt('PSR_HOOK_PRODUCT'),
-            'psr_hook_checkout' => Configuration::getInt('PSR_HOOK_CHECKOUT'),
+            'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
+            'psr_hook_footer' => (int) Configuration::get('PSR_HOOK_FOOTER'),
+            'psr_hook_product' => (int) Configuration::get('PSR_HOOK_PRODUCT'),
+            'psr_hook_checkout' => (int) Configuration::get('PSR_HOOK_CHECKOUT'),
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'logo_path' => $this->logo_path,
@@ -349,7 +349,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayAfterBodyOpeningTag($params)
     {
-        $position = Configuration::getInt('PSR_HOOK_HEADER');
+        $position = (int) Configuration::get('PSR_HOOK_HEADER');
 
         return $position === self::POSITION_ABOVE_HEADER ? $this->renderTemplateInHook('displayBlock.tpl') : '';
     }
@@ -363,7 +363,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayNavFullWidth($params)
     {
-        $position = Configuration::getInt('PSR_HOOK_HEADER');
+        $position = (int) Configuration::get('PSR_HOOK_HEADER');
 
         return $position === self::POSITION_BELOW_HEADER ? $this->renderTemplateInHook('displayBlock.tpl') : '';
     }
@@ -377,7 +377,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayFooterAfter($params)
     {
-        $position = Configuration::getInt('PSR_HOOK_FOOTER');
+        $position = (int) Configuration::get('PSR_HOOK_FOOTER');
 
         return $position === self::POSITION_BELOW_HEADER ? $this->renderTemplateInHook('displayBlockWhite.tpl') : '';
     }
@@ -391,7 +391,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayFooterBefore($params)
     {
-        $position = Configuration::getInt('PSR_HOOK_FOOTER');
+        $position = (int) Configuration::get('PSR_HOOK_FOOTER');
 
         return $position === self::POSITION_ABOVE_HEADER ? $this->renderTemplateInHook('displayBlockWhite.tpl') : '';
     }
@@ -405,8 +405,8 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayReassurance($params)
     {
-        $enableCheckout = Configuration::getInt('PSR_HOOK_CHECKOUT');
-        $enableProduct = Configuration::getInt('PSR_HOOK_PRODUCT');
+        $enableCheckout = (int) Configuration::get('PSR_HOOK_CHECKOUT');
+        $enableProduct = (int) Configuration::get('PSR_HOOK_PRODUCT');
         $controller = Tools::getValue('controller');
 
         if (!$this->shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)) {
@@ -540,7 +540,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_controller_block_url' => $this->context->link->getAdminLink('AdminBlockListing'),
             'psr_controller_block' => 'AdminBlockListing',
-            'psr_lang' => Configuration::getInt('PS_LANG_DEFAULT'),
+            'psr_lang' => (int) Configuration::get('PS_LANG_DEFAULT'),
             'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
             'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
             'min_field_error' => $this->trans('The Title field is required at least in your default language.', array(), 'Modules.Blockreassurance.Admin'),
