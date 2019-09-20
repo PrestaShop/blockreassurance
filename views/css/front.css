@@ -61,3 +61,7 @@
     height: 35px;
     width: 35px;
 }
+
+.blockreassurance_product p.block-title {
+    line-height: 40px;
+}
