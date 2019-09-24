@@ -220,6 +220,11 @@
     background-color: #00b9d9;
     color: #fff;
 }
+#content.bootstrap .btn.btn-primary.refreshPage {
+  background-color: transparent;
+  border-color: #6C868E;
+  color: #6C868E;
+}
 
 /* Tab Content : Listing */
 .listing-table .block-title {
@@ -422,11 +427,6 @@
 }
 #blockDisplay .customradiodesign label {
     font-weight: normal;
-}
-#blockDisplay .refreshPage {
-    background-color: transparent;
-    border-color: #6C868E;
-    color: #6C868E;
 }
 #blockDisplay .picto-url {
     padding-right: 5px !important;
