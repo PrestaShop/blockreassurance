@@ -31,9 +31,11 @@ use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
 {
-    const ALLOWED_CONTROLLERS = array(
+    const ALLOWED_CONTROLLERS_CHECKOUT = array(
         'cart',
         'order',
+    );
+    const ALLOWED_CONTROLLERS_PRODUCT = array(
         'product',
     );
     const POSITION_NONE = 0;
@@ -497,7 +499,10 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)
     {
-        if ($enableCheckout === self::POSITION_BELOW_HEADER && in_array($controller, self::ALLOWED_CONTROLLERS)) {
+        if ($enableCheckout === self::POSITION_BELOW_HEADER && in_array($controller, self::ALLOWED_CONTROLLERS_CHECKOUT)) {
+            return true;
+        }
+        if ($enableProduct === self::POSITION_BELOW_HEADER && in_array($controller, self::ALLOWED_CONTROLLERS_PRODUCT)) {
             return true;
         }
 
