@@ -27,7 +27,7 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3 first-block">
         <div class="text-right">
             <label class="control-label">
-                {l s='Image' mod='psreassurance'}
+                {l s='Image' d='Modules.Blockreassurance.Admin'}
             </label>
         </div>
     </div>
@@ -41,10 +41,10 @@
             <div class="svg_chosed_here">
                 <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
             </div>
-            <span class="modify_icon" data-id="{if isset($block)}{$block['id_psreassurance']}{/if}">{l s='Modify icon' mod='psreassurance'}</span>
+            <span class="modify_icon" data-id="{if isset($block)}{$block['id_psreassurance']}{/if}">{l s='Modify icon' d='Modules.Blockreassurance.Admin'}</span>
         </div>
         <div class="input-group upload_file_button">
-            <label class="file_label" for="file{if isset($block)}{$block['id_psreassurance']}{/if}" data-label="{l s='or upload file' mod='psreassurance'}">{l s='or upload file' mod='psreassurance'}</label>
+            <label class="file_label" for="file{if isset($block)}{$block['id_psreassurance']}{/if}" data-label="{l s='or upload file' d='Modules.Blockreassurance.Admin'}">{l s='or upload file' d='Modules.Blockreassurance.Admin'}</label>
             <label class="input-group-btn">
                 <span>
                     <i class="icon-file"></i><input id="file{if isset($block)}{$block['id_psreassurance']}{/if}" class="slide_image" data-preview="image-preview-lang" type="file" name="image-lang">
@@ -52,7 +52,7 @@
             </label>
         </div>
         <div class="help-block">
-            {l s='Choose SVG for best customization. Other accepted file formats: jpg, png, gif' mod='psreassurance'}
+            {l s='Choose SVG for best customization. Other accepted file formats: jpg, png, gif' d='Modules.Blockreassurance.Admin'}
         </div>
     </div>
     <div class="clearfix"></div>

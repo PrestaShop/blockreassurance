@@ -25,19 +25,19 @@
 
 <div id="reminder_listing" class="panel panel-default col-lg-10 col-lg-offset-1 col-xs-12 col-xs-offset-0">
     <div class="panel-heading">
-        {l s='Block Content' mod='psreassurance'}
+        {l s='Block Content' d='Modules.Blockreassurance.Admin'}
       <span class="psre-add"><i class="material-icons">add_circle</i></span>
     </div>
     <div class="panel-body first-body">
         <div class="clearfix">
             <div class="listing-table col-xs-12">
                 <div class="listing-head row">
-                    <div class="col-xs-1 content-header">{l s='Position' mod='psreassurance'}</div>
-                    <div class="col-xs-1 content-header">{l s='Image' mod='psreassurance'}</div>
-                    <div class="col-xs-2 content-header">{l s='Title' mod='psreassurance'}</div>
-                    <div class="col-xs-4 content-header">{l s='Description' mod='psreassurance'}</div>
-                    <div class="col-xs-2 content-header">{l s='Redirection' mod='psreassurance'}</div>
-                    <div class="col-xs-2 content-header">{l s='Actions' mod='psreassurance'}</div>
+                    <div class="col-xs-1 content-header">{l s='Position' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-1 content-header">{l s='Image' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-2 content-header">{l s='Title' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-4 content-header">{l s='Description' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-2 content-header">{l s='Redirection' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-2 content-header">{l s='Actions' d='Modules.Blockreassurance.Admin'}</div>
                 </div>
                 <div class="listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$block key=$key}
@@ -53,7 +53,7 @@
                                              src="{if $block['icon']}{$block['icon']}{else if $block['custom_icon']}{$block['custom_icon']}{/if}"
                                         />
                                     {else}
-                                        {l s='none' mod='psreassurance'}
+                                        {l s='none' d='Modules.Blockreassurance.Admin'}
                                     {/if}
                                 </div>
                                 <div class="col-xs-2">
@@ -64,11 +64,11 @@
                                 </div>
                                 <div class="col-xs-2">
                                     {if $block['type_link'] == $LINK_TYPE_NONE}
-                                        {l s='None' mod='psreassurance'}
+                                        {l s='None' d='Modules.Blockreassurance.Admin'}
                                     {elseif $block['type_link'] == $LINK_TYPE_URL}
-                                        {l s='Url link' mod='psreassurance'}
+                                        {l s='Url link' d='Modules.Blockreassurance.Admin'}
                                     {elseif $block['type_link'] == $LINK_TYPE_CMS}
-                                        {l s='CMS Page' mod='psreassurance'}
+                                        {l s='CMS Page' d='Modules.Blockreassurance.Admin'}
                                     {/if}
                                 </div>
                                 <div class="col-xs-2 inline-flex">
@@ -81,8 +81,8 @@
                                                    type="checkbox" name="reminder_active_{$block['id_psreassurance']}"
                                                    checked="">
                                         </section>
-                                        <span class="switch_text switch-on" style="{if !$block['status']}display:none;{/if}">{l s='Activated' mod='psreassurance'}</span>
-                                        <span class="switch_text switch-off" style="{if $block['status']}display:none;{/if}">{l s='Deactivated' mod='psreassurance'}</span>
+                                        <span class="switch_text switch-on" style="{if !$block['status']}display:none;{/if}">{l s='Activated' d='Modules.Blockreassurance.Admin'}</span>
+                                        <span class="switch_text switch-off" style="{if $block['status']}display:none;{/if}">{l s='Deactivated' d='Modules.Blockreassurance.Admin'}</span>
                                     </label>
 
                                     <span class="psre-edit" data-id="{$block['id_psreassurance']}"><i
@@ -98,7 +98,7 @@
             </div>
         </div>
         <div class="msgRecommendation">
-            {l s='We recommend 3 blocks at maximum.' mod='psreassurance'}
+            {l s='We recommend 3 blocks at maximum.' d='Modules.Blockreassurance.Admin'}
         </div>
     </div>
 </div>

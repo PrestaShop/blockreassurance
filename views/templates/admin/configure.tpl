@@ -28,13 +28,13 @@
         <div class="page-head-tabs" id="head_tabs">
             <ul class="nav">
                 <li class="active">
-                    <a href="#pscontent" data-toggle="tab">{l s='Content' mod='psreassurance'}</a>
+                    <a href="#pscontent" data-toggle="tab">{l s='Content' d='Modules.Blockreassurance.Admin'}</a>
                 </li>
                 <li>
-                    <a href="#display" data-toggle="tab">{l s='Display' mod='psreassurance'}</a>
+                    <a href="#display" data-toggle="tab">{l s='Display' d='Modules.Blockreassurance.Admin'}</a>
                 </li>
                 <li>
-                    <a href="#appearance" data-toggle="tab">{l s='Appearance' mod='psreassurance'}</a>
+                    <a href="#appearance" data-toggle="tab">{l s='Appearance' d='Modules.Blockreassurance.Admin'}</a>
                 </li>
             </ul>
         </div>

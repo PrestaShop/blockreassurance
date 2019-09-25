@@ -114,8 +114,7 @@ class AdminBlockListingController extends ModuleAdminController
         $errors = [];
 
         $picto = Tools::getValue('picto');
-        $id_block = Tools::getValue('id_block');
-        $id_block = empty($id_block) ? null : $id_block;
+        $id_block = empty(Tools::getValue('id_block')) ? null : Tools::getValue('id_block');
         $type_link = (int) Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
         $psr_languages = (array) json_decode(Tools::getValue('lang_values'));

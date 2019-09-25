@@ -27,7 +27,7 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
-                {l s='Redirection' mod='psreassurance'}
+                {l s='Redirection' d='Modules.Blockreassurance.Admin'}
             </label>
         </div>
     </div>
@@ -40,7 +40,7 @@
                            value="{$LINK_TYPE_NONE}" {if (isset($block) && $block['type_link'] == $LINK_TYPE_NONE) || !isset($block)} checked="checked"{/if}>
 
                     <label for="PSR_REDIRECTION_NONE_{if isset($block)}{$block['id_psreassurance']}{/if}"
-                         class="input-redirection"><span><span></span></span>{l s='None' mod='psreassurance'}</label>
+                         class="input-redirection"><span><span></span></span>{l s='None' d='Modules.Blockreassurance.Admin'}</label>
                 </div>
                 <div>
                     <input id="PSR_REDIRECTION_CMS_{if isset($block)}{$block['id_psreassurance']}{/if}" type="radio"
@@ -48,7 +48,7 @@
                            value="{$LINK_TYPE_CMS}" {if isset($block) && $block['type_link'] == $LINK_TYPE_CMS} checked="checked"{/if}>
 
                     <label for="PSR_REDIRECTION_CMS_{if isset($block)}{$block['id_psreassurance']}{/if}"
-                           class="input-redirection"><span><span></span></span>{l s='CMS page' mod='psreassurance'}</label>
+                           class="input-redirection"><span><span></span></span>{l s='CMS page' d='Modules.Blockreassurance.Admin'}</label>
                 </div>
                 <div>
                   <input id="PSR_REDIRECTION_URL_{if isset($block)}{$block['id_psreassurance']}{/if}" type="radio"
@@ -56,7 +56,7 @@
                          value="{$LINK_TYPE_URL}" {if isset($block) && $block['type_link'] == $LINK_TYPE_URL} checked="checked"{/if}>
 
                   <label for="PSR_REDIRECTION_URL_{if isset($block)}{$block['id_psreassurance']}{/if}"
-                         class="input-redirection"><span><span></span></span>{l s='URL' mod='psreassurance'}</label>
+                         class="input-redirection"><span><span></span></span>{l s='URL' d='Modules.Blockreassurance.Admin'}</label>
                 </div>
             </div>
         </div>

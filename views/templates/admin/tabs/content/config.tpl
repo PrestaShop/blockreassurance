@@ -25,7 +25,7 @@
 
 <div id="blockDisplay" class="panel panel-default col-lg-10 col-xs-10 col-lg-offset-1 col-xs-offset-1 inactive">
     <div class="panel-heading">
-        {l s='Reassurance Block' mod='psreassurance'}
+        {l s='Reassurance Block' d='Modules.Blockreassurance.Admin'}
     </div>
     {include file="./config_elements/reassurance_block.tpl"}
     <form class="form_" method="post" ENCTYPE="multipart/form-data">
@@ -73,11 +73,11 @@
     <div class="panel-footer">
         <div class="col-xs-6 text-left">
             <input name="refreshPage" type="submit"
-                    class="btn btn-primary refreshPage" value="{l s='Return' mod='psreassurance'}">
+                    class="btn btn-primary refreshPage" value="{l s='Return' d='Modules.Blockreassurance.Admin'}">
         </div>
         <div class="col-xs-6 text-right">
             <input name="saveContentConfiguration" id="saveContentConfiguration" data-id="" type="submit"
-                   class="btn btn-primary" value="{l s='Save' mod='psreassurance'}">
+                   class="btn btn-primary" value="{l s='Save' d='Modules.Blockreassurance.Admin'}">
         </div>
     </div>
 </div>

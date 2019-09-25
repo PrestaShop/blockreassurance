@@ -28,7 +28,7 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
-                {l s='Title' mod='psreassurance'}
+                {l s='Title' d='Modules.Blockreassurance.Admin'}
             </label>
         </div>
     </div>

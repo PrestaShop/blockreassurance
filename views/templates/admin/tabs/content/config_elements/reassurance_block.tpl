@@ -97,6 +97,6 @@
         </div>
     </section>
     <div class="select_none">
-        {l s='Select none' mod='psreassurance'}
+        {l s='Select none' d='Modules.Blockreassurance.Admin'}
     </div>
 </section>
