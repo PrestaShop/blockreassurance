@@ -29,7 +29,7 @@
     </div>
     {include file="./config_elements/reassurance_block.tpl"}
     <form class="form_" method="post" ENCTYPE="multipart/form-data">
-      <div class="panel-body- show-rea-block inactive">
+      <div class="panel-body-0 panel-body show-rea-block inactive">
           {* icon *}
           {include file="./config_elements/icon.tpl"}
           {* language *}
@@ -50,7 +50,7 @@
     </form>
     {foreach from=$allblock item=$block key=$key}
         <form class="form_{$block['id_psreassurance']}" method="post" ENCTYPE="multipart/form-data">
-            <div class="panel-body-{$block['id_psreassurance']} show-rea-block inactive">
+            <div class="panel-body-{$block['id_psreassurance']} panel-body show-rea-block inactive">
                 {* icon *}
                 {include file="./config_elements/icon.tpl"}
                 {* language *}

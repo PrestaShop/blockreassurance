@@ -99,13 +99,13 @@ $(window).ready(function () {
       $('#blockDisplay').removeClass('inactive').addClass('active');
       $('.show-rea-block').removeClass('active').addClass('inactive');
 
-      $('.panel-body-').removeClass('inactive').addClass('active');
+      $('.panel-body-0').removeClass('inactive').addClass('active');
       $('#saveContentConfiguration').attr('data-id', '');
 
       $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
       $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
 
-      var landscape = $('.panel-body- .psr-picto').attr('src');
+      var landscape = $('.panel-body-0 .psr-picto').attr('src');
       if (typeof landscape === 'undefined' || landscape === undefined) {
         $('.psr-picto:visible').hide();
         $('.svg_chosed_here:visible').hide();
