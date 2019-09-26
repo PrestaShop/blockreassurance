@@ -170,9 +170,9 @@ class blockreassurance extends Module implements WidgetInterface
             . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
         foreach (Language::getLanguages(false) as $lang) {
             $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES '
-                . '(1, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Security Policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with Customer reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
-                . '(2, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Delivery Policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with Customer reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
-                . '(3, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Return Policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with Customer reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '')";
+                . '(1, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Security policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
+                . '(2, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Delivery policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
+                . '(3, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Return policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '')";
         }
 
         foreach ($sqlQueries as $query) {
