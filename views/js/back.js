@@ -106,7 +106,7 @@ $(window).ready(function () {
       $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
 
       var landscape = $('.panel-body-0 .psr-picto').attr('src');
-      if (typeof landscape === 'undefined' || landscape === undefined) {
+      if (typeof landscape === 'undefined') {
         $('.psr-picto:visible').hide();
         $('.svg_chosed_here:visible').hide();
         $('.landscape').show();
@@ -129,7 +129,7 @@ $(window).ready(function () {
         $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
 
         var landscape = $('.panel-body-' + id + ' .psr-picto').attr('src');
-        if (typeof landscape === 'undefined' || landscape === undefined) {
+        if (typeof landscape === 'undefined') {
             $('.psr-picto:visible').hide();
             $('.svg_chosed_here:visible').hide();
             $('.landscape').show();
