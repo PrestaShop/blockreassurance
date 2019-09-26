@@ -548,7 +548,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_lang' => (int) Configuration::get('PS_LANG_DEFAULT'),
             'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
             'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
-            'min_field_error' => $this->trans('The field %field_name% is required at least in your default language.', array('%field_name%' => sprintf('"%s"', $this->trans('Title', 'Admin.Global')),), 'Admin.Notifications.Error'),
+            'min_field_error' => $this->trans('The field %field_name% is required at least in your default language.', array('%field_name%' => sprintf('"%s"', $this->trans('Title', 'Admin.Global'))), 'Admin.Notifications.Error'),
             'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
             'successPosition' => $this->trans('Position changed successfully!', array(), 'Modules.Blockreassurance.Admin'),
             'errorPosition' => $this->trans('An error occurred when switching position', array(), 'Modules.Blockreassurance.Admin'),
