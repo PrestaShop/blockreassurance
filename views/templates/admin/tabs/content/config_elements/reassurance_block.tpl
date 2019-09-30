@@ -25,9 +25,9 @@
 
 <section id="reassurance_block">
     <section class="category_select row">
-        <div class="col-lg-2 col-xs-2 active"><i class="material-icons" data-id="1">mood</i></div>
-        <div class="col-lg-2 col-xs-2"><i class="material-icons" data-id="2">local_shipping</i></div>
-        <div class="col-lg-2 col-xs-2"><i class="material-icons" data-id="3">loop</i></div>
+        <div class="col-lg-2 col-xs-2 active"><img class="svg" src="{$img_url}/reassurance/pack1/public.svg" data-id="1" /></div>
+        <div class="col-lg-2 col-xs-2"><img class="svg" src="{$img_url}/reassurance/pack2/globe.svg" data-id="2" /></div>
+        <div class="col-lg-2 col-xs-2"><img class="svg" src="{$img_url}/reassurance/pack3/globe.svg" data-id="3" /></div>
     </section>
     <section class="category_reassurance cat_1 active">
         <div class="row">
@@ -97,6 +97,6 @@
         </div>
     </section>
     <div class="select_none">
-        {l s='Select none' mod='psreassurance'}
+        {l s='Select none' d='Modules.Blockreassurance.Admin'}
     </div>
 </section>

@@ -26,13 +26,13 @@
     <div id="menu" class="col-lg-2 col-xs-2">
         <div class="list-group" v-on:click.prevent>
             <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('global') }" v-on:click="makeActive('global')">
-                <i class="fa fa-cog"></i> {l s='Global settings' mod='psreassurance'}
+                <i class="fa fa-cog"></i> {l s='Global settings' d='Modules.Blockreassurance.Admin'}
             </a>
             <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('product') }" v-on:click="makeActive('product')">
-                <i class="fa fa-book"></i> {l s='Product pages' mod='psreassurance'}
+                <i class="fa fa-book"></i> {l s='Product pages' d='Modules.Blockreassurance.Admin'}
             </a>
             <a href="#" class="list-group-item" v-bind:class="{ 'active': isActive('checkout') }" v-on:click="makeActive('checkout')">
-                <i class="fa fa-clock-o"></i> {l s='Cart pages' mod='psreassurance'}
+                <i class="fa fa-clock-o"></i> {l s='Checkout pages' d='Modules.Blockreassurance.Admin'}
             </a>
         </div>
     </div>

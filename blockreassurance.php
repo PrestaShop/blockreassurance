@@ -31,6 +31,13 @@ use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
 {
+    const ALLOWED_CONTROLLERS_CHECKOUT = array(
+        'cart',
+        'order',
+    );
+    const ALLOWED_CONTROLLERS_PRODUCT = array(
+        'product',
+    );
     const POSITION_NONE = 0;
     const POSITION_BELOW_HEADER = 1;
     const POSITION_ABOVE_HEADER = 2;
@@ -100,7 +107,7 @@ class blockreassurance extends Module implements WidgetInterface
             $this->context->link = new Link($protocolPrefix, $protocolPrefix);
         }
 
-        $this->displayName = $this->trans('blockreassurance', array(), 'Modules.Blockreassurance.Admin');
+        $this->displayName = $this->trans('Customer Reassurance', array(), 'Modules.Blockreassurance.Admin');
         $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', array(), 'Modules.Blockreassurance.Admin');
 
         // Settings paths
@@ -163,9 +170,9 @@ class blockreassurance extends Module implements WidgetInterface
             . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, 1, null, null, now())";
         foreach (Language::getLanguages(false) as $lang) {
             $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, id_shop, title, description, link) VALUES '
-                . '(1, ' . $lang['id_lang'] . ", 1, 'Security Policy', '(edit with Customer reassurance module)', ''),"
-                . '(2, ' . $lang['id_lang'] . ", 1, 'Delivery Policy', '(edit with Customer reassurance module)', ''),"
-                . '(3, ' . $lang['id_lang'] . ", 1, 'Return Policy', '(edit with Customer reassurance module)', '')";
+                . '(1, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Security policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
+                . '(2, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Delivery policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
+                . '(3, ' . $lang['id_lang'] . ", 1, '" . $this->trans('Return policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '')";
         }
 
         foreach ($sqlQueries as $query) {
@@ -307,10 +314,10 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->smarty->assign(array(
             'addons_category' => $categoryFetcher,
-            'psr_hook_header' => Configuration::get('PSR_HOOK_HEADER'),
-            'psr_hook_footer' => Configuration::get('PSR_HOOK_FOOTER'),
-            'psr_hook_product' => Configuration::get('PSR_HOOK_PRODUCT'),
-            'psr_hook_checkout' => Configuration::get('PSR_HOOK_CHECKOUT'),
+            'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
+            'psr_hook_footer' => (int) Configuration::get('PSR_HOOK_FOOTER'),
+            'psr_hook_product' => (int) Configuration::get('PSR_HOOK_PRODUCT'),
+            'psr_hook_checkout' => (int) Configuration::get('PSR_HOOK_CHECKOUT'),
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'logo_path' => $this->logo_path,
@@ -400,8 +407,8 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function hookdisplayReassurance($params)
     {
-        $enableCheckout = Configuration::get('PSR_HOOK_CHECKOUT');
-        $enableProduct = Configuration::get('PSR_HOOK_PRODUCT');
+        $enableCheckout = (int) Configuration::get('PSR_HOOK_CHECKOUT');
+        $enableProduct = (int) Configuration::get('PSR_HOOK_PRODUCT');
         $controller = Tools::getValue('controller');
 
         if (!$this->shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)) {
@@ -492,11 +499,10 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function shouldWeDisplayOnBlockProduct($enableCheckout, $enableProduct, $controller)
     {
-        if ($enableProduct === '1' && $controller === 'product') {
+        if ($enableCheckout === self::POSITION_BELOW_HEADER && in_array($controller, self::ALLOWED_CONTROLLERS_CHECKOUT)) {
             return true;
         }
-
-        if ($enableCheckout === '1' && $controller === 'cart') {
+        if ($enableProduct === self::POSITION_BELOW_HEADER && in_array($controller, self::ALLOWED_CONTROLLERS_PRODUCT)) {
             return true;
         }
 
@@ -539,8 +545,10 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_controller_block_url' => $this->context->link->getAdminLink('AdminBlockListing'),
             'psr_controller_block' => 'AdminBlockListing',
+            'psr_lang' => (int) Configuration::get('PS_LANG_DEFAULT'),
             'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
             'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
+            'min_field_error' => $this->trans('The field %field_name% is required at least in your default language.', array('%field_name%' => sprintf('"%s"', $this->trans('Title', array(), 'Admin.Global'))), 'Admin.Notifications.Error'),
             'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
             'successPosition' => $this->trans('Position changed successfully!', array(), 'Modules.Blockreassurance.Admin'),
             'errorPosition' => $this->trans('An error occurred when switching position', array(), 'Modules.Blockreassurance.Admin'),

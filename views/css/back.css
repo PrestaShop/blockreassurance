@@ -114,14 +114,17 @@
     line-height: 1.5em;
 }
 .customradiodesign input[type=radio]:not(old) + label > span {
+    border: 0.0625em solid #6C868E;
     display: inline-block;
     width: 18px;
     height: 18px;
-    margin: 1px 5px 0px 1px;
-    border: 0.0625em solid rgb(37, 185, 215);
+    margin: 1px 5px 0 1px;
     background: #ffffff;
     vertical-align: bottom;
     border-radius: 50%;
+}
+.customradiodesign input[type=radio]:not(old):checked + label > span {
+    border: 0.0625em solid rgb(37, 185, 215);
 }
 .customradiodesign input[type=radio]:not(old):checked + label > span > span {
     display: block;
@@ -173,30 +176,31 @@
     }
 }
 
-.bootstrap .panel {
+#content.bootstrap .panel {
     border-radius: 0;
     padding: 0;
 }
 #content.bootstrap .panel-heading {
-    margin: 0;
-    padding: 12px 20px !important;
     background-color: #f5f5f5;
     border-bottom: 1px solid #e5e5e5;
-    font-family: Open Sans, Helvetica, Arial, sans-serif !important;
-    font-weight: 700 !important;
-    line-height: 1.2;
     color: #363a41 !important;
+    font-family: Open Sans, Helvetica, Arial, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
     height: 49px !important;
+    line-height: 1.2;
+    margin: 0;
+    padding: 12px 20px !important;
     text-transform: capitalize;
 }
-.bootstrap .panel .panel-footer {
-    padding: .75rem 1.25rem;
+#content.bootstrap .panel .panel-footer {
     background-color: #f5f5f5;
     border-top: 1px solid #e5e5e5;
-    margin: 0 30px 0 0;
+    padding: .75rem 1.25rem;
+    margin: 0;
 }
-.bootstrap .panel .panel-footer .btn,
-.bootstrap .panel .btn {
+#content.bootstrap .panel .panel-footer .btn,
+#content.bootstrap .panel .btn {
     display: inline-block;
     text-align: center;
     text-transform: initial;
@@ -212,9 +216,14 @@
     border-radius: 0;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
-.bootstrap .btn.btn-primary {
+#content.bootstrap .btn.btn-primary {
     background-color: #00b9d9;
     color: #fff;
+}
+#content.bootstrap .btn.btn-primary.refreshPage {
+  background-color: transparent;
+  border-color: #6C868E;
+  color: #6C868E;
 }
 
 /* Tab Content : Listing */
@@ -228,11 +237,15 @@
     padding-top: 15px;
 }
 .listing-general-rol:hover, .listing-general-rol.active {
-    background-color: #f2f9fb;
+    background-color: #FAFBFC;
     transition: background .3s;
 }
-.listing-row {
-    border-bottom: grey solid 1px;
+.listing-body.ui-sortable {
+    padding: 0;
+}
+.listing-row.row {
+    border-bottom: #BBCDD2 solid 1px;
+    margin: 0;
     padding-bottom: 9px;
     padding-top: 15px;
 }
@@ -243,6 +256,9 @@
 .listing-row div:first-child {
     cursor: grab;
 }
+.listing-row:hover div:first-child i {
+    color: #00b9d9;
+}
 .listing-row div img {
     width: 35px;
 }
@@ -252,6 +268,14 @@
 }
 .psrea-flex {
     display: flex !important;
+}
+.psre-add {
+    color: #B1C0C4;
+    cursor: pointer;
+    float: right;
+}
+.psre-add i {
+    font-size: 1.5em !important;
 }
 .psre-edit {
     cursor: pointer;
@@ -269,7 +293,7 @@
     margin: -2px 5px 0 0;
 }
 .switch-input, .switch-input:after {
-    background: #FFFFFF;
+    background: #D96D6E;
     border: 2px solid #BBCDD2;
     border-radius: 30px;
     box-sizing: border-box;
@@ -277,6 +301,8 @@
     transition: all 0.5s;
 }
 .switch-input:after {
+    background: #FFFFFF;
+    color: #D96D6E;
     display: block;
     content: 'close';
     height: 30px;
@@ -308,6 +334,11 @@
     font-weight: normal;
 }
 
+.msgRecommendation {
+    color: #6C868E;
+    margin-top: 20px;
+}
+
 /* Tab Content : Edit */
 .inactive {
     display: none;
@@ -336,11 +367,13 @@
     border-bottom: 2px solid #00b8df;
     background: #f2f9fb;
 }
-#reassurance_block .category_select div i {
-    padding: 7px;
+#reassurance_block .category_select div img {
     cursor: pointer;
+    height: 38px;
+    padding: 7px;
+    width: 38px;
 }
-#reassurance_block .category_select div i:hover {
+#reassurance_block .category_select div img:hover {
     opacity: .5;
 }
 #reassurance_block .category_reassurance {
@@ -386,12 +419,14 @@
     padding-right: 25px;
     padding-top: 6px;
 }
+#blockDisplay .panel-footer .text-left,
+#blockDisplay .panel-footer .text-right {
+    color: inherit;
+    padding-right: inherit;
+    padding-top: 6px;
+}
 #blockDisplay .customradiodesign label {
     font-weight: normal;
-}
-#blockDisplay .refreshPage {
-    background-color: transparent;
-    color: #00b9d9;
 }
 #blockDisplay .picto-url {
     padding-right: 5px !important;
@@ -402,7 +437,6 @@
 #blockDisplay .input-redirection {
     padding-right: 40px;
 }
-
 
 /* Tab Content : Edit : Select Icon */
 .select_none {

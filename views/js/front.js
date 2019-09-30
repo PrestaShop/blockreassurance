@@ -23,7 +23,7 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 $(window).ready(function () {
-  $('.blockreas_product img.svg, .blockreas img.svg').each(function () {
+  $('.blockreassurance_product img.svg, .blockreassurance img.svg').each(function () {
     var imgObject = $(this);
     var imgID = imgObject.attr('id');
     var imgClass = imgObject.attr('class');

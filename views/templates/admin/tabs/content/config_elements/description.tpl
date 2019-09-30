@@ -28,7 +28,7 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
-                {l s='Description (optional)' mod='psreassurance'}
+                {l s='Description (optional)' d='Modules.Blockreassurance.Admin'}
             </label>
         </div>
     </div>
@@ -39,11 +39,11 @@
                         name="description-{$language.id_lang|escape:'htmlall':'UTF-8'}"
                         max="100"
                         class="form-control"
-                        value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}"
-                >{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['description']}</textarea>
+                        value="{if isset($block)}{$allblockByShop[{$language.id_lang}][$block['id_psreassurance']]['description']}{/if}"
+                >{if isset($block)}{$allblockByShop[{$language.id_lang}][$block['id_psreassurance']]['description']}{/if}</textarea>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 help-block">
+        <div class="col-xs-12 help-block">
             <span class="limit_description">0</span>/100 characters
         </div>
     </div>

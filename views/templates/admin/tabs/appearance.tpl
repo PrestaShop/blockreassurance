@@ -23,9 +23,9 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel panel-default col-lg-10 col-lg-offset-1 col-md-12 col-md-offset-0">
+<div class="panel panel-default col-lg-10 col-lg-offset-1 col-xs-12 col-xs-offset-0">
     <div class="panel-heading">
-        {l s='Customize Module Design' mod='psreassurance'}
+        {l s='Customize Module Design' d='Modules.Blockreassurance.Admin'}
     </div>
 
     <div class="panel-body">
@@ -35,7 +35,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
                     <div class="text-right">
                         <label class="control-label">
-                            {l s='Icon color' mod='psreassurance'}
+                            {l s='Icon color' d='Modules.Blockreassurance.Admin'}
                         </label>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
                     <div class="text-right">
                         <label class="control-label">
-                            {l s='Text color' mod='psreassurance'}
+                            {l s='Text color' d='Modules.Blockreassurance.Admin'}
                         </label>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
 
     <div class="panel-footer">
         <div class="col-xs-12 text-right">
-            <button name="saveConfiguration" id="saveConfiguration" type="submit" class="btn btn-primary">{l s='Save' mod='psreassurance'}</button>
+            <button name="saveConfiguration" id="saveConfiguration" type="submit" class="btn btn-primary">{l s='Save' d='Modules.Blockreassurance.Admin'}</button>
         </div>
     </div>
 </div>

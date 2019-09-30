@@ -28,7 +28,7 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
         <div class="text-right">
             <label class="control-label">
-                {l s='Title' mod='psreassurance'}
+                {l s='Title' d='Modules.Blockreassurance.Admin'}
             </label>
         </div>
     </div>
@@ -37,10 +37,10 @@
             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-12">
                 <input type="text" name="title-{$language.id_lang|escape:'htmlall':'UTF-8'}" max="100"
                        class="form-control"
-                       value="{$allblockByShop[{$language.id_lang}][$aBlock['id_psreassurance']]['title']|escape:'htmlall':'UTF-8'}">
+                       value="{if isset($block)}{$allblockByShop[{$language.id_lang}][$block['id_psreassurance']]['title']|escape:'htmlall':'UTF-8'}{/if}">
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 help-block">
+        <div class="col-xs-12 help-block">
             <span class="limit_text">0</span>/100 characters
         </div>
     </div>
