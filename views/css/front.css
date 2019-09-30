@@ -66,3 +66,8 @@
 .blockreassurance_product p.block-title {
     line-height: 40px;
 }
+
+/* Specific Checkout */
+body#checkout .container-blockreassurance {
+    min-height: auto;
+}
