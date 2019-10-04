@@ -27,6 +27,11 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+$autoloadPath = __DIR__ . '/vendor/autoload.php';
+if (file_exists($autoloadPath)) {
+    require_once $autoloadPath;
+}
+
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
@@ -94,7 +99,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'seo';
-        $this->version = '4.1.0';
+        $this->version = '4.1.1';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
         $this->module_key = '938b96386d4d79aa7cb891439cb0ef11';
