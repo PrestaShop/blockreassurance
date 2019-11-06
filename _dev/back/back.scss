@@ -551,7 +551,7 @@
     min-width: 100px;
     width: 100px;
     height: 81px;
-    background: url("../img/additional_module.png") no-repeat transparent;
+    background: url("additional_module.png") no-repeat transparent;
     background-size: contain;
 }
 .module-addons-suggestion .suggestion-category-details {
@@ -599,4 +599,29 @@
     .module-addons-suggestion .suggestion-category-details {
         display: inline-block;
     }
+}
+
+/* Pickr Override */
+.pickr {
+  z-index: initial !important;
+
+  button.pcr-button {
+    width: 70%;
+    border: 1px solid #BBB;
+    height: 30px;
+    border-radius: 5px;
+  }
+}
+
+.pcr-app .pcr-interaction {
+  input {
+    font-size: 12px !important;
+    width: 26% !important;
+  }
+
+  .pcr-save {
+    background-color: #3bb7d7 !important;
+    height: 31px !important;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
+  }
 }

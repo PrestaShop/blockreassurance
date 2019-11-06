@@ -248,22 +248,8 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $this->addJsDefList();
 
-        $cssAssets = [
-            '//fonts.googleapis.com/icon?family=Material+Icons',
-            $this->lib_path . 'pickr/css/pickr.min.css',
-            $this->lib_path . 'pickr/css/pickr-override.css',
-            $this->css_path . 'back.css',
-        ];
-
-        $javascriptAssets = [
-            // Libraries
-            $this->lib_path . '/pickr/js/pickr.js',
-            $this->js_path . 'vue.min.js',
-            $this->js_path . 'back.js',
-        ];
-
-        $this->context->controller->addCSS($cssAssets, 'all');
-        $this->context->controller->addJS($javascriptAssets);
+        $this->context->controller->addCSS($this->_path . 'views/dist/back.css', 'all');
+        $this->context->controller->addJS($this->_path . 'views/dist/back.js');
         $this->context->controller->addJqueryPlugin('colorpicker');
         $this->context->controller->addJqueryUI('ui.sortable');
     }
@@ -431,11 +417,11 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->controller->registerStylesheet(
             'front-css',
-            'modules/' . $this->name . '/views/css/front.css'
+            'modules/' . $this->name . '/views/dist/front.css'
         );
         $this->context->controller->registerJavascript(
             'front-js',
-            'modules/' . $this->name . '/views/js/front.js'
+            'modules/' . $this->name . '/views/dist/front.js'
         );
     }
 

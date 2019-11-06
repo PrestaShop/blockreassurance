@@ -22,6 +22,9 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
+
+import './front.scss';
+
 $(window).ready(function () {
   $('.blockreassurance_product img.svg, .blockreassurance img.svg').each(function () {
     var imgObject = $(this);
