@@ -140,7 +140,12 @@ class AdminBlockListingController extends ModuleAdminController
             $filename = $customImage['name'];
 
             // validateUpload return false if no error (false -> OK)
-            $validUpload = ImageManager::validateUpload($customImage);
+            $validUpload = ImageManager::validateUpload(
+                $customImage,
+                0,
+                ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg'],
+                ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg']
+            );
             if (is_bool($validUpload) && $validUpload === false) {
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
                 $blockPsr->custom_icon = $this->module->img_path_perso . '/' . $filename;
