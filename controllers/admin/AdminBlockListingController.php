@@ -252,6 +252,7 @@ class AdminBlockListingController extends ModuleAdminController
                 $mimeType = trim(exec('file -bi ' . escapeshellarg($filename)));
             }
         }
+
         return $mimeType;
     }
 }
