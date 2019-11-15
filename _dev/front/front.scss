@@ -2,22 +2,19 @@
     padding-top: 10px;
     text-align: center;
     width: 100%;
-}
-
-.blockreassurance .reass-item {
+  .reass-item {
     display: inline-block;
     text-align: center;
     vertical-align: top;
-}
-
-.blockreassurance .block-title {
+  }
+  .block-title {
     font-weight: bold;
-}
-
-.blockreassurance .block-icon,
-.blockreassurance .block-icon img,
-.blockreassurance .block-icon svg {
+  }
+  .block-icon,
+  .block-icon img,
+  .block-icon svg {
     height: 70px;
+  }
 }
 
 @media (max-width:575px) {
@@ -45,16 +42,15 @@
 }
 
 .blockreassurance_product {
-    margin-top: 25px;
-}
-
-.blockreassurance_product .item-product {
+  margin-top: 25px;
+  .item-product {
     display: inline-block;
     height: 35px;
     float: left;
     margin-right: 5px;
     padding-top: 5px;
     width: 35px;
+  }
 }
 
 .blockreassurance_product .item-product img,

@@ -23,6 +23,13 @@ npm install
 composer install
 ```
 
+## Usage
+
+```
+npm run dev # Watch js/css files for changes
+npm run build # Build for production
+```
+
 ## Contributing
 
 PrestaShop modules are open-source extensions to the PrestaShop e-commerce solution. Everyone is welcome and even encouraged to contribute with their own improvements.
