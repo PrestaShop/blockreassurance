@@ -111,11 +111,9 @@ class ReassuranceActivity extends ObjectModel
 
             $this->title[$language['id_lang']] = $newValues[$language['id_lang']]['title'];
             $this->description[$language['id_lang']] = $newValues[$language['id_lang']]['description'];
-
+            $this->link[$language['id_lang']] = '';
             if ($type_link === self::TYPE_LINK_URL) {
                 $this->link[$language['id_lang']] = $newValues[$language['id_lang']]['url'];
-            } else {
-                $this->link[$language['id_lang']] = '';
             }
         }
 
@@ -180,13 +178,17 @@ class ReassuranceActivity extends ObjectModel
     {
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE 
-                prl.id_lang = "' . (int) $id_lang . '" 
+            WHERE prl.id_lang = "' . (int) $id_lang . '" 
                 AND prl.id_shop = "' . (int) $id_shop . '"
                 AND pr.status = 1
             ORDER BY pr.position';
 
         $result = Db::getInstance()->executeS($sql);
+
+        foreach ($result as &$item) {
+            $item['is_svg'] = !empty($item['custom_icon'])
+                && (ImageManager::getMimeType(str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'])) == 'image/svg');
+        }
 
         return $result;
     }
