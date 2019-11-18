@@ -544,6 +544,7 @@ class blockreassurance extends Module implements WidgetInterface
             'successPosition' => $this->trans('Position changed successfully!', array(), 'Modules.Blockreassurance.Admin'),
             'errorPosition' => $this->trans('An error occurred when switching position', array(), 'Modules.Blockreassurance.Admin'),
             'txtConfirmRemoveBlock' => $this->trans('Are you sure?', array(), 'Admin.Notifications.Warning'),
+            'errorRemove' => $this->trans('An error occurred when removing block', array(), 'Modules.Blockreassurance.Admin'),
         ));
     }
 }
