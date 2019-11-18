@@ -41,8 +41,7 @@
                 </div>
                 <div class="listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$block key=$key}
-                        <div data-id='' class="listing-general-rol row"
-                             data-block='{$block.id_psreassurance}'>
+                        <div class="listing-general-rol row" data-block='{$block.id_psreassurance}'>
                             <div class="listing-row row">
                                 <div class="col-xs-1">
                                     <i class="material-icons">drag_indicator</i>
@@ -72,7 +71,7 @@
                                     {/if}
                                 </div>
                                 <div class="col-xs-2 inline-flex">
-                                    <label class="col-lg-12 col-xs-12"
+                                    <label class="col-lg-12 col-xs-12 status-toggle"
                                            id="reminder_active_{$block['id_psreassurance']}"
                                            for="reminder_active_{$block['id_psreassurance']}"
                                            data-cart_psreassurance_id='{$block['id_psreassurance']}'>
@@ -84,9 +83,13 @@
                                         <span class="switch_text switch-on" style="{if !$block['status']}display:none;{/if}">{l s='Activated' d='Modules.Blockreassurance.Admin'}</span>
                                         <span class="switch_text switch-off" style="{if $block['status']}display:none;{/if}">{l s='Deactivated' d='Modules.Blockreassurance.Admin'}</span>
                                     </label>
-
-                                    <span class="psre-edit" data-id="{$block['id_psreassurance']}"><i
-                                                class="material-icons">edit</i></span>
+                                  <div class="btn-group">
+                                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <div class="dropdown-menu" x-placement="bottom-start">
+                                      <span class="dropdown-item psre-edit" data-id="{$block['id_psreassurance']}"><i class="material-icons">mode_edit</i> {l s='Edit' d='Admin.Actions'}</span>
+                                      <span class="dropdown-item psre-delete" data-id="{$block['id_psreassurance']}"><i class="material-icons">delete</i> {l s='Delete' d='Admin.Actions'}</span>
+                                    </div>
+                                  </div>
                                 </div>
                             </div>
                             <div class="col-lg-12 col-xs-12">

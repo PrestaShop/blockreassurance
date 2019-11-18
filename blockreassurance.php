@@ -543,6 +543,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
             'successPosition' => $this->trans('Position changed successfully!', array(), 'Modules.Blockreassurance.Admin'),
             'errorPosition' => $this->trans('An error occurred when switching position', array(), 'Modules.Blockreassurance.Admin'),
+            'txtConfirmRemoveBlock' => $this->trans('Are you sure?', array(),'Admin.Notifications.Warning'),
         ));
     }
 }

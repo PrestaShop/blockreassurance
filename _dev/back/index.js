@@ -121,6 +121,31 @@ $(window).ready(function () {
     }
   });
 
+  // Tab Content : Delete
+  $(document).on('click', '.psre-delete', function () {
+    var idBlock = $(this).data('id');
+    if (confirm(txtConfirmRemoveBlock)) {
+      $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: psr_controller_block_url,
+        data: {
+          ajax: true,
+          action: 'DeleteBlock',
+          idBlock: idBlock,
+        },
+        success: function (data) {
+          if (data === 'success') {
+            // Remove line
+            $('div[data-block="'+idBlock+'"]').remove();
+          } else {
+            showErrorMessage(errorPosition);
+          }
+        }
+      });
+    }
+  });
+
   // Tab Content : Edit
   $(document).on('click', '.psre-edit', function () {
     $('.landscape').hide();

@@ -240,8 +240,49 @@
     background-color: #FAFBFC;
     transition: background .3s;
 }
-.listing-body.ui-sortable {
+.listing-body {
+  &.ui-sortable {
     padding: 0;
+  }
+  .btn-group {
+    padding: 0;
+    .dropdown-toggle {
+      &:hover, &:focus {
+        text-decoration: none;
+        &:after {
+          color: #00aff0;
+        }
+      }
+      &:after {
+        color: #6c868e;
+        content: "more_vert";
+        font-family: "Material Icons";
+        font-weight: 400;
+        font-style: normal;
+        font-size: 1.5rem;
+        text-transform: none;
+      }
+    }
+    .dropdown-item {
+      color: #6c868e;
+      display: block;
+      padding: .375rem 1.5rem .375rem .938rem;
+      font-size: .875rem;
+      &:hover {
+        color: #fff !important;
+        background: #25b9d7 !important;
+        text-decoration: none !important;
+      }
+      .material-icons {
+        font-size: 1.125rem;
+        vertical-align: text-bottom;
+        padding-right: .5rem;
+      }
+    }
+  }
+  .status-toggle {
+    padding: .6rem 0;
+  }
 }
 .listing-row.row {
     border-bottom: #BBCDD2 solid 1px;
@@ -276,9 +317,6 @@
 }
 .psre-add i {
     font-size: 1.5em !important;
-}
-.psre-edit {
-    cursor: pointer;
 }
 /* Tab Content : Listing : Switch */
 .switch-input {
