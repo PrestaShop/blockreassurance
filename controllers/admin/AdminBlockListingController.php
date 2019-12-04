@@ -60,6 +60,39 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
+     * Delete a block
+     *
+     * @throws PrestaShopException
+     */
+    public function displayAjaxDeleteBlock()
+    {
+        $result = false;
+        $idPSR = (int) Tools::getValue('idBlock');
+        $blockPSR = Db::getInstance()->getRow('SELECT * FROM ' . _DB_PREFIX_ . 'psreassurance WHERE `id_psreassurance` = ' . (int) $idPSR);
+        if (!empty($blockPSR)) {
+            $result = true;
+            // Remove Custom icon
+            if (!empty($blockPSR['custom_icon'])) {
+                $filePath = str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $blockPSR['custom_icon']);
+                if (file_exists($filePath)) {
+                    $result = unlink($filePath);
+                }
+            }
+            // Remove Block Translations
+            if ($result) {
+                $result = Db::getInstance()->delete('psreassurance_lang', 'id_psreassurance = ' . (int) $idPSR);
+            }
+            // Remove Block
+            if ($result) {
+                $result = Db::getInstance()->delete('psreassurance', 'id_psreassurance = ' . (int) $idPSR);
+            }
+        }
+
+        // Response
+        $this->ajaxRenderJson($result ? 'success' : 'error');
+    }
+
+    /**
      * Update how the blocks are displayed in the front-office
      *
      * @throws PrestaShopException
