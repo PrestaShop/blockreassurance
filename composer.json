@@ -2,7 +2,7 @@
   "name": "prestashop/blockreassurance",
   "description": "PrestaShop module blockreassurance",
   "homepage": "https://github.com/PrestaShop/blockreassurance",
-  "license": "AFL - Academic Free License (AFL 3.0)",
+  "license": "AFL-3.0",
   "authors": [
     {
       "name": "PrestaShop SA",
