@@ -103,11 +103,11 @@ class AdminBlockListingController extends ModuleAdminController
         $value = Tools::getValue('value');
         $result = false;
 
-        if (!empty($hook) && in_array($value, array(
+        if (!empty($hook) && in_array($value, [
                 blockreassurance::POSITION_NONE,
                 blockreassurance::POSITION_BELOW_HEADER,
                 blockreassurance::POSITION_ABOVE_HEADER,
-            ))
+            ])
         ) {
             $result = Configuration::updateValue($hook, $value);
         }
@@ -192,10 +192,10 @@ class AdminBlockListingController extends ModuleAdminController
                     || !ImageManager::isCorrectImageFileExt($customImage['name'], $authExtensions)
                     || preg_match('/\%00/', $customImage['name'])
                 )) {
-                    $validUpload = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png', array(), 'Admin.Notifications.Error');
+                    $validUpload = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png', [], 'Admin.Notifications.Error');
                 }
                 if ($customImage['error']) {
-                    $validUpload = Context::getContext()->getTranslator()->trans('Error while uploading image; please change your server\'s settings. (Error code: %s)', array($customImage['error']), 'Admin.Notifications.Error');
+                    $validUpload = Context::getContext()->getTranslator()->trans('Error while uploading image; please change your server\'s settings. (Error code: %s)', [$customImage['error']], 'Admin.Notifications.Error');
                 }
             }
             if (is_bool($validUpload) && $validUpload === false) {
@@ -250,8 +250,6 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
-     * @param string $filename
-     *
      * @return string|bool
      */
     private function getMimeType(string $filename)

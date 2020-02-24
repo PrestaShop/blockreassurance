@@ -62,7 +62,7 @@ function upgrade_module_4_0_0($module)
     $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'reassurance`';
     $reassurances = Db::getInstance()->ExecuteS($sql);
 
-    $sql = array();
+    $sql = [];
 
     $sql[] = ' CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'psreassurance` (
             `id_psreassurance` int(10) unsigned NOT NULL AUTO_INCREMENT,

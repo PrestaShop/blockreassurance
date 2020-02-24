@@ -84,7 +84,6 @@ class CategoryFetcher
 
     /**
      * @param int $categoryId
-     * @param array $defaultData
      */
     public function __construct(
         $categoryId,
@@ -174,7 +173,6 @@ class CategoryFetcher
     }
 
     /**
-     * @param array $categories
      * @param int $searchedCategoryId
      *
      * @return array|null
@@ -198,8 +196,6 @@ class CategoryFetcher
     }
 
     /**
-     * @param array $category
-     *
      * @return string
      */
     private function getDescription(array $category)
@@ -233,7 +229,6 @@ class CategoryFetcher
     /**
      * Updates link property with a correctly formatted url with tracking parameters
      *
-     * @param array $category
      * @param string $isoCode
      *
      * @return array

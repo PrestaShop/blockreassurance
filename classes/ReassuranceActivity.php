@@ -46,25 +46,25 @@ class ReassuranceActivity extends ObjectModel
     /**
      * @see ObjectModel::$definition
      */
-    public static $definition = array(
+    public static $definition = [
         'table' => 'psreassurance',
         'primary' => 'id_psreassurance',
         'multilang' => true,
         'multilang_shop' => true,
-        'fields' => array(
-            'icon' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-            'custom_icon' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-            'title' => array('type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-            'description' => array('type' => self::TYPE_HTML, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000),
-            'status' => array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool', 'required' => true),
-            'position' => array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false),
-            'type_link' => array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false),
-            'id_cms' => array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false),
-            'link' => array('type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255),
-            'date_add' => array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),
-            'date_upd' => array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),
-        ),
-    );
+        'fields' => [
+            'icon' => ['type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'custom_icon' => ['type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'title' => ['type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'description' => ['type' => self::TYPE_HTML, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000],
+            'status' => ['type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool', 'required' => true],
+            'position' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
+            'type_link' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
+            'id_cms' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
+            'link' => ['type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255],
+            'date_add' => ['type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'],
+            'date_upd' => ['type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'],
+        ],
+    ];
 
     /**
      * @param int $id_lang

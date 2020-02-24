@@ -20,7 +20,7 @@ require_once $rootDir . '/config/autoload.php';
 require_once $rootDir . '/config/bootstrap.php';
 // Make sure loader php-parser is coming from php stan composer
 $loader = new \Composer\Autoload\ClassLoader();
-$loader->setPsr4('PhpParser\\', array('/composer/vendor/nikic/php-parser/lib/PhpParser'));
+$loader->setPsr4('PhpParser\\', ['/composer/vendor/nikic/php-parser/lib/PhpParser']);
 $loader->register(true);
 // We must declare these constant in this boostrap script.
 // Ignoring the error partern with this value will throw another error if not found
