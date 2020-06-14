@@ -3,9 +3,15 @@ GitHub contributors:
 - Alex Sampaio
 - AlexEven
 - Franck Lefebvre
+- GoT
 - Julien Bourdeau
 - Martin Fojtík
 - Mathieu Ferment
 - Mickaël Andrieu
 - Maxime Biloé
+- Michael Voříšek
+- Pablo Borowicz
 - Pablo Polyte
+- Progi1984
+- marionf
+- matthieu-rolland
