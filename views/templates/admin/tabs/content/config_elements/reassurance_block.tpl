@@ -54,7 +54,7 @@
     </section>
     <section class="category_reassurance cat_2">
         <div class="row">
-            <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/security.svg"/></div>
+            <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/carrier.svg"/></div>
             <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/creditcard.svg"/></div>
             <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/gift.svg"/></div>
         </div>
@@ -69,7 +69,7 @@
             <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/satisfaction.svg"/></div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/satisfaction.svg"/></div>
+            <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/security.svg"/></div>
             <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/support.svg"/></div>
             <div class="col-lg-4 col-xs-4"><img class="svg" src="{$img_url}/reassurance/pack2/trust.svg"/></div>
         </div>

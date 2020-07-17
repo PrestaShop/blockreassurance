@@ -46,25 +46,25 @@ class ReassuranceActivity extends ObjectModel
     /**
      * @see ObjectModel::$definition
      */
-    public static $definition = array(
+    public static $definition = [
         'table' => 'psreassurance',
         'primary' => 'id_psreassurance',
         'multilang' => true,
         'multilang_shop' => true,
-        'fields' => array(
-            'icon' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-            'custom_icon' => array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-            'title' => array('type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-            'description' => array('type' => self::TYPE_HTML, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000),
-            'status' => array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool', 'required' => true),
-            'position' => array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false),
-            'type_link' => array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false),
-            'id_cms' => array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false),
-            'link' => array('type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255),
-            'date_add' => array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),
-            'date_upd' => array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),
-        ),
-    );
+        'fields' => [
+            'icon' => ['type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'custom_icon' => ['type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'title' => ['type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'description' => ['type' => self::TYPE_HTML, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000],
+            'status' => ['type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool', 'required' => true],
+            'position' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
+            'type_link' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
+            'id_cms' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
+            'link' => ['type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255],
+            'date_add' => ['type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'],
+            'date_upd' => ['type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'],
+        ],
+    ];
 
     /**
      * @param int $id_lang
@@ -111,11 +111,9 @@ class ReassuranceActivity extends ObjectModel
 
             $this->title[$language['id_lang']] = $newValues[$language['id_lang']]['title'];
             $this->description[$language['id_lang']] = $newValues[$language['id_lang']]['description'];
-
+            $this->link[$language['id_lang']] = '';
             if ($type_link === self::TYPE_LINK_URL) {
                 $this->link[$language['id_lang']] = $newValues[$language['id_lang']]['url'];
-            } else {
-                $this->link[$language['id_lang']] = '';
             }
         }
 
@@ -180,13 +178,17 @@ class ReassuranceActivity extends ObjectModel
     {
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE 
-                prl.id_lang = "' . (int) $id_lang . '" 
+            WHERE prl.id_lang = "' . (int) $id_lang . '" 
                 AND prl.id_shop = "' . (int) $id_shop . '"
                 AND pr.status = 1
             ORDER BY pr.position';
 
         $result = Db::getInstance()->executeS($sql);
+
+        foreach ($result as &$item) {
+            $item['is_svg'] = !empty($item['custom_icon'])
+                && (ImageManager::getMimeType(str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'])) == 'image/svg');
+        }
 
         return $result;
     }

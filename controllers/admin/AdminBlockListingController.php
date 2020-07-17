@@ -60,6 +60,39 @@ class AdminBlockListingController extends ModuleAdminController
     }
 
     /**
+     * Delete a block
+     *
+     * @throws PrestaShopException
+     */
+    public function displayAjaxDeleteBlock()
+    {
+        $result = false;
+        $idPSR = (int) Tools::getValue('idBlock');
+        $blockPSR = Db::getInstance()->getRow('SELECT * FROM ' . _DB_PREFIX_ . 'psreassurance WHERE `id_psreassurance` = ' . (int) $idPSR);
+        if (!empty($blockPSR)) {
+            $result = true;
+            // Remove Custom icon
+            if (!empty($blockPSR['custom_icon'])) {
+                $filePath = str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $blockPSR['custom_icon']);
+                if (file_exists($filePath)) {
+                    $result = unlink($filePath);
+                }
+            }
+            // Remove Block Translations
+            if ($result) {
+                $result = Db::getInstance()->delete('psreassurance_lang', 'id_psreassurance = ' . (int) $idPSR);
+            }
+            // Remove Block
+            if ($result) {
+                $result = Db::getInstance()->delete('psreassurance', 'id_psreassurance = ' . (int) $idPSR);
+            }
+        }
+
+        // Response
+        $this->ajaxRenderJson($result ? 'success' : 'error');
+    }
+
+    /**
      * Update how the blocks are displayed in the front-office
      *
      * @throws PrestaShopException
@@ -70,11 +103,11 @@ class AdminBlockListingController extends ModuleAdminController
         $value = Tools::getValue('value');
         $result = false;
 
-        if (!empty($hook) && in_array($value, array(
+        if (!empty($hook) && in_array($value, [
                 blockreassurance::POSITION_NONE,
                 blockreassurance::POSITION_BELOW_HEADER,
                 blockreassurance::POSITION_ABOVE_HEADER,
-            ))
+            ])
         ) {
             $result = Configuration::updateValue($hook, $value);
         }
@@ -140,7 +173,31 @@ class AdminBlockListingController extends ModuleAdminController
             $filename = $customImage['name'];
 
             // validateUpload return false if no error (false -> OK)
-            $validUpload = ImageManager::validateUpload($customImage);
+            $authExtensions = ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg'];
+            $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg'];
+            if (version_compare(_PS_VERSION_, '1.7.7.0', '>=')) {
+                // PrestaShop 1.7.7.0+
+                $validUpload = ImageManager::validateUpload(
+                    $customImage,
+                    0,
+                    $authExtensions,
+                    $authMimeType
+                );
+            } else {
+                // PrestaShop < 1.7.7
+                $validUpload = false;
+                $mimeType = $this->getMimeType($customImage['tmp_name']);
+                if ($mimeType && (
+                    !in_array($mimeType, $authMimeType)
+                    || !ImageManager::isCorrectImageFileExt($customImage['name'], $authExtensions)
+                    || preg_match('/\%00/', $customImage['name'])
+                )) {
+                    $validUpload = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png', [], 'Admin.Notifications.Error');
+                }
+                if ($customImage['error']) {
+                    $validUpload = Context::getContext()->getTranslator()->trans('Error while uploading image; please change your server\'s settings. (Error code: %s)', [$customImage['error']], 'Admin.Notifications.Error');
+                }
+            }
             if (is_bool($validUpload) && $validUpload === false) {
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
                 $blockPsr->custom_icon = $this->module->img_path_perso . '/' . $filename;
@@ -190,5 +247,43 @@ class AdminBlockListingController extends ModuleAdminController
 
         // Response
         $this->ajaxRenderJson($result ? 'success' : 'error');
+    }
+
+    /**
+     * @return string|bool
+     */
+    private function getMimeType(string $filename)
+    {
+        $mimeType = false;
+        // Try with GD
+        if (function_exists('getimagesize')) {
+            $imageInfo = @getimagesize($filename);
+            if ($imageInfo) {
+                $mimeType = $imageInfo['mime'];
+            }
+        }
+        // Try with FileInfo
+        if (!$mimeType && function_exists('finfo_open')) {
+            $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
+            $finfo = finfo_open($const);
+            $mimeType = finfo_file($finfo, $filename);
+            finfo_close($finfo);
+        }
+        // Try with Mime
+        if (!$mimeType && function_exists('mime_content_type')) {
+            $mimeType = mime_content_type($filename);
+        }
+        // Try with exec command and file binary
+        if (!$mimeType && function_exists('exec')) {
+            $mimeType = trim(exec('file -b --mime-type ' . escapeshellarg($filename)));
+            if (!$mimeType) {
+                $mimeType = trim(exec('file --mime ' . escapeshellarg($filename)));
+            }
+            if (!$mimeType) {
+                $mimeType = trim(exec('file -bi ' . escapeshellarg($filename)));
+            }
+        }
+
+        return $mimeType;
     }
 }

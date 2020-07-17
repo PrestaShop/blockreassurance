@@ -36,13 +36,13 @@ use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
 {
-    const ALLOWED_CONTROLLERS_CHECKOUT = array(
+    const ALLOWED_CONTROLLERS_CHECKOUT = [
         'cart',
         'order',
-    );
-    const ALLOWED_CONTROLLERS_PRODUCT = array(
+    ];
+    const ALLOWED_CONTROLLERS_PRODUCT = [
         'product',
-    );
+    ];
     const POSITION_NONE = 0;
     const POSITION_BELOW_HEADER = 1;
     const POSITION_ABOVE_HEADER = 2;
@@ -99,7 +99,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'seo';
-        $this->version = '4.1.1';
+        $this->version = '5.0.0';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
         $this->module_key = '938b96386d4d79aa7cb891439cb0ef11';
@@ -112,8 +112,8 @@ class blockreassurance extends Module implements WidgetInterface
             $this->context->link = new Link($protocolPrefix, $protocolPrefix);
         }
 
-        $this->displayName = $this->trans('Customer Reassurance', array(), 'Modules.Blockreassurance.Admin');
-        $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', array(), 'Modules.Blockreassurance.Admin');
+        $this->displayName = $this->trans('Customer Reassurance', [], 'Modules.Blockreassurance.Admin');
+        $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', [], 'Modules.Blockreassurance.Admin');
 
         // Settings paths
         if (!$this->_path) {
@@ -131,9 +131,9 @@ class blockreassurance extends Module implements WidgetInterface
         $this->folder_file_upload = _PS_MODULE_DIR_ . $this->name . '/views/img/img_perso/';
 
         // Confirm uninstall
-        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', array(), 'Modules.Blockreassurance.Admin');
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Blockreassurance.Admin');
         $this->ps_url = $this->context->link->getBaseLink();
-        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = ['min' => '1.7', 'max' => _PS_VERSION_];
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
@@ -206,7 +206,7 @@ class blockreassurance extends Module implements WidgetInterface
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website.', array(), 'Modules.Blockreassurance.Admin');
+        $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website.', [], 'Modules.Blockreassurance.Admin');
 
         return false;
     }
@@ -236,7 +236,7 @@ class blockreassurance extends Module implements WidgetInterface
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please contact us through Addons website.', array(), 'Modules.Blockreassurance.Admin');
+        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please contact us through Addons website.', [], 'Modules.Blockreassurance.Admin');
 
         return false;
     }
@@ -248,22 +248,8 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $this->addJsDefList();
 
-        $cssAssets = [
-            '//fonts.googleapis.com/icon?family=Material+Icons',
-            $this->lib_path . 'pickr/css/pickr.min.css',
-            $this->lib_path . 'pickr/css/pickr-override.css',
-            $this->css_path . 'back.css',
-        ];
-
-        $javascriptAssets = [
-            // Libraries
-            $this->lib_path . '/pickr/js/pickr.js',
-            $this->js_path . 'vue.min.js',
-            $this->js_path . 'back.js',
-        ];
-
-        $this->context->controller->addCSS($cssAssets, 'all');
-        $this->context->controller->addJS($javascriptAssets);
+        $this->context->controller->addCSS($this->_path . 'views/dist/back.css', 'all');
+        $this->context->controller->addJS($this->_path . 'views/dist/back.js');
         $this->context->controller->addJqueryPlugin('colorpicker');
         $this->context->controller->addJqueryUI('ui.sortable');
     }
@@ -299,11 +285,11 @@ class blockreassurance extends Module implements WidgetInterface
         $parameters['utm_medium'] = 'modules';
         $parameters['utm_campaign'] = 'back-office-' . strtoupper($this->context->language->iso_code);
         $link = 'https://addons.prestashop.com' . $parsedUrl['path'] . '?' . http_build_query($parameters);
-        $categoryFetcher = array(
+        $categoryFetcher = [
             'name' => 'Blocks, Tabs and Banners',
             'link' => $link,
             'description' => 'With these modules, you can personalize your e-commerce website by adding reassurance blocks (free delivery, satisfaction guaranteed or your money back, etc.), illustrating your categories with visuals on your homepage or adding advertising banners to your PrestaShop store.',
-        );
+        ];
 
         $id_lang = $this->context->language->id;
 
@@ -317,7 +303,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         $allCms = CMS::listCms($id_lang);
 
-        $this->context->smarty->assign(array(
+        $this->context->smarty->assign([
             'addons_category' => $categoryFetcher,
             'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
             'psr_hook_footer' => (int) Configuration::get('PSR_HOOK_FOOTER'),
@@ -342,7 +328,7 @@ class blockreassurance extends Module implements WidgetInterface
             'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
             'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
             'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
-        ));
+        ]);
 
         return $this->display(__FILE__, 'views/templates/admin/configure.tpl');
     }
@@ -425,23 +411,22 @@ class blockreassurance extends Module implements WidgetInterface
 
     public function hookActionFrontControllerSetMedia()
     {
-        Media::addJsDef(array(
+        Media::addJsDef([
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
-        ));
+        ]);
 
         $this->context->controller->registerStylesheet(
             'front-css',
-            'modules/' . $this->name . '/views/css/front.css'
+            'modules/' . $this->name . '/views/dist/front.css'
         );
         $this->context->controller->registerJavascript(
             'front-js',
-            'modules/' . $this->name . '/views/js/front.js'
+            'modules/' . $this->name . '/views/dist/front.js'
         );
     }
 
     /**
      * @param string $hookName
-     * @param array $configuration
      *
      * @return string
      *
@@ -461,7 +446,6 @@ class blockreassurance extends Module implements WidgetInterface
 
     /**
      * @param string $hookName
-     * @param array $configuration
      *
      * @return array
      *
@@ -485,6 +469,8 @@ class blockreassurance extends Module implements WidgetInterface
             }
 
             $elements[$key]['text'] = $value['title'] . ' ' . $value['description'];
+            $elements[$key]['title'] = $value['title'];
+            $elements[$key]['description'] = $value['description'];
         }
 
         return [
@@ -527,7 +513,7 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $id_lang = $this->context->language->id;
 
-        $this->context->smarty->assign(array(
+        $this->context->smarty->assign([
             'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang, $this->context->shop->id),
             'iconColor' => Configuration::get('PSR_ICON_COLOR'),
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
@@ -535,7 +521,7 @@ class blockreassurance extends Module implements WidgetInterface
             'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
             'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
             'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
-        ));
+        ]);
 
         return $this->display(__FILE__, 'views/templates/hook/' . $template);
     }
@@ -545,18 +531,20 @@ class blockreassurance extends Module implements WidgetInterface
      */
     protected function addJsDefList()
     {
-        Media::addJsDef(array(
+        Media::addJsDef([
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_controller_block_url' => $this->context->link->getAdminLink('AdminBlockListing'),
             'psr_controller_block' => 'AdminBlockListing',
             'psr_lang' => (int) Configuration::get('PS_LANG_DEFAULT'),
-            'block_updated' => $this->trans('Block updated', array(), 'Modules.Blockreassurance.Admin'),
-            'active_error' => $this->trans('Oops... looks like an error occurred', array(), 'Modules.Blockreassurance.Admin'),
-            'min_field_error' => $this->trans('The field %field_name% is required at least in your default language.', array('%field_name%' => sprintf('"%s"', $this->trans('Title', array(), 'Admin.Global'))), 'Admin.Notifications.Error'),
-            'psre_success' => $this->trans('Configuration updated successfully!', array(), 'Modules.Blockreassurance.Admin'),
-            'successPosition' => $this->trans('Position changed successfully!', array(), 'Modules.Blockreassurance.Admin'),
-            'errorPosition' => $this->trans('An error occurred when switching position', array(), 'Modules.Blockreassurance.Admin'),
-        ));
+            'block_updated' => $this->trans('Block updated', [], 'Modules.Blockreassurance.Admin'),
+            'active_error' => $this->trans('Oops... looks like an error occurred', [], 'Modules.Blockreassurance.Admin'),
+            'min_field_error' => $this->trans('The field %field_name% is required at least in your default language.', ['%field_name%' => sprintf('"%s"', $this->trans('Title', [], 'Admin.Global'))], 'Admin.Notifications.Error'),
+            'psre_success' => $this->trans('Configuration updated successfully!', [], 'Modules.Blockreassurance.Admin'),
+            'successPosition' => $this->trans('Position changed successfully!', [], 'Modules.Blockreassurance.Admin'),
+            'errorPosition' => $this->trans('An error occurred when switching position', [], 'Modules.Blockreassurance.Admin'),
+            'txtConfirmRemoveBlock' => $this->trans('Are you sure?', [], 'Admin.Notifications.Warning'),
+            'errorRemove' => $this->trans('An error occurred when removing block', [], 'Modules.Blockreassurance.Admin'),
+        ]);
     }
 }
