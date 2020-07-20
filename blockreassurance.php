@@ -133,7 +133,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Confirm uninstall
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Blockreassurance.Admin');
         $this->ps_url = $this->context->link->getBaseLink();
-        $this->ps_versions_compliancy = ['min' => '1.7', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '1.7.7.0', 'max' => _PS_VERSION_];
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
