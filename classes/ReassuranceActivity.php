@@ -192,6 +192,7 @@ class ReassuranceActivity extends ObjectModel
 
         return $result;
     }
+
     /**
      * @return string|bool
      */
