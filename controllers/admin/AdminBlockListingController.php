@@ -174,7 +174,7 @@ class AdminBlockListingController extends ModuleAdminController
 
             // validateUpload return false if no error (false -> OK)
             $authExtensions = ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg'];
-            $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg'];
+            $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg', 'image/svg+xml'];
             if (version_compare(_PS_VERSION_, '1.7.7.0', '>=')) {
                 // PrestaShop 1.7.7.0+
                 $validUpload = ImageManager::validateUpload(
