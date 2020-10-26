@@ -8,7 +8,7 @@
 
 ## About
 
-Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.
+Connect with your visitors and reassure them about secure payment, free shipping or returns.
 
 ## Multistore compatibility
 
