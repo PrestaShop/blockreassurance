@@ -468,6 +468,8 @@ class blockreassurance extends Module implements WidgetInterface
                 $elements[$key]['image'] = '';
             }
 
+            $elements[$key]['link'] = $value['link'];
+            $elements[$key]['type_link'] = $value['type_link'];
             $elements[$key]['text'] = $value['title'] . ' ' . $value['description'];
             $elements[$key]['title'] = $value['title'];
             $elements[$key]['description'] = $value['description'];
