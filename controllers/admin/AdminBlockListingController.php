@@ -186,7 +186,7 @@ class AdminBlockListingController extends ModuleAdminController
             } else {
                 // PrestaShop < 1.7.7
                 $validUpload = false;
-                $mimeType = $this->getMimeType($customImage['tmp_name']);
+                $mimeType = ReassuranceActivity::getMimeType($customImage['tmp_name']);
                 if ($mimeType && (
                     !in_array($mimeType, $authMimeType)
                     || !ImageManager::isCorrectImageFileExt($customImage['name'], $authExtensions)
@@ -247,43 +247,5 @@ class AdminBlockListingController extends ModuleAdminController
 
         // Response
         $this->ajaxRenderJson($result ? 'success' : 'error');
-    }
-
-    /**
-     * @return string|bool
-     */
-    private function getMimeType(string $filename)
-    {
-        $mimeType = false;
-        // Try with GD
-        if (function_exists('getimagesize')) {
-            $imageInfo = @getimagesize($filename);
-            if ($imageInfo) {
-                $mimeType = $imageInfo['mime'];
-            }
-        }
-        // Try with FileInfo
-        if (!$mimeType && function_exists('finfo_open')) {
-            $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
-            $finfo = finfo_open($const);
-            $mimeType = finfo_file($finfo, $filename);
-            finfo_close($finfo);
-        }
-        // Try with Mime
-        if (!$mimeType && function_exists('mime_content_type')) {
-            $mimeType = mime_content_type($filename);
-        }
-        // Try with exec command and file binary
-        if (!$mimeType && function_exists('exec')) {
-            $mimeType = trim(exec('file -b --mime-type ' . escapeshellarg($filename)));
-            if (!$mimeType) {
-                $mimeType = trim(exec('file --mime ' . escapeshellarg($filename)));
-            }
-            if (!$mimeType) {
-                $mimeType = trim(exec('file -bi ' . escapeshellarg($filename)));
-            }
-        }
-
-        return $mimeType;
     }
 }
