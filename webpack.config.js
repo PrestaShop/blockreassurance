@@ -22,7 +22,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
@@ -57,10 +57,10 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '../../views/dist/[hash].[ext]'
-            }
-          }
-        ]
+              name: '../../views/dist/[hash].[ext]',
+            },
+          },
+        ],
       },
     ],
   },
