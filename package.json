@@ -12,6 +12,8 @@
   },
   "homepage": "https://github.com/PrestaShop/blockreassurance#readme",
   "scripts": {
+    "lint": "eslint --ext .js,.vue .",
+    "lint-fix": "eslint --fix --ext .js,.vue .",
     "build": "webpack-cli --mode production",
     "dev": "webpack-cli --mode development --watch"
   },
@@ -20,6 +22,10 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prestashop": "0.0.2",
+    "eslint-plugin-import": "^2.22.1",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^1.3.9",
     "node-sass": "^5.0.0",
