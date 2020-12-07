@@ -33,7 +33,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, './views/dist'),
+    publicPath: path.resolve(__dirname, './views/dist'),
   },
   module: {
     rules: [
