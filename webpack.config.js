@@ -33,6 +33,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
+    publicPath: path.resolve(__dirname, './views/dist'),
     path: path.resolve(__dirname, './views/dist'),
   },
   module: {
@@ -43,10 +44,15 @@ module.exports = {
         use: ['babel-loader'],
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.s?css$/,
         use: [
           'style-loader',
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: false,
+            },
+          },
           'css-loader',
           'sass-loader',
         ],
