@@ -715,16 +715,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.18.0",
+            "version": "v2.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "cbc5b50bfa2688a1afca20e5a8c71f058e9ccbef"
+                "reference": "c68ff6231adb276857761e43b7ed082f164dce0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/cbc5b50bfa2688a1afca20e5a8c71f058e9ccbef",
-                "reference": "cbc5b50bfa2688a1afca20e5a8c71f058e9ccbef",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/c68ff6231adb276857761e43b7ed082f164dce0b",
+                "reference": "c68ff6231adb276857761e43b7ed082f164dce0b",
                 "shasum": ""
             },
             "require": {
@@ -810,7 +810,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-18T03:31:06+00:00"
+            "time": "2021-01-21T18:50:42+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1015,12 +1015,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PrestaShop/php-dev-tools.git",
-                "reference": "a4d6a082bab49c4efce3d8cbb190bc500ff4204d"
+                "reference": "ef4217ee7212e6b65d983371b3255ca38395de44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PrestaShop/php-dev-tools/zipball/a4d6a082bab49c4efce3d8cbb190bc500ff4204d",
-                "reference": "a4d6a082bab49c4efce3d8cbb190bc500ff4204d",
+                "url": "https://api.github.com/repos/PrestaShop/php-dev-tools/zipball/ef4217ee7212e6b65d983371b3255ca38395de44",
+                "reference": "ef4217ee7212e6b65d983371b3255ca38395de44",
                 "shasum": ""
             },
             "require": {
@@ -1046,7 +1046,7 @@
             ],
             "description": "PrestaShop coding standards",
             "abandoned": "prestashop/php-dev-tools",
-            "time": "2020-12-23T11:35:25+00:00"
+            "time": "2021-01-18T15:07:05+00:00"
         },
         {
             "name": "psr/log",
