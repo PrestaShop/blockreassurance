@@ -28,7 +28,7 @@ if (!defined('_PS_VERSION_')) {
 }
 
 /**
- * @param $module
+ * @param blockreassurance $module
  *
  * @return bool|string
  *
@@ -38,7 +38,7 @@ if (!defined('_PS_VERSION_')) {
 function upgrade_module_4_0_0($module)
 {
     $tab = new Tab();
-    $tab->active = 1;
+    $tab->active = true;
     $tab->class_name = 'AdminBlockListing';
     foreach (Language::getLanguages(true) as $lang) {
         $tab->name[$lang['id_lang']] = 'blockreassurance';

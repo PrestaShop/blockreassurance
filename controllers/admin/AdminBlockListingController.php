@@ -25,8 +25,11 @@
  */
 class AdminBlockListingController extends ModuleAdminController
 {
+    /** @var blockreassurance */
+    public $module;
+
     /**
-     * @param $content
+     * @param string $content
      *
      * @throws PrestaShopException
      */
@@ -155,7 +158,7 @@ class AdminBlockListingController extends ModuleAdminController
         $blockPsr = new ReassuranceActivity($id_block);
         if (!$id_block) {
             // Last position
-            $blockPsr->position = Db::getInstance()->getValue('SELECT MAX(position) AS max FROM ' . _DB_PREFIX_ . 'psreassurance');
+            $blockPsr->position = (int) Db::getInstance()->getValue('SELECT MAX(position) AS max FROM ' . _DB_PREFIX_ . 'psreassurance');
             $blockPsr->position = $blockPsr->position ? $blockPsr->position + 1 : 1;
             $blockPsr->status = false;
         }
@@ -165,9 +168,9 @@ class AdminBlockListingController extends ModuleAdminController
             $blockPsr->custom_icon = '';
         }
         $blockPsr->date_add = date('Y-m-d H:i:s');
-        $blockPsr->date_update = date('Y-m-d H:i:s');
+        $blockPsr->date_upd = date('Y-m-d H:i:s');
 
-        if (isset($_FILES) && !empty($_FILES)) {
+        if (!empty($_FILES)) {
             $customImage = $_FILES['file'];
             $fileTmpName = $customImage['tmp_name'];
             $filename = $customImage['name'];
@@ -229,6 +232,7 @@ class AdminBlockListingController extends ModuleAdminController
         $result = false;
 
         if (!empty($blocks) && is_array($blocks)) {
+            $updateResult = true;
             foreach ($blocks as $key => $id_block) {
                 // Set the position of the Reassurance block
                 $position = $key + 1;
