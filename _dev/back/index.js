@@ -115,6 +115,7 @@ $(window).ready(() => {
     $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
 
     const landscape = $('.panel-body-0 .psr-picto').attr('src');
+
     if (typeof landscape === 'undefined') {
       $('.psr-picto:visible').hide();
       $('.svg_chosed_here:visible').hide();
@@ -125,6 +126,7 @@ $(window).ready(() => {
   // Tab Content : Delete
   $(document).on('click', '.psre-delete', () => {
     const idBlock = $(this).data('id');
+
     if (!window.confirm(window.txtConfirmRemoveBlock)) {
       return;
     }
@@ -167,6 +169,7 @@ $(window).ready(() => {
     $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
 
     const landscape = $(`.panel-body-${id} .psr-picto`).attr('src');
+
     if (typeof landscape === 'undefined') {
       $('.psr-picto:visible').hide();
       $('.svg_chosed_here:visible').hide();
@@ -254,6 +257,7 @@ $(window).ready(() => {
     // Change the label
     const jqLabel = $(this).parents('.input-group').find('label.file_label');
     let label = jqLabel.attr('data-label');
+
     if (files.length === 1) {
       label = `${files.length} file selected`;
     }
@@ -261,10 +265,12 @@ $(window).ready(() => {
 
     // Preview the image
     const idPreview = $(this).attr('data-preview');
+
     if (files && files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const jqPreview = $(`.${idPreview}`);
+
         if (jqPreview.hasClass('hide')) {
           jqPreview.removeClass('hide');
         }
@@ -288,6 +294,7 @@ $(window).ready(() => {
     const maxLength = 100;
     const val = $(this).val();
     let valLength = val.length;
+
     if (val.length > maxLength) {
       $(this).val(val.substring(0, maxLength - 1));
       valLength = $(this).val().length;
@@ -356,6 +363,7 @@ $(window).ready(() => {
     const imgIcon = $('.psr_picto_showing:visible img.psr-picto');
     let iconSrc = imgIcon.attr('src');
     const iconReplaced = $('.svg_chosed_here img.svg').attr('src');
+
     if (typeof iconReplaced !== 'undefined') {
       iconSrc = iconReplaced;
     }
@@ -364,6 +372,7 @@ $(window).ready(() => {
     $('.show-rea-block.active .content_by_lang').each((index, elem) => {
       const lang = $(elem).attr('data-lang');
       const type = $(elem).attr('data-type');
+
       if (!Object.prototype.hasOwnProperty.call(dataToSave, lang)) {
         dataToSave[lang] = {};
       }
@@ -437,6 +446,7 @@ $(window).ready(() => {
     'input[name="PSR_HOOK_CHECKOUT"],input[name="PSR_HOOK_HEADER"],input[name="PSR_HOOK_FOOTER"],input[name="PSR_HOOK_PRODUCT"]',
     () => {
       let selector;
+
       switch ($(this).attr('name')) {
         case 'PSR_HOOK_CHECKOUT':
           selector = 'checkout';
