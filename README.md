@@ -1,6 +1,7 @@
 # Customer reassurance block
 
-[![Build Status](https://travis-ci.com/PrestaShop/blockreassurance.svg?branch=master)](https://travis-ci.com/PrestaShop/blockreassurance)
+[![PHP tests](https://github.com/PrestaShop/blockreassurance/actions/workflows/php.yml/badge.svg)](https://github.com/PrestaShop/blockreassurance/actions/workflows/php.yml)
+[![JS tests](https://github.com/PrestaShop/blockreassurance/actions/workflows/js.yml/badge.svg)](https://github.com/PrestaShop/blockreassurance/actions/workflows/js.yml)
 [![Latest Stable Version](https://poser.pugx.org/PrestaShop/blockreassurance/v)](//packagist.org/packages/PrestaShop/blockreassurance)
 [![Total Downloads](https://poser.pugx.org/PrestaShop/blockreassurance/downloads)](//packagist.org/packages/PrestaShop/blockreassurance)
 [![GitHub license](https://img.shields.io/github/license/PrestaShop/blockreassurance)](https://github.com/PrestaShop/blockreassurance/LICENSE.md)
