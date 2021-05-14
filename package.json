@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "material-design-icons": "^3.0.1",
-    "@simonwep/pickr": "^1.8.0",
+    "@simonwep/pickr": "^1.8.1",
     "vue": "^2.6.10"
   }
 }
