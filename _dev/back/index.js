@@ -155,7 +155,6 @@ $(window).ready(() => {
 
   // Tab Content : Edit
   $(document).on('click', '.psre-edit', (event) => {
-
     const $element = $(event.currentTarget);
 
     $('.landscape').hide();
