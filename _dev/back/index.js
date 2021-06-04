@@ -25,7 +25,6 @@
 import Pickr from '@simonwep/pickr';
 import Vue from 'vue/dist/vue.min';
 
-import 'material-design-icons/iconfont/material-icons.css';
 import '@simonwep/pickr/dist/themes/classic.min.css';
 import './back.scss';
 
@@ -38,8 +37,8 @@ $(window).ready(() => {
   $('.listing-body').sortable({
     update() {
       const blocks = [];
-      $('.listing-general-rol').each(() => {
-        blocks.push($(this).attr('data-block'));
+      $('.listing-general-rol').each((index, element) => {
+        blocks.push($(element).attr('data-block'));
       });
 
       $.ajax({
@@ -124,8 +123,9 @@ $(window).ready(() => {
   });
 
   // Tab Content : Delete
-  $(document).on('click', '.psre-delete', () => {
-    const idBlock = $(this).data('id');
+  $(document).on('click', '.psre-delete', (event) => {
+    const $this = $(event.currentTarget);
+    const idBlock = $this.data('id');
 
     if (!window.confirm(window.txtConfirmRemoveBlock)) {
       return;
@@ -154,14 +154,17 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit
-  $(document).on('click', '.psre-edit', () => {
+  $(document).on('click', '.psre-edit', (event) => {
+
+    const $element = $(event.currentTarget);
+
     $('.landscape').hide();
 
     $('#reminder_listing').removeClass('active').addClass('inactive');
     $('#blockDisplay').removeClass('inactive').addClass('active');
     $('.show-rea-block').removeClass('active').addClass('inactive');
 
-    const id = $(this).data('id');
+    const id = $element.data('id');
     $(`.panel-body-${id}`).removeClass('inactive').addClass('active');
     $('#saveContentConfiguration').attr('data-id', id);
 
@@ -252,10 +255,11 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit : Custom Icon
-  $(document).on('change', '.show-rea-block.active input[type="file"]', () => {
-    const {files} = $(this)[0];
+  $(document).on('change', '.show-rea-block.active input[type="file"]', (event) => {
+    const $this = $(event.currentTarget);
+    const {files} = $this[0];
     // Change the label
-    const jqLabel = $(this).parents('.input-group').find('label.file_label');
+    const jqLabel = $this.parents('.input-group').find('label.file_label');
     let label = jqLabel.attr('data-label');
 
     if (files.length === 1) {
@@ -264,7 +268,7 @@ $(window).ready(() => {
     jqLabel.html(label);
 
     // Preview the image
-    const idPreview = $(this).attr('data-preview');
+    const idPreview = $this.attr('data-preview');
 
     if (files && files[0]) {
       const reader = new FileReader();
@@ -290,16 +294,17 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit : MaxLength
-  $(document).on('keyup keydown', '.show-rea-block.active .content_by_lang input[type="text"], .show-rea-block.active .content_by_lang textarea', () => {
+  $(document).on('keyup keydown', '.show-rea-block.active .content_by_lang input[type="text"], .show-rea-block.active .content_by_lang textarea', (event) => {
+    const $this = $(event.currentTarget);
     const maxLength = 100;
-    const val = $(this).val();
+    const val = $this.val();
     let valLength = val.length;
 
     if (val.length > maxLength) {
-      $(this).val(val.substring(0, maxLength - 1));
-      valLength = $(this).val().length;
+      $this.val(val.substring(0, maxLength - 1));
+      valLength = $this.val().length;
     }
-    if ($(this).is('input:text')) {
+    if ($this.is('input:text')) {
       $('.limit_text:visible').text(valLength);
     } else {
       $('.limit_description:visible').text(valLength);
@@ -357,9 +362,10 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit : Save
-  $(document).on('click', '#saveContentConfiguration', () => {
+  $(document).on('click', '#saveContentConfiguration', (event) => {
+    const $this = $(event.currentTarget);
     const dataToSave = {};
-    const blockId = $(this).attr('data-id');
+    const blockId = $this.attr('data-id');
     const imgIcon = $('.psr_picto_showing:visible img.psr-picto');
     let iconSrc = imgIcon.attr('src');
     const iconReplaced = $('.svg_chosed_here img.svg').attr('src');
@@ -444,10 +450,11 @@ $(window).ready(() => {
   $(document).on(
     'change',
     'input[name="PSR_HOOK_CHECKOUT"],input[name="PSR_HOOK_HEADER"],input[name="PSR_HOOK_FOOTER"],input[name="PSR_HOOK_PRODUCT"]',
-    () => {
+    (event) => {
       let selector;
+      const $this = $(event.currentTarget);
 
-      switch ($(this).attr('name')) {
+      switch ($this.attr('name')) {
         case 'PSR_HOOK_CHECKOUT':
           selector = 'checkout';
           break;
@@ -467,9 +474,9 @@ $(window).ready(() => {
       $(`.psr-${selector}-grey`).addClass('active');
       $(`.psr-${selector}-color`).removeClass('active');
 
-      $(this).nextAll(`.psr-${selector}-grey`).removeClass('active');
-      $(this).nextAll(`.psr-${selector}-color`).addClass('active');
-      savePositionByHook($(this).attr('name'), $(this).val());
+      $this.nextAll(`.psr-${selector}-grey`).removeClass('active');
+      $this.nextAll(`.psr-${selector}-color`).addClass('active');
+      savePositionByHook($this.attr('name'), $this.val());
     },
   );
   function savePositionByHook(hook, value) {
