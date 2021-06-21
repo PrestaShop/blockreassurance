@@ -7,7 +7,6 @@ parameters:
     - ../../blockreassurance.php
     - ../../classes/
     - ../../controllers/
-    - ../../src/
     - ../../translations/
     - ../../upgrade/
   reportUnmatchedIgnoredErrors: false
