@@ -458,23 +458,20 @@ class blockreassurance extends Module implements WidgetInterface
             $this->context->shop->id
         );
 
-        $elements = [];
         foreach ($blocks as $key => $value) {
             if (!empty($value['icon'])) {
-                $elements[$key]['image'] = $value['icon'];
+                $blocks[$key]['image'] = $value['icon'];
             } elseif (!empty($value['custom_icon'])) {
-                $elements[$key]['image'] = $value['custom_icon'];
+                $blocks[$key]['image'] = $value['custom_icon'];
             } else {
-                $elements[$key]['image'] = '';
+                $blocks[$key]['image'] = '';
             }
 
-            $elements[$key]['text'] = $value['title'] . ' ' . $value['description'];
-            $elements[$key]['title'] = $value['title'];
-            $elements[$key]['description'] = $value['description'];
+            $blocks[$key]['text'] = $value['title'] . ' ' . $value['description'];
         }
 
         return [
-            'elements' => $elements,
+            'elements' => $blocks,
         ];
     }
 
