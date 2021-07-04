@@ -44,7 +44,7 @@
                         <div class="listing-general-rol row" data-block="{$block.id_psreassurance}">
                             <div class="listing-row row">
                                 <div class="col-xs-1">
-                                    <i class="material-icons">drag_indicator</i>
+                                    <i class="material-icons">drag_handle</i>
                                 </div>
                                 <div class="col-xs-1">
                                     {if $block['icon'] != 'undefined'}
