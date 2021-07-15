@@ -76,7 +76,7 @@ class AdminBlockListingController extends ModuleAdminController
             $result = true;
             // Remove Custom icon
             if (!empty($blockPSR['custom_icon'])) {
-                $filePath = str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $blockPSR['custom_icon']);
+                $filePath = _PS_ROOT_DIR_ . $blockPSR['custom_icon'];
                 if (file_exists($filePath)) {
                     $result = unlink($filePath);
                 }
