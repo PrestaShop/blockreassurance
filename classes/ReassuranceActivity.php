@@ -186,8 +186,14 @@ class ReassuranceActivity extends ObjectModel
         $result = Db::getInstance()->executeS($sql);
 
         foreach ($result as &$item) {
+            $itemIconPath = preg_replace(
+                '/\\'.__PS_BASE_URI__.'/',
+                _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR,
+                $item['custom_icon'],
+                1
+            );
             $item['is_svg'] = !empty($item['custom_icon'])
-                && (self::getMimeType(preg_replace('/\\'.__PS_BASE_URI__.'/', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'], 1)) == 'image/svg');
+                && (self::getMimeType($itemIconPath) == 'image/svg');
         }
 
         return $result;
