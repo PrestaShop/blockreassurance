@@ -187,7 +187,7 @@ class ReassuranceActivity extends ObjectModel
 
         foreach ($result as &$item) {
             $itemIconPath = preg_replace(
-                '/\\'.__PS_BASE_URI__.'/',
+                '/\\' . __PS_BASE_URI__ . '/',
                 _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR,
                 $item['custom_icon'],
                 1
