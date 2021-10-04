@@ -201,6 +201,8 @@ class blockreassurance extends Module implements WidgetInterface
             $this->registerHook('displayFooterAfter') &&
             $this->registerHook('displayFooterBefore') &&
             $this->registerHook('displayReassurance') &&
+            $this->registerHook('displayBlockReassuranceConfigureBottom') &&
+            $this->registerHook('displayBlockReassuranceConfigureTop') &&
             $this->registerHook('actionFrontControllerSetMedia')
         ) {
             return true;
@@ -222,6 +224,16 @@ class blockreassurance extends Module implements WidgetInterface
         $sql = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'psreassurance`, `' . _DB_PREFIX_ . 'psreassurance_lang`';
         if (Db::getInstance()->execute($sql) == false) {
             return false;
+        }
+
+        // Hooks
+        foreach ([
+            Hook::getIdByName('displayBlockReassuranceConfigureBottom'),
+            Hook::getIdByName('displayBlockReassuranceConfigureTop'),
+        ] as $hookId) {
+            if (!$this->unregisterHook((int) $hookId)) {
+                return false;
+            }
         }
 
         // Configuration
@@ -310,6 +322,9 @@ class blockreassurance extends Module implements WidgetInterface
             'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
             'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
             'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+            // Hooks
+            'hookConfigureTop' => Hook::exec('displayBlockReassuranceConfigureTop'),
+            'hookConfigureBottom' => Hook::exec('displayBlockReassuranceConfigureBottom'),
         ]);
 
         return $this->display(__FILE__, 'views/templates/admin/configure.tpl');
@@ -416,9 +431,14 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function renderWidget($hookName = null, array $configuration = [])
     {
-        if ($hookName === 'displayFooter') {
+        if (in_array($hookName, [
+            'displayBlockReassuranceConfigureBottom',
+            'displayBlockReassuranceConfigureTop',
+            'displayFooter',
+        ])) {
             return '';
         }
+
         if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }

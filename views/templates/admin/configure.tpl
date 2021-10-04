@@ -23,6 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
+{$hookConfigureTop}
 <div class="bootstrap">
     <div class="page-head custom-tab">
         <div class="page-head-tabs" id="head_tabs">
@@ -67,3 +68,4 @@
         </div>
     </div>
 </div>
+{$hookConfigureBottom}
