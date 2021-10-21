@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel panel-default col-lg-12 col-xs-12">
+<div class="panel panel-default panel-blockreassurance col-lg-12 col-xs-12">
     <div class="panel-heading">
         {l s='Specific position for cart page' d='Modules.Blockreassurance.Admin'}
     </div>
