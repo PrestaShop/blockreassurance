@@ -175,11 +175,6 @@
         top: 9rem !important;
     }
 }
-
-#content.bootstrap .panel {
-    border-radius: 0;
-    padding: 0;
-}
 #content.bootstrap .panel-heading {
     background-color: #f5f5f5;
     border-bottom: 1px solid #e5e5e5;
@@ -191,6 +186,10 @@
     line-height: 1.2;
     margin: 0;
     padding: 12px 20px !important;
+}
+#content.bootstrap .panel-blockreassurance {
+    border-radius: 0;
+    padding: 0;
 }
 #content.bootstrap .panel .panel-footer {
     background-color: #f5f5f5;

@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel panel-default col-lg-12 col-xs-12">
+<div class="panel panel-default panel-blockreassurance col-lg-12 col-xs-12">
     <div class="panel-heading">
         {l s='Header position on all pages' d='Modules.Blockreassurance.Admin'}
     </div>
@@ -64,7 +64,7 @@
 
 </div>
 
-<div class="panel panel-default col-lg-12 col-xs-12">
+<div class="panel panel-default panel-blockreassurance col-lg-12 col-xs-12">
     <div class="panel-heading">
         {l s='Footer position on all pages' d='Modules.Blockreassurance.Admin'}
     </div>
