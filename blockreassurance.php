@@ -206,7 +206,7 @@ class blockreassurance extends Module implements WidgetInterface
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website.', [], 'Modules.Blockreassurance.Admin');
+        $this->_errors[] = $this->trans('There was an error during the installation. Please open an issue on the PrestaShop project https://github.com/PrestaShop/PrestaShop/issues/new/choose.', [], 'Modules.Blockreassurance.Admin');
 
         return false;
     }
@@ -236,7 +236,7 @@ class blockreassurance extends Module implements WidgetInterface
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please contact us through Addons website.', [], 'Modules.Blockreassurance.Admin');
+        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please open an issue on the PrestaShop project https://github.com/PrestaShop/PrestaShop/issues/new/choose.', [], 'Modules.Blockreassurance.Admin');
 
         return false;
     }
