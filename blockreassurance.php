@@ -58,8 +58,6 @@ class blockreassurance extends Module implements WidgetInterface
     /** @var string */
     public $module_key;
     /** @var string */
-    public $author_address;
-    /** @var string */
     public $controller_name;
     /** @var bool */
     public $bootstrap;
