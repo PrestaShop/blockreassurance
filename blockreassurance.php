@@ -47,30 +47,8 @@ class blockreassurance extends Module implements WidgetInterface
     const POSITION_BELOW_HEADER = 1;
     const POSITION_ABOVE_HEADER = 2;
 
-    /** @var string */
-    public $name;
-    /** @var string */
-    public $version;
-    /** @var string */
-    public $author;
-    /** @var bool */
-    public $need_instance;
-    /** @var string */
-    public $module_key;
-    /** @var string */
-    public $author_address;
-    /** @var string */
-    public $controller_name;
     /** @var bool */
     public $bootstrap;
-    /** @var string */
-    public $displayName;
-    /** @var string */
-    public $description;
-    /** @var string */
-    public $js_path;
-    /** @var string */
-    public $css_path;
     /** @var string */
     public $img_path;
     /** @var string */
@@ -78,17 +56,9 @@ class blockreassurance extends Module implements WidgetInterface
     /** @var string */
     public $img_path_perso;
     /** @var string */
-    public $lib_path;
-    /** @var string */
-    public $docs_path;
-    /** @var string */
     public $logo_path;
-    /** @var string */
-    public $module_path;
     /** @var string Text to display when ask for confirmation on uninstall action */
     public $confirmUninstall;
-    /** @var string */
-    public $ps_url;
     /** @var string */
     public $folder_file_upload;
     /** @var string */
@@ -103,7 +73,6 @@ class blockreassurance extends Module implements WidgetInterface
         $this->author = 'PrestaShop';
         $this->need_instance = false;
         $this->module_key = '938b96386d4d79aa7cb891439cb0ef11';
-        $this->author_address = '0x64aa3c1e4034d07015f639b0e171b0d7b27d01aa';
 
         $this->bootstrap = true;
         parent::__construct();
@@ -119,20 +88,14 @@ class blockreassurance extends Module implements WidgetInterface
         if (!$this->_path) {
             $this->_path = __PS_BASE_URI__ . 'modules/' . $this->name . '/';
         }
-        $this->js_path = $this->_path . 'views/js/';
-        $this->css_path = $this->_path . 'views/css/';
         $this->img_path = $this->_path . 'views/img/';
         $this->old_path_img = $this->_path . 'img/';
         $this->img_path_perso = $this->img_path . 'img_perso';
-        $this->lib_path = $this->_path . 'views/lib/';
-        $this->docs_path = $this->_path . 'docs/';
         $this->logo_path = $this->_path . 'logo.png';
-        $this->module_path = $this->_path;
         $this->folder_file_upload = _PS_MODULE_DIR_ . $this->name . '/views/img/img_perso/';
 
         // Confirm uninstall
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Blockreassurance.Admin');
-        $this->ps_url = $this->context->link->getBaseLink();
         $this->ps_versions_compliancy = ['min' => '1.7', 'max' => _PS_VERSION_];
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
