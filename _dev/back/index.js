@@ -124,7 +124,7 @@ $(window).ready(() => {
   });
 
   // Tab Content : Delete
-  $(document).on('click', '.psre-delete', () => {
+  $(document).on('click', '.psre-delete', function deleteTabContent() {
     const idBlock = $(this).data('id');
 
     if (!window.confirm(window.txtConfirmRemoveBlock)) {
@@ -154,7 +154,7 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit
-  $(document).on('click', '.psre-edit', () => {
+  $(document).on('click', '.psre-edit', function editTabContent() {
     $('.landscape').hide();
 
     $('#reminder_listing').removeClass('active').addClass('inactive');
@@ -252,7 +252,7 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit : Custom Icon
-  $(document).on('change', '.show-rea-block.active input[type="file"]', () => {
+  $(document).on('change', '.show-rea-block.active input[type="file"]', function editTabContentCustomIcon() {
     const {files} = $(this)[0];
     // Change the label
     const jqLabel = $(this).parents('.input-group').find('label.file_label');
@@ -290,7 +290,7 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit : MaxLength
-  $(document).on('keyup keydown', '.show-rea-block.active .content_by_lang input[type="text"], .show-rea-block.active .content_by_lang textarea', () => {
+  $(document).on('keyup keydown', '.show-rea-block.active .content_by_lang input[type="text"], .show-rea-block.active .content_by_lang textarea', function editTabContentMaxLength() {
     const maxLength = 100;
     const val = $(this).val();
     let valLength = val.length;
@@ -357,7 +357,7 @@ $(window).ready(() => {
   });
 
   // Tab Content : Edit : Save
-  $(document).on('click', '#saveContentConfiguration', () => {
+  $(document).on('click', '#saveContentConfiguration', function editTabContentSave() {
     const dataToSave = {};
     const blockId = $(this).attr('data-id');
     const imgIcon = $('.psr_picto_showing:visible img.psr-picto');
@@ -370,24 +370,26 @@ $(window).ready(() => {
 
     let minimalData = false;
     $('.show-rea-block.active .content_by_lang').each((index, elem) => {
-      const lang = $(elem).attr('data-lang');
-      const type = $(elem).attr('data-type');
+      const lang = parseInt($(elem).attr('data-lang'), 10);
+      const dataType = $(elem).attr('data-type');
 
       if (!Object.prototype.hasOwnProperty.call(dataToSave, lang)) {
         dataToSave[lang] = {};
       }
-      if (!Object.prototype.hasOwnProperty.call(dataToSave[lang], type)) {
-        dataToSave[lang][type] = '';
+      if (!Object.prototype.hasOwnProperty.call(dataToSave[lang], dataType)) {
+        dataToSave[lang][dataType] = '';
       }
-      if (type === 'description') {
-        dataToSave[lang][type] = $('textarea', elem).val();
+      if (dataType === 'description') {
+        dataToSave[lang][dataType] = $('textarea', elem).val();
       } else if (typeof ($('input', elem).val()) !== 'undefined') {
-        dataToSave[lang][type] = $('input', elem).val();
+        dataToSave[lang][dataType] = $('input', elem).val();
       }
-      if (!minimalData && lang === window.psr_lang && type === 'title' && dataToSave[lang][type].length > 0) {
+
+      if (!minimalData && lang === window.psr_lang && dataType === 'title' && dataToSave[lang][dataType].length > 0) {
         minimalData = true;
       }
     });
+
     if (!minimalData) {
       window.showErrorMessage(window.min_field_error);
       return;
@@ -444,7 +446,7 @@ $(window).ready(() => {
   $(document).on(
     'change',
     'input[name="PSR_HOOK_CHECKOUT"],input[name="PSR_HOOK_HEADER"],input[name="PSR_HOOK_FOOTER"],input[name="PSR_HOOK_PRODUCT"]',
-    () => {
+    function updatePosition() {
       let selector;
 
       switch ($(this).attr('name')) {
