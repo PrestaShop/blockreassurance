@@ -7,7 +7,8 @@ module.exports = {
     jquery: true,
   },
   parserOptions: {
-    parser: 'babel-eslint',
+    requireConfigFile: false,
+    parser: '@babel/eslint-parser',
   },
   plugins: [
     'import',
@@ -18,6 +19,6 @@ module.exports = {
   rules: {
     'no-new': 0,
     'class-methods-use-this': 0,
-    'no-alert': 0
+    'no-alert': 0,
   },
 };
