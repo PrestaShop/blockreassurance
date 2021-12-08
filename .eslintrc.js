@@ -8,7 +8,7 @@ module.exports = {
   },
   parserOptions: {
     requireConfigFile: false,
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
   },
   plugins: [
     'import',
