@@ -71,7 +71,7 @@ class blockreassurance extends Module implements WidgetInterface
         $this->tab = 'seo';
         $this->version = '5.1.0';
         $this->author = 'PrestaShop';
-        $this->need_instance = false;
+        $this->need_instance = 0;
         $this->module_key = '938b96386d4d79aa7cb891439cb0ef11';
 
         $this->bootstrap = true;
