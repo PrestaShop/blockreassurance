@@ -40,7 +40,7 @@
                     <span class="input-group-text picto-url"><i class="material-icons">link</i></span>
                 </div>
                 <input class="block_url form-control" type="text" name="URL"
-                       value="{if isset($block)}{$allblockByShop[{$language.id_lang}][$block['id_psreassurance']]['url']}{/if}">
+                       value="{if isset($block)}{$allblock[$block['id_psreassurance']]['url'][{$language.id_lang}]}{/if}">
             </div>
         </div>
     {/foreach}
