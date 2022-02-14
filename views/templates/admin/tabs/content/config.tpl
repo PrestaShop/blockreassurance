@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div id="blockDisplay" class="panel panel-default col-lg-10 col-xs-10 col-lg-offset-1 col-xs-offset-1 inactive">
+<div id="blockDisplay" class="panel panel-default panel-blockreassurance col-lg-10 col-xs-10 col-lg-offset-1 col-xs-offset-1 inactive">
     <div class="panel-heading">
         {l s='Reassurance Block' d='Modules.Blockreassurance.Admin'}
     </div>

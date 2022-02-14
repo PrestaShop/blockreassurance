@@ -56,10 +56,6 @@ class blockreassurance extends Module implements WidgetInterface
     /** @var bool */
     public $need_instance;
     /** @var string */
-    public $module_key;
-    /** @var string */
-    public $author_address;
-    /** @var string */
     public $controller_name;
     /** @var bool */
     public $bootstrap;
@@ -99,11 +95,9 @@ class blockreassurance extends Module implements WidgetInterface
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'seo';
-        $this->version = '5.0.0';
+        $this->version = '5.1.0';
         $this->author = 'PrestaShop';
-        $this->need_instance = 0;
-        $this->module_key = '938b96386d4d79aa7cb891439cb0ef11';
-        $this->author_address = '0x64aa3c1e4034d07015f639b0e171b0d7b27d01aa';
+        $this->need_instance = false;
 
         $this->bootstrap = true;
         parent::__construct();
@@ -113,7 +107,7 @@ class blockreassurance extends Module implements WidgetInterface
         }
 
         $this->displayName = $this->trans('Customer Reassurance', [], 'Modules.Blockreassurance.Admin');
-        $this->description = $this->trans('Connect with your customers and reassure them by highlighting your services: secure payment, free shipping, returns, etc.', [], 'Modules.Blockreassurance.Admin');
+        $this->description = $this->trans('Connect with your visitors and reassure them about secure payment, free shipping or returns.', [], 'Modules.Blockreassurance.Admin');
 
         // Settings paths
         if (!$this->_path) {
@@ -206,7 +200,7 @@ class blockreassurance extends Module implements WidgetInterface
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the installation. Please contact us through Addons website.', [], 'Modules.Blockreassurance.Admin');
+        $this->_errors[] = $this->trans('There was an error during the installation. Please <a href="https://github.com/PrestaShop/PrestaShop/issues">open an issue</a> on the PrestaShop project.', [], 'Modules.Blockreassurance.Admin');
 
         return false;
     }
@@ -236,7 +230,7 @@ class blockreassurance extends Module implements WidgetInterface
             return true;
         }
 
-        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please contact us through Addons website.', [], 'Modules.Blockreassurance.Admin');
+        $this->_errors[] = $this->trans('There was an error during the uninstallation. Please <a href="https://github.com/PrestaShop/PrestaShop/issues">open an issue</a> on the PrestaShop project.', [], 'Modules.Blockreassurance.Admin');
 
         return false;
     }
@@ -274,23 +268,6 @@ class blockreassurance extends Module implements WidgetInterface
     {
         $this->loadAsset();
 
-        $parsedUrl = parse_url('/en/517-blocks-tabs-banners');
-
-        $parameters = [];
-        if (!empty($parsedUrl['query'])) {
-            parse_str($parsedUrl['query'], $parameters);
-        }
-
-        $parameters['utm_source'] = 'back-office';
-        $parameters['utm_medium'] = 'modules';
-        $parameters['utm_campaign'] = 'back-office-' . strtoupper($this->context->language->iso_code);
-        $link = 'https://addons.prestashop.com' . $parsedUrl['path'] . '?' . http_build_query($parameters);
-        $categoryFetcher = [
-            'name' => 'Blocks, Tabs and Banners',
-            'link' => $link,
-            'description' => 'With these modules, you can personalize your e-commerce website by adding reassurance blocks (free delivery, satisfaction guaranteed or your money back, etc.), illustrating your categories with visuals on your homepage or adding advertising banners to your PrestaShop store.',
-        ];
-
         $id_lang = $this->context->language->id;
 
         $currentPage = 'global';
@@ -304,7 +281,6 @@ class blockreassurance extends Module implements WidgetInterface
         $allCms = CMS::listCms($id_lang);
 
         $this->context->smarty->assign([
-            'addons_category' => $categoryFetcher,
             'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
             'psr_hook_footer' => (int) Configuration::get('PSR_HOOK_FOOTER'),
             'psr_hook_product' => (int) Configuration::get('PSR_HOOK_PRODUCT'),

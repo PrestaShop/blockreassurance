@@ -175,11 +175,6 @@
         top: 9rem !important;
     }
 }
-
-#content.bootstrap .panel {
-    border-radius: 0;
-    padding: 0;
-}
 #content.bootstrap .panel-heading {
     background-color: #f5f5f5;
     border-bottom: 1px solid #e5e5e5;
@@ -191,7 +186,10 @@
     line-height: 1.2;
     margin: 0;
     padding: 12px 20px !important;
-    text-transform: capitalize;
+}
+#content.bootstrap .panel-blockreassurance {
+    border-radius: 0;
+    padding: 0;
 }
 #content.bootstrap .panel .panel-footer {
     background-color: #f5f5f5;
@@ -568,75 +566,6 @@
 /* Tab Appearance */
 #appearance .panel-body {
     margin-top: 20px;
-}
-
-/* Addons Suggestion */
-.module-addons-suggestion {
-    border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .06);
-    max-width: 1050px;
-    background-color: #ffffff;
-    margin: 0 auto 17px;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    padding: 20px 10px;
-}
-.module-addons-suggestion > div {
-    margin: 0 10px;
-}
-.module-addons-suggestion .suggestion-icon {
-    min-width: 100px;
-    width: 100px;
-    height: 81px;
-    background: url("additional_module.png") no-repeat transparent;
-    background-size: contain;
-}
-.module-addons-suggestion .suggestion-category-details {
-    min-width: 130px;
-}
-.module-addons-suggestion .suggestion-category-details .category-label {
-    font-weight: bold;
-}
-.module-addons-suggestion .suggestion-category-details .marketplace-label {
-    color: #ff0076;
-    font-weight: bold;
-}
-.module-addons-suggestion .suggestion-category-description,
-.module-addons-suggestion .suggestion-category-description h2 {
-    font-weight: normal;
-    font-size: 12px;
-    font-family: Open Sans, Helvetica, Arial, sans-serif;
-    margin: 0;
-}
-.module-addons-suggestion .suggestion-link {
-    margin-top: 30px;
-    min-width: 180px;
-    text-align: center;
-}
-.module-addons-suggestion .suggestion-link .btn-primary {
-    background-color: #25b9d7;
-    border-color: #25b9d7;
-    color: #fff;
-    border-radius: 0;
-    min-width: 180px;
-    white-space: normal;
-}
-@media screen and (max-width: 768px) {
-    .module-addons-suggestion {
-        display: block;
-    }
-    .module-addons-suggestion .suggestion-category-description {
-        width: auto;
-        margin-top: 10px;
-    }
-    .module-addons-suggestion .suggestion-link {
-        margin-top: 10px;
-    }
-    .module-addons-suggestion .suggestion-icon,
-    .module-addons-suggestion .suggestion-category-details {
-        display: inline-block;
-    }
 }
 
 /* Pickr Override */

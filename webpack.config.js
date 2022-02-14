@@ -22,7 +22,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
@@ -33,6 +33,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
+    publicPath: path.resolve(__dirname, './views/dist'),
     path: path.resolve(__dirname, './views/dist'),
   },
   module: {
@@ -43,24 +44,29 @@ module.exports = {
         use: ['babel-loader'],
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.s?css$/,
         use: [
           'style-loader',
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: false,
+            },
+          },
           'css-loader',
           'sass-loader',
         ],
       },
       {
-        test: /.(eot|png|ttf|woff|woff2)(\?[a-z0-9=\.]+)?$/,
+        test: /\.(eot|png|ttf|woff|woff2)(\?[a-z0-9=.]+)?$/,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: '../../views/dist/[hash].[ext]'
-            }
-          }
-        ]
+              name: '../../views/dist/[hash].[ext]',
+            },
+          },
+        ],
       },
     ],
   },

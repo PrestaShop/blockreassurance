@@ -1,0 +1,8 @@
+includes:
+	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+
+parameters:
+  ignoreErrors:
+    - '#Call to an undefined method AdminBlockListingController::ajaxRender\(\).#'
+    - '#Parameter \#1 \$cms of method LinkCore::getCMSLink\(\) expects CMS, int given.#'
+    - '#Static method ImageManagerCore::validateUpload\(\) invoked with 4 parameters, 1-3 required.#'

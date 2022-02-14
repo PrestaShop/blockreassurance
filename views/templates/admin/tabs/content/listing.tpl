@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div id="reminder_listing" class="panel panel-default col-lg-10 col-lg-offset-1 col-xs-12 col-xs-offset-0">
+<div id="reminder_listing" class="panel panel-default panel-blockreassurance col-lg-10 col-lg-offset-1 col-xs-12 col-xs-offset-0">
     <div class="panel-heading">
         {l s='Block Content' d='Modules.Blockreassurance.Admin'}
       <span class="psre-add"><i class="material-icons">add_circle</i></span>

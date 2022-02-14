@@ -178,7 +178,7 @@ class ReassuranceActivity extends ObjectModel
     {
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE prl.id_lang = "' . (int) $id_lang . '" 
+            WHERE prl.id_lang = "' . (int) $id_lang . '"
                 AND prl.id_shop = "' . (int) $id_shop . '"
                 AND pr.status = 1
             ORDER BY pr.position';
@@ -187,9 +187,47 @@ class ReassuranceActivity extends ObjectModel
 
         foreach ($result as &$item) {
             $item['is_svg'] = !empty($item['custom_icon'])
-                && (ImageManager::getMimeType(str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'])) == 'image/svg');
+                && (self::getMimeType(str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'])) == 'image/svg');
         }
 
         return $result;
+    }
+
+    /**
+     * @return string|bool
+     */
+    public static function getMimeType(string $filename)
+    {
+        $mimeType = false;
+        // Try with GD
+        if (function_exists('getimagesize')) {
+            $imageInfo = @getimagesize($filename);
+            if ($imageInfo) {
+                $mimeType = $imageInfo['mime'];
+            }
+        }
+        // Try with FileInfo
+        if (!$mimeType && function_exists('finfo_open')) {
+            $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
+            $finfo = finfo_open($const);
+            $mimeType = finfo_file($finfo, $filename);
+            finfo_close($finfo);
+        }
+        // Try with Mime
+        if (!$mimeType && function_exists('mime_content_type')) {
+            $mimeType = mime_content_type($filename);
+        }
+        // Try with exec command and file binary
+        if (!$mimeType && function_exists('exec')) {
+            $mimeType = trim(exec('file -b --mime-type ' . escapeshellarg($filename)));
+            if (!$mimeType) {
+                $mimeType = trim(exec('file --mime ' . escapeshellarg($filename)));
+            }
+            if (!$mimeType) {
+                $mimeType = trim(exec('file -bi ' . escapeshellarg($filename)));
+            }
+        }
+
+        return $mimeType;
     }
 }

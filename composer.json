@@ -11,14 +11,12 @@
   ],
   "require": {
     "php": ">=5.6.0",
-    "prestashop/circuit-breaker": "^3.0.0",
     "doctrine/cache": "^1.6",
     "symfony/css-selector": "^3.4 || ^4.4 || ^5.0",
     "guzzlehttp/cache-subscriber": "^0.2.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.14",
-    "prestashop/php-coding-standards": "dev-master"
+    "prestashop/php-dev-tools": "^3.4"
   },
   "autoload": {
     "psr-4": {
@@ -32,6 +30,8 @@
   },
   "config": {
     "preferred-install": "dist",
+    "classmap-authoritative": true,
+    "optimize-autoloader": true,
     "prepend-autoloader": false,
     "platform": {
       "php": "5.6"

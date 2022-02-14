@@ -67,4 +67,3 @@
         </div>
     </div>
 </div>
-{include file="./addons-suggestion.tpl"}

@@ -24,47 +24,48 @@
  */
 import Pickr from '@simonwep/pickr';
 import Vue from 'vue/dist/vue.min';
-window.Vue = Vue;
 
-import "material-design-icons/iconfont/material-icons.css";
-import '@simonwep/pickr/dist/themes/classic.min.css'
+import 'material-design-icons/iconfont/material-icons.css';
+import '@simonwep/pickr/dist/themes/classic.min.css';
 import './back.scss';
 
-$(window).ready(function () {
+window.Vue = Vue;
+
+$(window).ready(() => {
   // Tab Content
-  var imgSelected;
+  let imgSelected;
   // Tab Content : Change position
   $('.listing-body').sortable({
-    update: function () {
-      var blocks = [];
-      $('.listing-general-rol').each(function () {
+    update() {
+      const blocks = [];
+      $('.listing-general-rol').each(() => {
         blocks.push($(this).attr('data-block'));
       });
 
       $.ajax({
         type: 'POST',
         dataType: 'JSON',
-        url: psr_controller_block_url,
+        url: window.psr_controller_block_url,
         data: {
           ajax: true,
           action: 'UpdatePosition',
-          blocks: blocks,
+          blocks,
         },
-        success: function (data) {
-          if (data == 'success') {
-            showSuccessMessage(successPosition);
-          }  else {
-            showErrorMessage(errorPosition);
+        success(data) {
+          if (data === 'success') {
+            window.showSuccessMessage(window.successPosition);
+          } else {
+            window.showErrorMessage(window.errorPosition);
           }
-        }
+        },
       });
-    }
+    },
   });
 
   // Tab Content : Set active/inactive
   $(document).on('click', '.listing-row .switch-input', (e) => {
-    var switchIsOn = $(e.target).hasClass('-checked');
-    var status = switchIsOn ? 1 : 0;
+    const switchIsOn = $(e.target).hasClass('-checked');
+    const status = switchIsOn ? 1 : 0;
 
     $(e.target).parent().find('.switch_text').hide();
     if (switchIsOn) {
@@ -78,29 +79,29 @@ $(window).ready(function () {
     }
 
     $.ajax({
-      url: psr_controller_block_url,
+      url: window.psr_controller_block_url,
       type: 'POST',
       dataType: 'JSON',
       async: false,
       data: {
-        controller: psr_controller_block,
+        controller: window.psr_controller_block,
         action: 'changeBlockStatus',
         idpsr: $(e.target).parent().attr('data-cart_psreassurance_id'),
-        status: status,
+        status,
         ajax: true,
       },
       success: (data) => {
         if (data === 'success') {
-          showNoticeMessage(block_updated);
+          window.showNoticeMessage(window.block_updated);
         } else {
-          showErrorMessage(active_error);
+          window.showErrorMessage(window.active_error);
         }
-      }
+      },
     });
   });
 
   // Tab Content : Add
-  $(document).on('click', '.psre-add', function () {
+  $(document).on('click', '.psre-add', () => {
     $('.landscape').show();
 
     $('#reminder_listing').removeClass('active').addClass('inactive');
@@ -113,7 +114,8 @@ $(window).ready(function () {
     $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
     $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
 
-    var landscape = $('.panel-body-0 .psr-picto').attr('src');
+    const landscape = $('.panel-body-0 .psr-picto').attr('src');
+
     if (typeof landscape === 'undefined') {
       $('.psr-picto:visible').hide();
       $('.svg_chosed_here:visible').hide();
@@ -122,50 +124,52 @@ $(window).ready(function () {
   });
 
   // Tab Content : Delete
-  $(document).on('click', '.psre-delete', function () {
-    var idBlock = $(this).data('id');
-    if (!confirm(txtConfirmRemoveBlock)) {
+  $(document).on('click', '.psre-delete', function deleteTabContent() {
+    const idBlock = $(this).data('id');
+
+    if (!window.confirm(window.txtConfirmRemoveBlock)) {
       return;
     }
     $.ajax({
       type: 'POST',
       dataType: 'JSON',
-      url: psr_controller_block_url,
+      url: window.psr_controller_block_url,
       data: {
         ajax: true,
         action: 'DeleteBlock',
-        idBlock: idBlock,
+        idBlock,
       },
-      success: function (data) {
+      success(data) {
         if (data === 'success') {
           // Remove line
-          $('div[data-block="'+idBlock+'"]').remove();
+          $(`div[data-block="${idBlock}"]`).remove();
         } else {
-          showErrorMessage(errorRemove);
+          window.showErrorMessage(window.errorRemove);
         }
       },
-      error: function (err) {
+      error(err) {
         console.log(err);
-      }
+      },
     });
   });
 
   // Tab Content : Edit
-  $(document).on('click', '.psre-edit', function () {
+  $(document).on('click', '.psre-edit', function editTabContent() {
     $('.landscape').hide();
 
     $('#reminder_listing').removeClass('active').addClass('inactive');
     $('#blockDisplay').removeClass('inactive').addClass('active');
     $('.show-rea-block').removeClass('active').addClass('inactive');
 
-    var id = $(this).data('id');
-    $('.panel-body-' + id).removeClass('inactive').addClass('active');
+    const id = $(this).data('id');
+    $(`.panel-body-${id}`).removeClass('inactive').addClass('active');
     $('#saveContentConfiguration').attr('data-id', id);
 
     $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
     $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
 
-    var landscape = $('.panel-body-' + id + ' .psr-picto').attr('src');
+    const landscape = $(`.panel-body-${id} .psr-picto`).attr('src');
+
     if (typeof landscape === 'undefined') {
       $('.psr-picto:visible').hide();
       $('.svg_chosed_here:visible').hide();
@@ -175,49 +179,49 @@ $(window).ready(function () {
 
   // Tab Content : Edit : Language
   $(document).on('change', 'select[name="psr-language"]', (e) => {
-    var lang = $(e.target).val();
+    const lang = $(e.target).val();
 
     $('.content_by_lang').removeClass('active').addClass('inactive');
-    $('.content_by_lang.lang-' + lang).addClass('active');
+    $(`.content_by_lang.lang-${lang}`).addClass('active');
     $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
     $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
   });
 
   // Tab Content : Edit : Modify icon
   $(document).on('click', '.modify_icon', (e) => {
-    let position = $(e.target).offset();
-    let offset = $(e.target).width();
-    let top = position.top / 2;
-    let left = position.left / 2 - offset;
+    const position = $(e.target).offset();
+    const offset = $(e.target).width();
+    const top = position.top / 2;
+    const left = position.left / 2 - offset;
 
     $('#reassurance_block')
-      .show().css('top', top + 'px').css('left', left + 'px');
+      .show().css('top', `${top}px`).css('left', `${left}px`);
   });
 
   // Tab Content : Edit : Modify icon : Click outside
   $(document).on('click', 'body', (e) => {
-    let isInside = $(e.target).closest('.modify_icon').length;
-    let isPopin = $(e.target).closest('#reassurance_block').length;
+    const isInside = $(e.target).closest('.modify_icon').length;
+    const isPopin = $(e.target).closest('#reassurance_block').length;
 
     if (!isInside && !isPopin) {
-      $("#reassurance_block").fadeOut(300);
+      $('#reassurance_block').fadeOut(300);
     }
   });
 
   // Tab Content : Edit : Modify icon : Tabs
   $(document).on('click', '#reassurance_block .category_select div img', (e) => {
-    var category = $(e.target).attr('data-id');
+    const category = $(e.target).attr('data-id');
     // Change the tab
     $('#reassurance_block .category_select div').removeClass('active');
     $(e.target).parent().addClass('active');
     // Change the tab content
     $('#reassurance_block .category_reassurance').removeClass('active');
-    $('#reassurance_block .cat_' + category).addClass('active');
+    $(`#reassurance_block .cat_${category}`).addClass('active');
   });
 
   // Tab Content : Edit : Select icon
   $(document).on('click', '#reassurance_block .category_reassurance .svg', (e) => {
-    var svg = $(e.target)[0].outerHTML;
+    const svg = $(e.target)[0].outerHTML;
 
     // Popin : select the icon
     $('#reassurance_block .category_reassurance img.svg.selected').removeClass('selected');
@@ -233,8 +237,8 @@ $(window).ready(function () {
   });
 
   // Tab Content : Edit : Select none
-  $(document).on('click', '#reassurance_block .select_none', (e) => {
-    var psrPicto = $('.psr-picto:visible');
+  $(document).on('click', '#reassurance_block .select_none', () => {
+    const psrPicto = $('.psr-picto:visible');
     psrPicto.attr('src', 'undefined').hide();
 
     // Un-select icon in the popin
@@ -248,31 +252,33 @@ $(window).ready(function () {
   });
 
   // Tab Content : Edit : Custom Icon
-  $(document).on('change', '.show-rea-block.active input[type="file"]', function (e) {
-    var files = $(this)[0].files;
+  $(document).on('change', '.show-rea-block.active input[type="file"]', function editTabContentCustomIcon() {
+    const {files} = $(this)[0];
     // Change the label
-    var jqLabel = $(this).parents('.input-group').find('label.file_label');
-    var label = jqLabel.attr('data-label');
+    const jqLabel = $(this).parents('.input-group').find('label.file_label');
+    let label = jqLabel.attr('data-label');
+
     if (files.length === 1) {
-      label = files.length + ' file selected'
+      label = `${files.length} file selected`;
     }
     jqLabel.html(label);
 
     // Preview the image
-    var idPreview = $(this).attr('data-preview');
+    const idPreview = $(this).attr('data-preview');
+
     if (files && files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        var jqPreview = $('.' + idPreview);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const jqPreview = $(`.${idPreview}`);
+
         if (jqPreview.hasClass('hide')) {
           jqPreview.removeClass('hide');
         }
         jqPreview.attr('src', e.target.result);
-        console.log(e.target.result)
       };
       reader.readAsDataURL(files[0]);
 
-      imgSelected = files[0];
+      [imgSelected] = files;
 
       // Hide the initial icon
       $('.landscape').hide();
@@ -284,10 +290,11 @@ $(window).ready(function () {
   });
 
   // Tab Content : Edit : MaxLength
-  $(document).on('keyup keydown', '.show-rea-block.active .content_by_lang input[type="text"], .show-rea-block.active .content_by_lang textarea', function () {
-    var maxLength = 100;
-    var val = $(this).val();
-    var valLength = val.length;
+  $(document).on('keyup keydown', '.show-rea-block.active .content_by_lang input[type="text"], .show-rea-block.active .content_by_lang textarea', function editTabContentMaxLength() {
+    const maxLength = 100;
+    const val = $(this).val();
+    let valLength = val.length;
+
     if (val.length > maxLength) {
       $(this).val(val.substring(0, maxLength - 1));
       valLength = $(this).val().length;
@@ -300,17 +307,17 @@ $(window).ready(function () {
   });
 
   // Tab Content : Edit : Return
-  $(document).on('click', '#blockDisplay .refreshPage', function () {
-    location.reload();
+  $(document).on('click', '#blockDisplay .refreshPage', () => {
+    window.location.reload();
   });
 
   // Tab Content : Edit : Redirect
   $(document).on('change', 'input[name^="PSR_REDIRECTION_"]', (e) => {
     function setEnabledPSR(psr, state) {
       if (state) {
-        $('.psr-' + psr).removeClass('inactive').addClass('active');
+        $(`.psr-${psr}`).removeClass('inactive').addClass('active');
       } else {
-        $('.psr-' + psr).removeClass('active').addClass('inactive');
+        $(`.psr-${psr}`).removeClass('active').addClass('inactive');
       }
     }
 
@@ -327,20 +334,22 @@ $(window).ready(function () {
         setEnabledPSR('cms', false);
         setEnabledPSR('url', true);
         break;
+      default:
+        break;
     }
   });
 
   // Tab Content : Edit : Redirect : URL
   $(document).on('keyup', '.block_url:visible', (e) => {
-    var url = $(e.target).val();
-    var pattern_for_url = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-    var pattern_for_http = /(http(s)?:\/\/)/g;
+    const url = $(e.target).val();
+    const patternForUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
+    const patternForHttp = /(http(s)?:\/\/)/g;
 
     // If it is a real URL :
-    if (pattern_for_url.test(url)) {
+    if (patternForUrl.test(url)) {
       $(e.target).css('background', '#fff');
-      if (!pattern_for_http.test(url)) {
-        $(e.target).val('http://' + url);
+      if (!patternForHttp.test(url)) {
+        $(e.target).val(`http://${url}`);
       }
     } else {
       $(e.target).css('background', '#ffecec');
@@ -348,135 +357,146 @@ $(window).ready(function () {
   });
 
   // Tab Content : Edit : Save
-  $(document).on('click', '#saveContentConfiguration', function () {
-    var dataToSave = {};
-    var blockId = $(this).attr('data-id');
-    var imgIcon = $('.psr_picto_showing:visible img.psr-picto');
-    var iconSrc = imgIcon.attr('src');
-    var iconReplaced = $('.svg_chosed_here img.svg').attr('src');
+  $(document).on('click', '#saveContentConfiguration', function editTabContentSave() {
+    const dataToSave = {};
+    const blockId = $(this).attr('data-id');
+    const imgIcon = $('.psr_picto_showing:visible img.psr-picto');
+    let iconSrc = imgIcon.attr('src');
+    const iconReplaced = $('.svg_chosed_here img.svg').attr('src');
+
     if (typeof iconReplaced !== 'undefined') {
       iconSrc = iconReplaced;
     }
 
-    var minimalData = false;
-    $('.show-rea-block.active .content_by_lang').each(function (index, elem) {
-      var lang = $(elem).attr('data-lang');
-      var type = $(elem).attr('data-type');
-      if (!dataToSave.hasOwnProperty(lang)) {
+    let minimalData = false;
+    $('.show-rea-block.active .content_by_lang').each((index, elem) => {
+      const lang = parseInt($(elem).attr('data-lang'), 10);
+      const dataType = $(elem).attr('data-type');
+
+      if (!Object.prototype.hasOwnProperty.call(dataToSave, lang)) {
         dataToSave[lang] = {};
       }
-      if (!dataToSave[lang].hasOwnProperty(type)) {
-        dataToSave[lang][type] = '';
+      if (!Object.prototype.hasOwnProperty.call(dataToSave[lang], dataType)) {
+        dataToSave[lang][dataType] = '';
       }
-      if (type === 'description') {
-        dataToSave[lang][type] = $('textarea', elem).val();
-      } else if (typeof($('input', elem).val()) != 'undefined') {
-        dataToSave[lang][type] = $('input', elem).val();
+      if (dataType === 'description') {
+        dataToSave[lang][dataType] = $('textarea', elem).val();
+      } else if (typeof ($('input', elem).val()) !== 'undefined') {
+        dataToSave[lang][dataType] = $('input', elem).val();
       }
-      if (!minimalData && lang == psr_lang && type == 'title' && dataToSave[lang][type].length > 0) {
+
+      if (!minimalData && lang === window.psr_lang && dataType === 'title' && dataToSave[lang][dataType].length > 0) {
         minimalData = true;
       }
     });
+
     if (!minimalData) {
-      showErrorMessage(min_field_error);
+      window.showErrorMessage(window.min_field_error);
       return;
     }
 
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append('ajax', true);
     formData.append('action', 'SaveBlockContent');
     formData.append('file', imgSelected);
     formData.append('id_block', blockId);
     formData.append('lang_values', JSON.stringify(dataToSave));
     formData.append('picto', iconSrc);
-    formData.append('typelink', $('input[name="PSR_REDIRECTION_' + blockId + '"]:checked').val());
-    formData.append('id_cms', $('select[name="ID_CMS_' + blockId + '"]').val());
+    formData.append('typelink', $(`input[name="PSR_REDIRECTION_${blockId}"]:checked`).val());
+    formData.append('id_cms', $(`select[name="ID_CMS_${blockId}"]`).val());
 
     $.ajax({
       type: 'POST',
       dataType: 'JSON',
-      url: psr_controller_block_url,
+      url: window.psr_controller_block_url,
       contentType: false,
       processData: false,
       data: formData,
-      success: function (data) {
-        showSuccessMessage(psre_success);
-        setTimeout(location.reload(), 1800);
-      }
+      success() {
+        window.showSuccessMessage(window.psre_success);
+        setTimeout(window.location.reload(), 1800);
+      },
     });
   });
 
   // Tab Display
-  var vMenu = new Vue({
+  new Vue({
     el: '#menu',
     data: {
-      selectedTabName: currentPage,
+      selectedTabName: window.currentPage,
     },
     methods: {
-      makeActive: function (item) {
+      makeActive(item) {
         this.selectedTabName = item;
-        window.history.pushState({}, '', moduleAdminLink.replace(/\amp;/g, '') + '&page=' + item);
+        window.history.pushState({}, '', `${window.moduleAdminLink.replace(/amp;/g, '')}&page=${item}`);
       },
-      isActive: function (item) {
+      isActive(item) {
         if (this.selectedTabName !== item) {
           return false;
         }
         $('.psr_menu').addClass('addons-hide');
-        $('.psr_menu#' + item).removeClass('addons-hide');
+        $(`.psr_menu#${item}`).removeClass('addons-hide');
 
         return true;
-      }
-    }
+      },
+    },
   });
 
   // Tab Display : Save Position
-  $(document).on('change', 'input[name="PSR_HOOK_CHECKOUT"],input[name="PSR_HOOK_HEADER"],input[name="PSR_HOOK_FOOTER"],input[name="PSR_HOOK_PRODUCT"]', function () {
-    var selector = '';
-    switch ($(this).attr('name')) {
-      case 'PSR_HOOK_CHECKOUT':
-        selector = 'checkout';
-        break;
-      case 'PSR_HOOK_HEADER':
-        selector = 'header';
-        break;
-      case 'PSR_HOOK_FOOTER':
-        selector = 'footer';
-        break;
-      case 'PSR_HOOK_PRODUCT':
-        selector = 'product';
-        break;
-    }
+  $(document).on(
+    'change',
+    'input[name="PSR_HOOK_CHECKOUT"],input[name="PSR_HOOK_HEADER"],input[name="PSR_HOOK_FOOTER"],input[name="PSR_HOOK_PRODUCT"]',
+    function updatePosition() {
+      let selector;
 
-    $('.psr-' + selector + '-grey').addClass('active');
-    $('.psr-' + selector + '-color').removeClass('active');
+      switch ($(this).attr('name')) {
+        case 'PSR_HOOK_CHECKOUT':
+          selector = 'checkout';
+          break;
+        case 'PSR_HOOK_HEADER':
+          selector = 'header';
+          break;
+        case 'PSR_HOOK_FOOTER':
+          selector = 'footer';
+          break;
+        case 'PSR_HOOK_PRODUCT':
+          selector = 'product';
+          break;
+        default:
+          selector = '';
+      }
 
-    $(this).nextAll('.psr-' + selector + '-grey').removeClass('active');
-    $(this).nextAll('.psr-' + selector + '-color').addClass('active');
-    savePositionByHook($(this).attr('name'), $(this).val());
-  });
+      $(`.psr-${selector}-grey`).addClass('active');
+      $(`.psr-${selector}-color`).removeClass('active');
+
+      $(this).nextAll(`.psr-${selector}-grey`).removeClass('active');
+      $(this).nextAll(`.psr-${selector}-color`).addClass('active');
+      savePositionByHook($(this).attr('name'), $(this).val());
+    },
+  );
   function savePositionByHook(hook, value) {
     $.ajax({
       type: 'POST',
       dataType: 'JSON',
-      url: psr_controller_block_url,
+      url: window.psr_controller_block_url,
       data: {
         ajax: true,
         action: 'SavePositionByHook',
-        hook: hook,
-        value: value,
+        hook,
+        value,
       },
-      success: function (data) {
+      success(data) {
         if (data === 'success') {
-          showSuccessMessage(successPosition);
+          window.showSuccessMessage(window.successPosition);
         } else {
-          showErrorMessage(errorPosition);
+          window.showErrorMessage(window.errorPosition);
         }
-      }
+      },
     });
   }
 
   // Tab Appearance
-  var pickrComponents = {
+  const pickrComponents = {
     // Main components
     preview: true,
     opacity: false,
@@ -491,59 +511,58 @@ $(window).ready(function () {
       cmyk: false,
       input: true,
       clear: false,
-      save: true
-    }
+      save: true,
+    },
   };
-  var pickr1 = Pickr.create({
+  const pickr1 = Pickr.create({
     el: '.ps_colorpicker1',
-    default: psr_icon_color,
+    default: window.psr_icon_color,
     defaultRepresentation: 'HEX',
     closeWithKey: 'Escape',
     adjustableNumbers: true,
-    components: pickrComponents
+    components: pickrComponents,
   });
-  pickr1.on('change', (...args) => {
-    let pickrColor = pickr1.getColor();
-    let hexaColor = pickrColor.toHEXA().toString();
+  pickr1.on('change', () => {
+    const pickrColor = pickr1.getColor();
+    const hexaColor = pickrColor.toHEXA().toString();
     $('.psr_icon_color').val(hexaColor);
   });
 
-  var pickr2 = Pickr.create({
+  const pickr2 = Pickr.create({
     el: '.ps_colorpicker2',
-    default: psr_text_color,
+    default: window.psr_text_color,
     defaultRepresentation: 'HEX',
     closeWithKey: 'Escape',
     adjustableNumbers: true,
-    components: pickrComponents
+    components: pickrComponents,
   });
-  pickr2.on('change', (...args) => {
-    let pickrColor = pickr2.getColor();
-    let hexaColor = pickrColor.toHEXA().toString();
+  pickr2.on('change', () => {
+    const pickrColor = pickr2.getColor();
+    const hexaColor = pickrColor.toHEXA().toString();
     $('.psr_text_color').val(hexaColor);
   });
 
   // Tab Appearance : Save Color
-  $(document).on('click', '#saveConfiguration', function () {
-    var color1 = $('#color_1').val();
-    var color2 = $('#color_2').val()
+  $(document).on('click', '#saveConfiguration', () => {
+    const color1 = $('#color_1').val();
+    const color2 = $('#color_2').val();
     $.ajax({
       type: 'POST',
       dataType: 'JSON',
-      url: psr_controller_block_url,
+      url: window.psr_controller_block_url,
       data: {
         ajax: true,
         action: 'SaveColor',
-        color1: color1,
-        color2: color2,
+        color1,
+        color2,
       },
-      success: function (data) {
+      success(data) {
         if (data === 'success') {
-          showSuccessMessage(psre_success);
+          window.showSuccessMessage(window.psre_success);
         } else {
-          showErrorMessage(active_error);
+          window.showErrorMessage(window.active_error);
         }
-      }
+      },
     });
   });
 });
-
