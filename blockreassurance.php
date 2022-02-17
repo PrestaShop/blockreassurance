@@ -288,7 +288,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_text_color' => Configuration::get('PSR_TEXT_COLOR'),
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'logo_path' => $this->logo_path,
-            'languages' => Language::getLanguages(),
+            'languages' => Language::getLanguages(false),
             'allblock' => ReassuranceActivity::getAllBlockByLang($id_lang, $this->context->shop->id),
             'allblockByShop' => ReassuranceActivity::getAllBlockByShop(),
             'currentPage' => $currentPage,
