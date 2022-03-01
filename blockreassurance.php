@@ -87,8 +87,6 @@ class blockreassurance extends Module implements WidgetInterface
     public $ps_url;
     /** @var string */
     public $folder_file_upload;
-    /** @var string */
-    private $templateFile;
 
     public function __construct()
     {
@@ -128,7 +126,6 @@ class blockreassurance extends Module implements WidgetInterface
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Blockreassurance.Admin');
         $this->ps_url = $this->context->link->getBaseLink();
         $this->ps_versions_compliancy = ['min' => '1.7', 'max' => _PS_VERSION_];
-        $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
     /**
@@ -413,11 +410,16 @@ class blockreassurance extends Module implements WidgetInterface
         if ($hookName === 'displayFooter') {
             return '';
         }
-        if (!$this->isCached($this->templateFile, $this->getCacheId('blockreassurance'))) {
+                 
+        if($this->fetch('module:blockreassurance/views/templates/hook/' . $hookName . '.tpl') == null){
+            $hookName = 'blockreassurance';   
+        }
+    
+        if (!$this->isCached('module:blockreassurance/views/templates/hook/' . $hookName . '.tpl', $this->getCacheId('blockreassurance' . $hookName))) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }
 
-        return $this->fetch($this->templateFile, $this->getCacheId('blockreassurance'));
+        return $this->fetch('module:blockreassurance/views/templates/hook/' . $hookName . '.tpl', $this->getCacheId('blockreassurance'  . $hookName));
     }
 
     /**
