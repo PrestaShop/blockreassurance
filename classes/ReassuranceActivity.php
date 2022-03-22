@@ -188,7 +188,7 @@ class ReassuranceActivity extends ObjectModel
         foreach ($result as &$item) {
             $item['is_svg'] = !empty($item['custom_icon'])
                 && (self::getMimeType(
-                    (__PS_BASE_URI__ == "/") ? _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.$item['custom_icon'] : str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'])
+                    (__PS_BASE_URI__ == '/') ? _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $item['custom_icon'] : str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'])
                 ) == 'image/svg');
         }
 
