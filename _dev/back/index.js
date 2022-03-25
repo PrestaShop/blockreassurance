@@ -38,7 +38,7 @@ $(window).ready(() => {
   $('.listing-body').sortable({
     update() {
       const blocks = [];
-      $('.listing-general-rol').each(() => {
+      $('.listing-general-rol').each(function () {
         blocks.push($(this).attr('data-block'));
       });
 
