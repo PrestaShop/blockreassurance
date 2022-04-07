@@ -167,7 +167,7 @@ class ReassuranceActivity extends ObjectModel
         $xmlMimes = ['image/svg', 'image/svg+xml'];
         foreach ($result as &$item) {
             $item['is_svg'] = !empty($item['custom_icon'])
-                && (in_array(self::getMimeType(dirname(_PS_ROOT_DIR_) . $item['custom_icon']), $xmlMimes));
+                && (in_array(self::getMimeType(_PS_ROOT_DIR_ . $item['custom_icon']), $xmlMimes));
         }
 
         return $result;
