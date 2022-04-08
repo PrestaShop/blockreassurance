@@ -2,7 +2,7 @@
 <module>
     <name>blockreassurance</name>
     <displayName><![CDATA[Customer reassurance block]]></displayName>
-    <version><![CDATA[5.1.0]]></version>
+    <version><![CDATA[5.1.1]]></version>
     <description><![CDATA[Adds an information block aimed at offering helpful information to reassure customers that your store is trustworthy.]]></description>
     <author><![CDATA[PrestaShop]]></author>
     <is_configurable>1</is_configurable>

@@ -36,7 +36,6 @@ class ReassuranceActivity extends ObjectModel
     public $description;
     public $status;
     public $position;
-    public $id_shop;
     public $type_link;
     public $link;
     public $id_cms;
@@ -50,41 +49,21 @@ class ReassuranceActivity extends ObjectModel
         'table' => 'psreassurance',
         'primary' => 'id_psreassurance',
         'multilang' => true,
-        'multilang_shop' => true,
         'fields' => [
-            'icon' => ['type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255],
-            'custom_icon' => ['type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isCleanHtml', 'size' => 255],
-            'title' => ['type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
-            'description' => ['type' => self::TYPE_HTML, 'shop' => true, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000],
-            'status' => ['type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool', 'required' => true],
-            'position' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
-            'type_link' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
-            'id_cms' => ['type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isunsignedInt', 'required' => false],
-            'link' => ['type' => self::TYPE_STRING, 'shop' => true, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255],
-            'date_add' => ['type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'],
-            'date_upd' => ['type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'],
+            'icon' => ['type' => self::TYPE_STRING, 'validate' => 'isCleanHtml', 'size' => 255],
+            'custom_icon' => ['type' => self::TYPE_STRING, 'validate' => 'isCleanHtml', 'size' => 255],
+            'status' => ['type' => self::TYPE_BOOL, 'validate' => 'isBool', 'required' => true],
+            'position' => ['type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => false],
+            'type_link' => ['type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => false],
+            'id_cms' => ['type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => false],
+            'date_add' => ['type' => self::TYPE_DATE, 'validate' => 'isDate'],
+            'date_upd' => ['type' => self::TYPE_DATE, 'validate' => 'isDate'],
+            // lang fields
+            'title' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'description' => ['type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000],
+            'link' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255],
         ],
     ];
-
-    /**
-     * @param int $id_lang
-     * @param int $id_shop
-     *
-     * @return array
-     *
-     * @throws PrestaShopDatabaseException
-     */
-    public static function getAllBlockByLang($id_lang = 1, $id_shop = 1)
-    {
-        $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
-            LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE prl.id_lang = "' . (int) $id_lang . '" AND prl.id_shop = "' . (int) $id_shop . '"
-            ORDER BY pr.position';
-
-        $result = Db::getInstance()->executeS($sql);
-
-        return $result;
-    }
 
     /**
      * @param array $psr_languages
@@ -139,28 +118,30 @@ class ReassuranceActivity extends ObjectModel
     }
 
     /**
-     * @param int $id_shop
-     *
      * @return array
      *
      * @throws PrestaShopDatabaseException
      */
-    public static function getAllBlockByShop($id_shop = 1)
+    public static function getAllBlock()
     {
         $result = [];
 
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
-            WHERE prl.id_shop = "' . (int) $id_shop . '"
-            GROUP BY prl.id_lang, pr.id_psreassurance
             ORDER BY pr.position';
 
         $dbResult = Db::getInstance()->executeS($sql);
 
         foreach ($dbResult as $key => $value) {
-            $result[$value['id_lang']][$value['id_psreassurance']]['title'] = $value['title'];
-            $result[$value['id_lang']][$value['id_psreassurance']]['description'] = $value['description'];
-            $result[$value['id_lang']][$value['id_psreassurance']]['url'] = $value['link'];
+            if (!isset($result[$value['id_psreassurance']])) {
+                $result[$value['id_psreassurance']] = $value;
+                $result[$value['id_psreassurance']]['title'] = [];
+                $result[$value['id_psreassurance']]['description'] = [];
+                $result[$value['id_psreassurance']]['url'] = [];
+            }
+            $result[$value['id_psreassurance']]['title'][$value['id_lang']] = $value['title'];
+            $result[$value['id_psreassurance']]['description'][$value['id_lang']] = $value['description'];
+            $result[$value['id_psreassurance']]['url'][$value['id_lang']] = $value['link'];
         }
 
         return $result;
@@ -168,26 +149,25 @@ class ReassuranceActivity extends ObjectModel
 
     /**
      * @param int $id_lang
-     * @param int $id_shop
      *
      * @return array
      *
      * @throws PrestaShopDatabaseException
      */
-    public static function getAllBlockByStatus($id_lang = 1, $id_shop = 1)
+    public static function getAllBlockByStatus($id_lang = 1)
     {
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
             WHERE prl.id_lang = "' . (int) $id_lang . '"
-                AND prl.id_shop = "' . (int) $id_shop . '"
                 AND pr.status = 1
             ORDER BY pr.position';
 
         $result = Db::getInstance()->executeS($sql);
 
+        $xmlMimes = ['image/svg', 'image/svg+xml'];
         foreach ($result as &$item) {
             $item['is_svg'] = !empty($item['custom_icon'])
-                && (self::getMimeType(str_replace(__PS_BASE_URI__, _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR, $item['custom_icon'])) == 'image/svg');
+                && (in_array(self::getMimeType(_PS_ROOT_DIR_ . $item['custom_icon']), $xmlMimes));
         }
 
         return $result;

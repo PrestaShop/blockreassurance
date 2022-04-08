@@ -37,7 +37,7 @@
             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-12">
                 <input type="text" name="title-{$language.id_lang|escape:'htmlall':'UTF-8'}" max="100"
                        class="form-control"
-                       value="{if isset($block)}{$allblockByShop[{$language.id_lang}][$block['id_psreassurance']]['title']|escape:'htmlall':'UTF-8'}{/if}">
+                       value="{if isset($block)}{$allblock[$block['id_psreassurance']]['title'][{$language.id_lang}]|escape:'htmlall':'UTF-8'}{/if}">
             </div>
         </div>
         <div class="col-xs-12 help-block">
