@@ -30,7 +30,17 @@ class ReassuranceActivity extends ObjectModel
     const TYPE_LINK_URL = 2;
 
     public $id;
+    /**
+     * @var string Relative URI to the used icon
+     *
+     * Example: /ps1778/modules/blockreassurance/views/img/reassurance/pack2/carrier.svg
+     */
     public $icon;
+    /**
+     * @var string Relative URI to the used icon, for custom icons
+     *
+     * Example: /ps1778/modules/blockreassurance/views/img/img_perso/puffin_installer.png
+     */
     public $custom_icon;
     public $title;
     public $description;
@@ -149,12 +159,13 @@ class ReassuranceActivity extends ObjectModel
 
     /**
      * @param int $id_lang
+     * @param string $filepath Used to find the filepath of custom icons and images
      *
      * @return array
      *
      * @throws PrestaShopDatabaseException
      */
-    public static function getAllBlockByStatus($id_lang = 1)
+    public static function getAllBlockByStatus($id_lang = 1, $filepath = null)
     {
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
@@ -166,8 +177,11 @@ class ReassuranceActivity extends ObjectModel
 
         $xmlMimes = ['image/svg', 'image/svg+xml'];
         foreach ($result as &$item) {
+            $filename = basename($item['custom_icon']);
+            $filepath = $filepath . $filename;
+            $mimeType = self::getMimeType($filepath);
             $item['is_svg'] = !empty($item['custom_icon'])
-                && (in_array(self::getMimeType(_PS_ROOT_DIR_ . $item['custom_icon']), $xmlMimes));
+                && (in_array($mimeType, $xmlMimes));
         }
 
         return $result;

@@ -486,7 +486,7 @@ class blockreassurance extends Module implements WidgetInterface
         $id_lang = $this->context->language->id;
 
         $this->context->smarty->assign([
-            'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang),
+            'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang, $this->folder_file_upload),
             'iconColor' => Configuration::get('PSR_ICON_COLOR'),
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
             // constants
