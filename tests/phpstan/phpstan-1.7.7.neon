@@ -1,0 +1,6 @@
+includes:
+	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+
+parameters:
+  ignoreErrors:
+    - '#Parameter \#1 \$value of method ControllerCore::ajaxRender\(\) expects null, string|false given.#'
