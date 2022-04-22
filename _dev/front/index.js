@@ -52,7 +52,7 @@ $(window).ready(() => {
           $svg.find('path[fill]').attr('fill', window.psr_icon_color);
           $svg.find('path:not([fill])').css('fill', window.psr_icon_color);
           // For each element, replace the svg with specific ID & CSS class
-          imgTarget.each(function () {
+          imgTarget.each(function renderSVG() {
             const imgID = $(this).attr('id');
             const imgClass = $(this).attr('class');
             let $imgSvg = $svg.clone();
@@ -68,7 +68,7 @@ $(window).ready(() => {
     });
   }
 
-  const imgSrcSvg = $('.blockreassurance_product img.svg, .blockreassurance img.svg').map(function () {
+  const imgSrcSvg = $('.blockreassurance_product img.svg, .blockreassurance img.svg').map(function getSrcAttr() {
     return $(this).attr('src');
   }).toArray();
   imgSrcSvg
