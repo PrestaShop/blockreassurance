@@ -29,12 +29,20 @@
                     {/if}
                 {/if}&nbsp;
             </span>
-            {if empty($block['description'])}
-              <p class="block-title" style="color:{$textColor};">{$block['title']}</p>
-            {else}
-              <span class="block-title" style="color:{$textColor};">{$block['title']}</span>
-              <p style="color:{$textColor};">{$block['description'] nofilter}</p>
-            {/if}
+            <span class="block-title" style="color:{$textColor};">
+              {if empty($block['title'])}
+                &nbsp;
+              {else}
+                {$block['title']}
+              {/if}
+            </span>  
+            <p style="color:{$textColor};">
+              {if empty($block['description'])}
+                &nbsp;
+              {else}              
+                {$block['description'] nofilter}
+              {/if}
+            </p>
         </div>
     {/foreach}
     <div class="clearfix"></div>
