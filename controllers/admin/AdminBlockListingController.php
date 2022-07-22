@@ -157,8 +157,11 @@ class AdminBlockListingController extends ModuleAdminController
             $blockPsr->status = false;
         }
         $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
-        $blockPsr->icon = $picto;
-        if (!empty($picto)) {
+        if (strpos($picto, $this->module->img_path_perso) !== false) {
+            $blockPsr->icon = '';
+            $blockPsr->custom_icon = $picto;
+        } else {
+            $blockPsr->icon = $picto;
             $blockPsr->custom_icon = '';
         }
         $blockPsr->date_add = date('Y-m-d H:i:s');
