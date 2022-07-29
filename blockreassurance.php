@@ -279,7 +279,7 @@ class blockreassurance extends Module implements WidgetInterface
             'description' => $this->trans('Description', [], 'Modules.Blockreassurance.Admin'),
             'redirection' => $this->trans('Redirection', [], 'Modules.Blockreassurance.Admin'),
             'actions' => $this->trans('Actions', [], 'Modules.Blockreassurance.Admin'),
-        ];        
+        ];
 
         $this->context->smarty->assign([
             'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
