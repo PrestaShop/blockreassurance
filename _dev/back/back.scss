@@ -302,6 +302,15 @@
     width: 35px;
 }
 
+@media (max-width:768px) {
+    .listing-row.row {
+        padding-top: 9px;
+    }
+    .listing-row div {
+        padding: 9px 0;
+    }
+}
+
 .inline-flex {
     display: inline-flex;
 }
