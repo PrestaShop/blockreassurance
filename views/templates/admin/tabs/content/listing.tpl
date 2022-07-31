@@ -61,7 +61,7 @@
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
                                     {$block['title'][{$defaultFormLanguage}]}
                                 </div>
-			        <div class="hidden-lg hidden-md hidden-sm col-xs-4">
+                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
                                     {$fields_captions.description}
                                 </div>                                
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
