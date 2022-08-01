@@ -271,7 +271,6 @@ class blockreassurance extends Module implements WidgetInterface
         $moduleAdminLink = Context::getContext()->link->getAdminLink('AdminModules', true) . '&configure=' . $this->name . '&module_name=' . $this->name;
 
         $allCms = CMS::listCms($id_lang);
-        
         $fields_captions = [
             'position' => $this->trans('Position', [], 'Modules.Blockreassurance.Admin'),
             'image' => $this->trans('Image', [], 'Modules.Blockreassurance.Admin'),
