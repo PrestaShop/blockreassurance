@@ -26,21 +26,27 @@
         <div class="clearfix">
             <div class="listing-table col-xs-12">
                 <div class="listing-head row">
-                    <div class="col-xs-1 content-header">{l s='Position' d='Modules.Blockreassurance.Admin'}</div>
-                    <div class="col-xs-1 content-header">{l s='Image' d='Modules.Blockreassurance.Admin'}</div>
-                    <div class="col-xs-2 content-header">{l s='Title' d='Modules.Blockreassurance.Admin'}</div>
-                    <div class="col-xs-4 content-header">{l s='Description' d='Modules.Blockreassurance.Admin'}</div>
-                    <div class="col-xs-2 content-header">{l s='Redirection' d='Modules.Blockreassurance.Admin'}</div>
-                    <div class="col-xs-2 content-header">{l s='Actions' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs content-header">{$fields_captions.position}</div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs content-header">{$fields_captions.image}</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.title}</div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs content-header">{$fields_captions.description}</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.redirection}</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.actions}</div>
                 </div>
                 <div class="listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$block key=$key}
                         <div class="listing-general-rol row" data-block="{$block.id_psreassurance}">
                             <div class="listing-row row">
-                                <div class="col-xs-1">
+                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
+                                    {$fields_captions.position}
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-8">
                                     <i class="material-icons">drag_indicator</i>
                                 </div>
-                                <div class="col-xs-1">
+                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
+                                    {$fields_captions.image}
+                                </div>                                
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-8">
                                     {if $block['icon'] != 'undefined'}
                                         <img class="svg"
                                              src="{if $block['icon']}{$block['icon']}{else if $block['custom_icon']}{$block['custom_icon']}{/if}"
@@ -49,13 +55,22 @@
                                         {l s='none' d='Modules.Blockreassurance.Admin'}
                                     {/if}
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
+                                    {$fields_captions.title}
+                                </div>                                
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
                                     {$block['title'][{$defaultFormLanguage}]}
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
+                                    {$fields_captions.description}
+                                </div>                                
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
                                     {$block['description'][{$defaultFormLanguage}]}
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
+                                    {$fields_captions.redirection}
+                                </div>                                
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
                                     {if $block['type_link'] == $LINK_TYPE_NONE}
                                         {l s='None' d='Modules.Blockreassurance.Admin'}
                                     {elseif $block['type_link'] == $LINK_TYPE_URL}
@@ -64,7 +79,10 @@
                                         {l s='CMS Page' d='Modules.Blockreassurance.Admin'}
                                     {/if}
                                 </div>
-                                <div class="col-xs-2 inline-flex">
+                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
+                                    {$fields_captions.actions}
+                                </div>                                
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8 inline-flex">
                                     <label class="col-lg-12 col-xs-12 status-toggle"
                                            id="reminder_active_{$block['id_psreassurance']}"
                                            for="reminder_active_{$block['id_psreassurance']}"
@@ -86,7 +104,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div id="_more_info" class="col-lg-12 more_info ajax_return"></div>
                             </div>
                         </div>
