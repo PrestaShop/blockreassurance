@@ -453,8 +453,6 @@ class blockreassurance extends Module implements WidgetInterface
         return [
             'elements' => $elements,
             'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
-            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
-            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
         ];
     }
 
