@@ -19,7 +19,8 @@
 
 <div class="blockreassurance_product">
     {foreach from=$blocks item=$block key=$key}
-        <div{if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;" onclick="window.open('{$block['link']}')"{/if}>
+        <div>
+        {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} <a href="{$block['link']}" target="_blank"> {/if}
             <span class="item-product">
                 {if $block['icon'] != 'undefined'}
                     {if $block['custom_icon']}
@@ -35,6 +36,7 @@
               <span class="block-title" style="color:{$textColor};">{$block['title']}</span>
               <p style="color:{$textColor};">{$block['description'] nofilter}</p>
             {/if}
+        {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} </a> {/if}
         </div>
     {/foreach}
     <div class="clearfix"></div>
