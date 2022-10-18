@@ -44,8 +44,8 @@
                     {assign var=sizeCol_sm value=(12 / $numColsRemaining_md)}
                 {/if}
             {/if}
-            <div class="col-md-{$sizeCol_md} {$offsetCol_md} col-sm-{$sizeCol_sm} {$offsetCol_sm} col-xs-12"
-                {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} style="cursor:pointer;" onclick="window.open('{$block['link']}')"{/if}>
+            <div class="col-md-{$sizeCol_md} {$offsetCol_md} col-sm-{$sizeCol_sm} {$offsetCol_sm} col-xs-12">
+                {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} <a href="{$block['link']}" target="_blank"> {/if}
                 <div class="block-icon">
                     {if $block['icon'] != 'undefined'}
                         {if $block['custom_icon']}
@@ -57,6 +57,7 @@
                 </div>
                 <div class="block-title" style="color:{$textColor}">{$block['title']}</div>
                 <p style="color:{$textColor};">{$block['description'] nofilter}</p>
+                {if $block['type_link'] !== $LINK_TYPE_NONE && !empty($block['link'])} </a> {/if}
             </div>
             {if $idxCol % 4 == 0}</div><div class="row">{/if}
         {/foreach}
