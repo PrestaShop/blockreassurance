@@ -235,7 +235,7 @@ class blockreassurance extends Module implements WidgetInterface
         $this->addJsDefList();
 
         $this->context->controller->addCSS($this->_path . 'views/dist/back.css', 'all');
-        $this->context->controller->addJS($this->_path . 'views/dist/back.js');        
+        $this->context->controller->addJS($this->_path . 'views/dist/back.js');
         $this->context->controller->addJqueryUI('ui.sortable');
     }
 
