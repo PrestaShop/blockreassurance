@@ -33,9 +33,9 @@
                     <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.redirection}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.actions}</div>
                 </div>
-                <div class="listing-body col-lg-12  col-xs-12">
+                <div id="list-blockreassurance" class="list-group listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$block key=$key}
-                        <div class="listing-general-rol row" data-block="{$block.id_psreassurance}">
+                        <div class="list-group-item listing-general-rol row" data-block="{$block.id_psreassurance}">
                             <div class="listing-row row">
                                 <div class="hidden-lg hidden-md hidden-sm col-xs-4">
                                     {$fields_captions.position}
