@@ -32,7 +32,7 @@ $(window).ready(() => {
   // Tab Content : Change position
   new Sortable(document.getElementById('list-blockreassurance'), {
     animation: 150,
-    ghostClass: "sortable-ghost",
+    ghostClass: 'sortable-ghost',
     onUpdate() {
       const blocks = [];
       $('.listing-general-rol').each(function blockPush() {
