@@ -16,6 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+import Sortable from 'sortablejs';
 import Pickr from '@simonwep/pickr';
 import Vue from 'vue/dist/vue.min';
 
@@ -29,8 +30,10 @@ $(window).ready(() => {
   // Tab Content
   let imgSelected;
   // Tab Content : Change position
-  $('.listing-body').sortable({
-    update() {
+  new Sortable(document.getElementById('list-blockreassurance'), {
+    animation: 150,
+    ghostClass: "sortable-ghost",
+    onUpdate() {
       const blocks = [];
       $('.listing-general-rol').each(function blockPush() {
         blocks.push($(this).attr('data-block'));
