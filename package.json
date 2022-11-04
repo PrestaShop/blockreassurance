@@ -20,7 +20,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@babel/core": "^7.19.6",
-    "babel-loader": "^9.0.1",
+    "babel-loader": "^9.1.0",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.26.0",
