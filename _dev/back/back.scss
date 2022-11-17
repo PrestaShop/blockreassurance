@@ -295,17 +295,20 @@
     padding: 18px 0;
     line-height: 30px;
 }
-.listing-row div:first-child {
+listing-row div:nth-child(2) {
     cursor: grab;
+}
+.listing-row div:nth-child(2) i {
+    color: LightSlateGrey;
+}
+.listing-row div:nth-child(2) i:hover {
+    color: #00b9d9;
 }
 .listing-row:hover div:first-child i {
     color: #00b9d9;
 }
 .listing-row div img {
     width: 35px;
-}
-.listing-row .material-icons:hover {
-    color: #25b9d7;
 }
 
 @media (max-width:768px) {
