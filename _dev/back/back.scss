@@ -242,6 +242,9 @@
   &.ui-sortable {
     padding: 0;
   }
+  .sortable-ghost {
+    color: #ffa500;
+  }
   .btn-group {
     padding: 0;
     .dropdown-toggle {
@@ -292,10 +295,13 @@
     padding: 18px 0;
     line-height: 30px;
 }
-.listing-row div:first-child {
+.listing-row div:nth-child(2) {
     cursor: grab;
 }
-.listing-row:hover div:first-child i {
+.listing-row div:nth-child(2) i {
+    color: #778899;
+}
+.listing-row div:nth-child(2) i:hover {
     color: #00b9d9;
 }
 .listing-row div img {
