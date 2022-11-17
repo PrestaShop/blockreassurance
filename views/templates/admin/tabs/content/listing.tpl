@@ -41,7 +41,9 @@
                                     {$fields_captions.position}
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-8">
-                                    <i class="material-icons">drag_indicator</i>
+                                    <a class="toolbar-button" href="#">
+                                        <i class="material-icons">drag_handle</i>
+                                    </a>
                                 </div>
                                 <div class="hidden-lg hidden-md hidden-sm col-xs-4">
                                     {$fields_captions.image}
