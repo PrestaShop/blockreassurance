@@ -20,7 +20,12 @@
     <div id="block-reassurance">
         <ul>
             {foreach from=$elements item=element}
-                <li><img src="{$element.image}" alt="{$element.text|escape:'quotes'}"/> <span>{$element.text}</span></li>
+                <li>
+                    <div class="block-reassurance-item" {if $element['type_link'] !== $LINK_TYPE_NONE && !empty($element['link'])} style="cursor:pointer;" onclick="window.open('{$element['link']}')"{/if}>
+                        <img src="{$element.image}" alt="{$element.text|escape:'quotes'}"/>
+                        <span>{$element.text}</span>
+                    </div>
+                </li>
             {/foreach}
         </ul>
     </div>
