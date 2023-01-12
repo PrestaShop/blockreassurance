@@ -236,7 +236,6 @@ class blockreassurance extends Module implements WidgetInterface
 
         $this->context->controller->addCSS($this->_path . 'views/dist/back.css', 'all');
         $this->context->controller->addJS($this->_path . 'views/dist/back.js');
-        $this->context->controller->addJqueryPlugin('colorpicker');
         $this->context->controller->addJqueryUI('ui.sortable');
     }
 
@@ -271,6 +270,14 @@ class blockreassurance extends Module implements WidgetInterface
         $moduleAdminLink = Context::getContext()->link->getAdminLink('AdminModules', true) . '&configure=' . $this->name . '&module_name=' . $this->name;
 
         $allCms = CMS::listCms($id_lang);
+        $fields_captions = [
+            'position' => $this->trans('Position', [], 'Modules.Blockreassurance.Admin'),
+            'image' => $this->trans('Image', [], 'Modules.Blockreassurance.Admin'),
+            'title' => $this->trans('Title', [], 'Modules.Blockreassurance.Admin'),
+            'description' => $this->trans('Description', [], 'Modules.Blockreassurance.Admin'),
+            'redirection' => $this->trans('Redirection', [], 'Modules.Blockreassurance.Admin'),
+            'actions' => $this->trans('Actions', [], 'Modules.Blockreassurance.Admin'),
+        ];
 
         $this->context->smarty->assign([
             'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
@@ -295,6 +302,7 @@ class blockreassurance extends Module implements WidgetInterface
             'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
             'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
             'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+            'fields_captions' => $fields_captions,
         ]);
 
         return $this->display(__FILE__, 'views/templates/admin/configure.tpl');
@@ -437,10 +445,13 @@ class blockreassurance extends Module implements WidgetInterface
             $elements[$key]['text'] = $value['title'] . ' ' . $value['description'];
             $elements[$key]['title'] = $value['title'];
             $elements[$key]['description'] = $value['description'];
+            $elements[$key]['type_link'] = $value['type_link'];
+            $elements[$key]['link'] = $value['link'];
         }
 
         return [
             'elements' => $elements,
+            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
         ];
     }
 
