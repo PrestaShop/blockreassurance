@@ -444,10 +444,13 @@ class blockreassurance extends Module implements WidgetInterface
             $elements[$key]['text'] = $value['title'] . ' ' . $value['description'];
             $elements[$key]['title'] = $value['title'];
             $elements[$key]['description'] = $value['description'];
+            $elements[$key]['type_link'] = $value['type_link'];
+            $elements[$key]['link'] = $value['link'];
         }
 
         return [
             'elements' => $elements,
+            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
         ];
     }
 
