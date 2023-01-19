@@ -33,7 +33,7 @@
                     <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.redirection}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.actions}</div>
                 </div>
-                <div class="listing-body col-lg-12  col-xs-12">
+                <div id="list-blockreassurance" class="listing-body col-lg-12 col-xs-12">
                     {foreach from=$allblock item=$block key=$key}
                         <div class="listing-general-rol row" data-block="{$block.id_psreassurance}">
                             <div class="listing-row row">
@@ -41,7 +41,9 @@
                                     {$fields_captions.position}
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-8">
-                                    <i class="material-icons">drag_indicator</i>
+                                    <a class="toolbar-button" href="#">
+                                        <i class="material-icons">drag_handle</i>
+                                    </a>
                                 </div>
                                 <div class="hidden-lg hidden-md hidden-sm col-xs-4">
                                     {$fields_captions.image}
