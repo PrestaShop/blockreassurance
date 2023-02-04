@@ -4,8 +4,6 @@
  * Released under the MIT License.
  */
 
-/*! Pickr 1.8.2 MIT | https://github.com/Simonwep/pickr */
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
