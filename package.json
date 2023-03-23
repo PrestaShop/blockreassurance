@@ -18,9 +18,9 @@
     "dev": "webpack-cli --mode development --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.7",
-    "@babel/eslint-parser": "^7.19.1",
-    "babel-loader": "^9.1.0",
+    "@babel/eslint-parser": "^7.21.3",
+    "@babel/core": "^7.21.3",
+    "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.32.0",
