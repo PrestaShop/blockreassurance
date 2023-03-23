@@ -19,7 +19,6 @@
 import Sortable from 'sortablejs';
 import Vue from 'vue/dist/vue.min';
 
-import 'material-design-icons/iconfont/material-icons.css';
 import './back.scss';
 
 window.Vue = Vue;
