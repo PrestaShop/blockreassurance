@@ -26,16 +26,15 @@
         <div class="clearfix">
 
             <div class="form-group">
-                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
+                <div class="col-xs-5 col-md-5 col-lg-3">
                     <div class="text-right">
                         <label class="control-label">
                             {l s='Icon color' d='Modules.Blockreassurance.Admin'}
                         </label>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
-                    <div class="ps_colorpicker1"></div>
-                    <input type="hidden" id="color_1" name="PSR_ICON_COLOR" class="psr_icon_color"
+                <div class="col-xs-7 col-md-7 col-lg-2">
+                    <input type="color" id="color_1" name="PSR_ICON_COLOR" class="psr_icon_color"
                            value="{if isset($psr_icon_color)}{$psr_icon_color|escape:'htmlall':'UTF-8'}{/if}" />
                 </div>
 
@@ -43,16 +42,15 @@
             </div>
 
             <div class="form-group">
-                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
+                <div class="col-xs-5 col-md-5 col-lg-3">
                     <div class="text-right">
                         <label class="control-label">
                             {l s='Text color' d='Modules.Blockreassurance.Admin'}
                         </label>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-2">
-                    <div class="ps_colorpicker2"></div>
-                    <input type="hidden" id="color_2" name="PSR_TEXT_COLOR" class="psr_text_color"
+                <div class="col-xs-7 col-md-7 col-lg-2">
+                    <input type="color" id="color_2" name="PSR_TEXT_COLOR" class="psr_text_color"
                            value="{if isset($psr_text_color)}{$psr_text_color|escape:'htmlall':'UTF-8'}{/if}" />
                 </div>
             </div>
