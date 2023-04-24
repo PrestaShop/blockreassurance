@@ -13,7 +13,7 @@
     "php": ">=5.6.0"
   },
   "require-dev": {
-    "prestashop/php-dev-tools": "^3.4"
+    "prestashop/php-dev-tools": "^4.3"
   },
   "autoload": {
     "psr-4": {
@@ -29,10 +29,7 @@
     "preferred-install": "dist",
     "classmap-authoritative": true,
     "optimize-autoloader": true,
-    "prepend-autoloader": false,
-    "platform": {
-      "php": "5.6"
-    }
+    "prepend-autoloader": false
   },
   "scripts": {
     "lint": [
