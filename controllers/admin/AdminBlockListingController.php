@@ -100,12 +100,7 @@ class AdminBlockListingController extends ModuleAdminController
         $value = Tools::getValue('value');
         $result = false;
 
-        if (!empty($hook) && in_array($value, [
-                blockreassurance::POSITION_NONE,
-                blockreassurance::POSITION_BELOW_HEADER,
-                blockreassurance::POSITION_ABOVE_HEADER,
-            ])
-        ) {
+        if ($this->isAuthorizedHookConfigurationKey($hook) && $this->isAuthorizedPositionValue($value)) {
             $result = Configuration::updateValue($hook, $value);
         }
 
@@ -248,5 +243,35 @@ class AdminBlockListingController extends ModuleAdminController
 
         // Response
         $this->ajaxRenderJson($result ? 'success' : 'error');
+    }
+
+    /**
+     * @param $hook
+     * @return bool
+     */
+    private function isAuthorizedHookConfigurationKey($hook)
+    {
+        return (
+            !empty($hook) &&
+            in_array($hook, [
+                blockreassurance::PSR_HOOK_HEADER,
+                blockreassurance::PSR_HOOK_FOOTER,
+                blockreassurance::PSR_HOOK_PRODUCT,
+                blockreassurance::PSR_HOOK_CHECKOUT,
+            ], true)
+        );
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    private function isAuthorizedPositionValue($value)
+    {
+        return in_array((int) $value, [
+            blockreassurance::POSITION_NONE,
+            blockreassurance::POSITION_BELOW_HEADER,
+            blockreassurance::POSITION_ABOVE_HEADER,
+        ], true);
     }
 }
