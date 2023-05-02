@@ -41,6 +41,11 @@ class blockreassurance extends Module implements WidgetInterface
     const POSITION_BELOW_HEADER = 1;
     const POSITION_ABOVE_HEADER = 2;
 
+    const PSR_HOOK_HEADER = 'PSR_HOOK_HEADER';
+    const PSR_HOOK_FOOTER = 'PSR_HOOK_FOOTER';
+    const PSR_HOOK_PRODUCT = 'PSR_HOOK_PRODUCT';
+    const PSR_HOOK_CHECKOUT = 'PSR_HOOK_CHECKOUT';
+
     /** @var string */
     public $name;
     /** @var string */
