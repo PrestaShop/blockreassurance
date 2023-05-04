@@ -251,7 +251,7 @@ class blockreassurance extends Module implements WidgetInterface
     private function folderUploadFilesHasGoodRights()
     {
         // do not check is_executable on windows platform (https://www.php.net/manual/en/function.is-executable.php#refsect1-function.is-executable-notes)
-        return is_writable($this->folder_file_upload) && !(preg_match('/^[a-zA-Z]{1}\:{1}\\\\{1}/', $this->folder_file_upload) !== 1) || is_executable($this->folder_file_upload;
+        return is_writable($this->folder_file_upload) && !(preg_match('/^[a-zA-Z]{1}\:{1}\\\\{1}/', $this->folder_file_upload) !== 1) || is_executable($this->folder_file_upload);
     }
 
     /**
