@@ -11,6 +11,10 @@
 
 Connect with your visitors and reassure them about secure payment, free shipping or returns.
 
+## Compatibility
+
+PrestaShop: `1.7.0.0` or later
+
 ## Multistore compatibility
 
 This module is compatible with the multistore :heavy_check_mark: <br/>
