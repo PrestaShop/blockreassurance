@@ -173,32 +173,34 @@ class ReassuranceActivity extends ObjectModel
     public static function getMimeType(string $filename)
     {
         $mimeType = false;
-        // Try with GD
-        if (function_exists('getimagesize')) {
-            $imageInfo = @getimagesize($filename);
-            if ($imageInfo) {
-                $mimeType = $imageInfo['mime'];
+        if (is_file($filename)) {
+            // Try with GD
+            if (function_exists('getimagesize')) {
+                $imageInfo = @getimagesize($filename);
+                if ($imageInfo) {
+                    $mimeType = $imageInfo['mime'];
+                }
             }
-        }
-        // Try with FileInfo
-        if (!$mimeType && function_exists('finfo_open')) {
-            $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
-            $finfo = finfo_open($const);
-            $mimeType = finfo_file($finfo, $filename);
-            finfo_close($finfo);
-        }
-        // Try with Mime
-        if (!$mimeType && function_exists('mime_content_type')) {
-            $mimeType = mime_content_type($filename);
-        }
-        // Try with exec command and file binary
-        if (!$mimeType && function_exists('exec')) {
-            $mimeType = trim(exec('file -b --mime-type ' . escapeshellarg($filename)));
-            if (!$mimeType) {
-                $mimeType = trim(exec('file --mime ' . escapeshellarg($filename)));
+            // Try with FileInfo
+            if (!$mimeType && function_exists('finfo_open')) {
+                $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
+                $finfo = finfo_open($const);
+                $mimeType = finfo_file($finfo, $filename);
+                finfo_close($finfo);
             }
-            if (!$mimeType) {
-                $mimeType = trim(exec('file -bi ' . escapeshellarg($filename)));
+            // Try with Mime
+            if (!$mimeType && function_exists('mime_content_type')) {
+                $mimeType = mime_content_type($filename);
+            }
+            // Try with exec command and file binary
+            if (!$mimeType && function_exists('exec')) {
+                $mimeType = trim(exec('file -b --mime-type ' . escapeshellarg($filename)));
+                if (!$mimeType) {
+                    $mimeType = trim(exec('file --mime ' . escapeshellarg($filename)));
+                }
+                if (!$mimeType) {
+                    $mimeType = trim(exec('file -bi ' . escapeshellarg($filename)));
+                }
             }
         }
 
