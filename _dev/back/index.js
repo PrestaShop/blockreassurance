@@ -17,11 +17,8 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import Sortable from 'sortablejs';
-import Pickr from '@simonwep/pickr';
 import Vue from 'vue/dist/vue.min';
 
-import 'material-design-icons/iconfont/material-icons.css';
-import '@simonwep/pickr/dist/themes/classic.min.css';
 import './back.scss';
 
 window.Vue = Vue;
@@ -491,53 +488,6 @@ $(window).ready(() => {
       },
     });
   }
-
-  // Tab Appearance
-  const pickrComponents = {
-    // Main components
-    preview: true,
-    opacity: false,
-    hue: true,
-
-    // Input / output Options
-    interaction: {
-      hex: false,
-      rgba: false,
-      hsla: false,
-      hsva: false,
-      cmyk: false,
-      input: true,
-      clear: false,
-      save: true,
-    },
-  };
-  const pickr1 = Pickr.create({
-    el: '.ps_colorpicker1',
-    default: window.psr_icon_color,
-    defaultRepresentation: 'HEX',
-    closeWithKey: 'Escape',
-    adjustableNumbers: true,
-    components: pickrComponents,
-  });
-  pickr1.on('change', () => {
-    const pickrColor = pickr1.getColor();
-    const hexaColor = pickrColor.toHEXA().toString();
-    $('.psr_icon_color').val(hexaColor);
-  });
-
-  const pickr2 = Pickr.create({
-    el: '.ps_colorpicker2',
-    default: window.psr_text_color,
-    defaultRepresentation: 'HEX',
-    closeWithKey: 'Escape',
-    adjustableNumbers: true,
-    components: pickrComponents,
-  });
-  pickr2.on('change', () => {
-    const pickrColor = pickr2.getColor();
-    const hexaColor = pickrColor.toHEXA().toString();
-    $('.psr_text_color').val(hexaColor);
-  });
 
   // Tab Appearance : Save Color
   $(document).on('click', '#saveConfiguration', () => {

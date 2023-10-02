@@ -29,11 +29,11 @@
         <div class="psr_picto_showing input-group col-lg-4">
             <img class="psr-picto picto_by_module svg"
                  src="{if isset($block) && $block['icon']}{$block['icon']}{elseif isset($block) && $block['custom_icon']}{$block['custom_icon']}{/if}"/>
-            <div>
-                <i class="material-icons landscape">landscape</i>
-            </div>
             <div class="svg_chosed_here">
                 <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
+            </div>
+            <div>
+                <i class="material-icons">landscape</i>
             </div>
             <span class="modify_icon" data-id="{if isset($block)}{$block['id_psreassurance']}{/if}">{l s='Modify icon' d='Modules.Blockreassurance.Admin'}</span>
         </div>
