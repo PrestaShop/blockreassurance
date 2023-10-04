@@ -94,7 +94,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'front_office_features';
-        $this->version = '5.1.3';
+        $this->version = '5.1.4';
         $this->author = 'PrestaShop';
         $this->need_instance = false;
 
