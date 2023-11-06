@@ -94,7 +94,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'front_office_features';
-        $this->version = '5.1.3';
+        $this->version = '5.1.4';
         $this->author = 'PrestaShop';
         $this->need_instance = false;
 
@@ -250,8 +250,8 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function folderUploadFilesHasGoodRights()
     {
-        return is_writable($this->folder_file_upload)
-            && is_executable($this->folder_file_upload);
+        // do not check is_executable on windows platform (https://www.php.net/manual/en/function.is-executable.php#refsect1-function.is-executable-notes)
+        return is_writable($this->folder_file_upload) && !(preg_match('/^[a-zA-Z]{1}\:{1}\\\\{1}/', $this->folder_file_upload) !== 1) || is_executable($this->folder_file_upload);
     }
 
     /**
