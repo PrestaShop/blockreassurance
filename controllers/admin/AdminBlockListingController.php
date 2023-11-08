@@ -70,7 +70,7 @@ class AdminBlockListingController extends ModuleAdminController
             $result = true;
             // Remove Custom icon
             if (!empty($blockPSR['custom_icon'])) {
-                $filePath = _PS_ROOT_DIR_ . $blockPSR['custom_icon'];
+                $filePath = _PS_ROOT_DIR_ . $this->module->img_path_perso . '/' . basename($blockPSR['custom_icon']);
                 if (file_exists($filePath)) {
                     $result = unlink($filePath);
                 }
@@ -100,12 +100,7 @@ class AdminBlockListingController extends ModuleAdminController
         $value = Tools::getValue('value');
         $result = false;
 
-        if (!empty($hook) && in_array($value, [
-                blockreassurance::POSITION_NONE,
-                blockreassurance::POSITION_BELOW_HEADER,
-                blockreassurance::POSITION_ABOVE_HEADER,
-            ])
-        ) {
+        if ($this->isAuthorizedHookConfigurationKey($hook) && $this->isAuthorizedPositionValue($value)) {
             $result = Configuration::updateValue($hook, $value);
         }
 
@@ -148,6 +143,14 @@ class AdminBlockListingController extends ModuleAdminController
         $type_link = (int) Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
         $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
+        $authExtensions = ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg'];
+        $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg', 'image/svg+xml'];
+
+        if (!empty($picto) && !in_array(pathinfo($picto, PATHINFO_EXTENSION), $authExtensions)) {
+            $errors[] = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png', [], 'Admin.Notifications.Error');
+
+            return $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
+        }
 
         $blockPsr = new ReassuranceActivity($id_block);
         if (!$id_block) {
@@ -173,8 +176,6 @@ class AdminBlockListingController extends ModuleAdminController
             $filename = $customImage['name'];
 
             // validateUpload return false if no error (false -> OK)
-            $authExtensions = ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg'];
-            $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg', 'image/svg+xml'];
             if (version_compare(_PS_VERSION_, '1.7.7.0', '>=')) {
                 // PrestaShop 1.7.7.0+
                 $validUpload = ImageManager::validateUpload(
@@ -248,5 +249,37 @@ class AdminBlockListingController extends ModuleAdminController
 
         // Response
         $this->ajaxRenderJson($result ? 'success' : 'error');
+    }
+
+    /**
+     * @param string $hook
+     *
+     * @return bool
+     */
+    private function isAuthorizedHookConfigurationKey($hook)
+    {
+        return
+            !empty($hook) &&
+            in_array($hook, [
+                blockreassurance::PSR_HOOK_HEADER,
+                blockreassurance::PSR_HOOK_FOOTER,
+                blockreassurance::PSR_HOOK_PRODUCT,
+                blockreassurance::PSR_HOOK_CHECKOUT,
+            ], true)
+        ;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return bool
+     */
+    private function isAuthorizedPositionValue($value)
+    {
+        return in_array((int) $value, [
+            blockreassurance::POSITION_NONE,
+            blockreassurance::POSITION_BELOW_HEADER,
+            blockreassurance::POSITION_ABOVE_HEADER,
+        ], true);
     }
 }
