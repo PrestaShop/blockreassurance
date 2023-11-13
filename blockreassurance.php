@@ -186,13 +186,13 @@ class blockreassurance extends Module implements WidgetInterface
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
         // Hooks
-        if (parent::install() &&
-            $this->registerHook('displayAfterBodyOpeningTag') &&
-            $this->registerHook('displayNavFullWidth') &&
-            $this->registerHook('displayFooterAfter') &&
-            $this->registerHook('displayFooterBefore') &&
-            $this->registerHook('displayReassurance') &&
-            $this->registerHook('actionFrontControllerSetMedia')
+        if (parent::install()
+            && $this->registerHook('displayAfterBodyOpeningTag')
+            && $this->registerHook('displayNavFullWidth')
+            && $this->registerHook('displayFooterAfter')
+            && $this->registerHook('displayFooterBefore')
+            && $this->registerHook('displayReassurance')
+            && $this->registerHook('actionFrontControllerSetMedia')
         ) {
             return true;
         }
