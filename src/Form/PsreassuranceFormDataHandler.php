@@ -83,9 +83,9 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
      * @param Psreassurance $psreassurance
      * @param array $psr_languages
      * @param int $type_link
-     * @param int $id_cms
+     * @param int $id_cms     
      *
-     * @todo migrate this temporary function to above standard function create()
+     * @todo migrate this temporary function to above standard function create
      */
     public function createLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
     {
@@ -121,9 +121,9 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
      * @param Psreassurance $psreassurance
      * @param array $psr_languages
      * @param int $type_link
-     * @param int $id_cms
+     * @param int $id_cms     
      *
-     * @todo migrate this temporary function to above standard function update()
+     * @todo migrate this temporary function to above standard function update
      */
     public function updateLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
     {

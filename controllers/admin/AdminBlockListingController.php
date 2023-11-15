@@ -164,7 +164,7 @@ class AdminBlockListingController extends ModuleAdminController
             // Last position
             $blockPsr->setPosition((int) Db::getInstance()->getValue('SELECT MAX(position) AS max FROM ' . _DB_PREFIX_ . 'psreassurance'));
             $blockPsr->setPosition($blockPsr->getPosition() ? $blockPsr->getPosition() + 1 : 1);
-            $blockPsr->setStatus(false);
+            $blockPsr->setStatus(0);
         }
 
         if (strpos($picto, $this->module->img_path_perso) !== false) {
@@ -180,15 +180,13 @@ class AdminBlockListingController extends ModuleAdminController
             $fileTmpName = $customImage['tmp_name'];
             $filename = $customImage['name'];
 
-            // validateUpload return false if no error (false -> OK)
-            if (version_compare(_PS_VERSION_, '1.7.7.0', '>=')) {
-                $validUpload = ImageManager::validateUpload(
-                    $customImage,
-                    0,
-                    $authExtensions,
-                    $authMimeType
-                );
-            }
+            $validUpload = ImageManager::validateUpload(
+                $customImage,
+                0,
+                $authExtensions,
+                $authMimeType
+            );
+
             if (is_bool($validUpload) && $validUpload === false) {
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
                 $blockPsr->setCustomIcon($this->module->img_path_perso . '/' . $filename);
