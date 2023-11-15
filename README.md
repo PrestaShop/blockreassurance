@@ -13,7 +13,7 @@ Connect with your visitors and reassure them about secure payment, free shipping
 
 ## Compatibility
 
-PrestaShop: `1.7.0.0` or later
+PrestaShop: `1.7.7.0` or later
 
 ## Multistore compatibility
 

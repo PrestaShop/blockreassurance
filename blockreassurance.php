@@ -94,7 +94,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'front_office_features';
-        $this->version = '5.1.4';
+        $this->version = '6.0.0';
         $this->author = 'PrestaShop';
         $this->need_instance = false;
 
@@ -126,7 +126,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Confirm uninstall
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Blockreassurance.Admin');
         $this->ps_url = $this->context->link->getBaseLink();
-        $this->ps_versions_compliancy = ['min' => '1.7', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '1.7.7', 'max' => _PS_VERSION_];
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
@@ -186,13 +186,13 @@ class blockreassurance extends Module implements WidgetInterface
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
         // Hooks
-        if (parent::install() &&
-            $this->registerHook('displayAfterBodyOpeningTag') &&
-            $this->registerHook('displayNavFullWidth') &&
-            $this->registerHook('displayFooterAfter') &&
-            $this->registerHook('displayFooterBefore') &&
-            $this->registerHook('displayReassurance') &&
-            $this->registerHook('actionFrontControllerSetMedia')
+        if (parent::install()
+            && $this->registerHook('displayAfterBodyOpeningTag')
+            && $this->registerHook('displayNavFullWidth')
+            && $this->registerHook('displayFooterAfter')
+            && $this->registerHook('displayFooterBefore')
+            && $this->registerHook('displayReassurance')
+            && $this->registerHook('actionFrontControllerSetMedia')
         ) {
             return true;
         }

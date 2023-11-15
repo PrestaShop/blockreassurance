@@ -259,8 +259,8 @@ class AdminBlockListingController extends ModuleAdminController
     private function isAuthorizedHookConfigurationKey($hook)
     {
         return
-            !empty($hook) &&
-            in_array($hook, [
+            !empty($hook)
+            && in_array($hook, [
                 blockreassurance::PSR_HOOK_HEADER,
                 blockreassurance::PSR_HOOK_FOOTER,
                 blockreassurance::PSR_HOOK_PRODUCT,
