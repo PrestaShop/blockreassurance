@@ -26,6 +26,7 @@ if (file_exists($autoloadPath)) {
     require_once $autoloadPath;
 }
 
+use PrestaShop\Module\BlockReassurance\Entity\Psreassurance;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
@@ -273,6 +274,8 @@ class blockreassurance extends Module implements WidgetInterface
 
         $moduleAdminLink = Context::getContext()->link->getAdminLink('AdminModules', true) . '&configure=' . $this->name . '&module_name=' . $this->name;
 
+        $reassuranceRepository = $this->get('block_reassurance_repository');
+
         $allCms = CMS::listCms($id_lang);
         $fields_captions = [
             'position' => $this->trans('Position', [], 'Modules.Blockreassurance.Admin'),
@@ -292,7 +295,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'logo_path' => $this->logo_path,
             'languages' => Language::getLanguages(false),
-            'allblock' => ReassuranceActivity::getAllBlock(),
+            'allblock' => $reassuranceRepository->getAllBlock(),
             'currentPage' => $currentPage,
             'moduleAdminLink' => $moduleAdminLink,
             'img_path' => $this->img_path,
@@ -303,9 +306,9 @@ class blockreassurance extends Module implements WidgetInterface
             'folderIsWritable' => $this->folderUploadFilesHasGoodRights(),
             'folderPath' => $this->img_path_perso,
             // constants
-            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
-            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
-            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+            'LINK_TYPE_NONE' => Psreassurance::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => Psreassurance::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => Psreassurance::TYPE_LINK_URL,
             'fields_captions' => $fields_captions,
         ]);
 
@@ -432,7 +435,8 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
-        $blocks = ReassuranceActivity::getAllBlockByStatus(
+        $reassuranceRepository = $this->get('block_reassurance_repository');
+        $blocks = $reassuranceRepository->getAllBlockByStatus(
             $this->context->language->id
         );
 
@@ -455,7 +459,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         return [
             'elements' => $elements,
-            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
+            'LINK_TYPE_NONE' => Psreassurance::TYPE_LINK_NONE,
         ];
     }
 
@@ -492,16 +496,17 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function renderTemplateInHook($template)
     {
+        $reassuranceRepository = $this->get('block_reassurance_repository');
         $id_lang = $this->context->language->id;
 
         $this->context->smarty->assign([
-            'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang),
+            'blocks' => $reassuranceRepository->getAllBlockByStatus($id_lang),
             'iconColor' => Configuration::get('PSR_ICON_COLOR'),
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
             // constants
-            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
-            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
-            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+            'LINK_TYPE_NONE' => Psreassurance::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => Psreassurance::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => Psreassurance::TYPE_LINK_URL,
         ]);
 
         return $this->display(__FILE__, 'views/templates/hook/' . $template);

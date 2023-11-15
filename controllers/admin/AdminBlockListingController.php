@@ -17,6 +17,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+use PrestaShop\Module\BlockReassurance\Entity\Psreassurance;
 class AdminBlockListingController extends ModuleAdminController
 {
     /** @var blockreassurance */
@@ -139,7 +140,7 @@ class AdminBlockListingController extends ModuleAdminController
         $errors = [];
 
         $picto = Tools::getValue('picto');
-        $id_block = empty(Tools::getValue('id_block')) ? null : Tools::getValue('id_block');
+        $id_block = empty(Tools::getValue('id_block')) ? 0 : (int) Tools::getValue('id_block');
         $type_link = (int) Tools::getValue('typelink');
         $id_cms = Tools::getValue('id_cms');
         $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
@@ -152,23 +153,26 @@ class AdminBlockListingController extends ModuleAdminController
             return $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
         }
 
-        $blockPsr = new ReassuranceActivity($id_block);
-        if (!$id_block) {
-            // Last position
-            $blockPsr->position = (int) Db::getInstance()->getValue('SELECT MAX(position) AS max FROM ' . _DB_PREFIX_ . 'psreassurance');
-            $blockPsr->position = $blockPsr->position ? $blockPsr->position + 1 : 1;
-            $blockPsr->status = false;
-        }
-        $blockPsr->handleBlockValues($psr_languages, $type_link, $id_cms);
-        if (strpos($picto, $this->module->img_path_perso) !== false) {
-            $blockPsr->icon = '';
-            $blockPsr->custom_icon = $picto;
+        $reassuranceRepository = $this->context->controller->getContainer()->get('block_reassurance_repository');
+        $reassuranceFormHandler = $this->context->controller->getContainer()->get('block_reassurance_form_data_handler');
+
+        if ($id_block) {
+            $blockPsr = $reassuranceRepository->find($id_block);
         } else {
-            $blockPsr->icon = $picto;
-            $blockPsr->custom_icon = '';
+            $blockPsr = new Psreassurance();
+            // Last position
+            $blockPsr->setPosition((int) Db::getInstance()->getValue('SELECT MAX(position) AS max FROM ' . _DB_PREFIX_ . 'psreassurance'));
+            $blockPsr->setPosition($blockPsr->getPosition() ? $blockPsr->getPosition() + 1 : 1);
+            $blockPsr->setStatus(false);
         }
-        $blockPsr->date_add = date('Y-m-d H:i:s');
-        $blockPsr->date_upd = date('Y-m-d H:i:s');
+
+        if (strpos($picto, $this->module->img_path_perso) !== false) {
+            $blockPsr->setIcon('');
+            $blockPsr->setCustomIcon($picto);
+        } else {
+            $blockPsr->setIcon($picto);
+            $blockPsr->setCustomIcon('');
+        }
 
         if (!empty($_FILES)) {
             $customImage = $_FILES['file'];
@@ -177,41 +181,29 @@ class AdminBlockListingController extends ModuleAdminController
 
             // validateUpload return false if no error (false -> OK)
             if (version_compare(_PS_VERSION_, '1.7.7.0', '>=')) {
-                // PrestaShop 1.7.7.0+
                 $validUpload = ImageManager::validateUpload(
                     $customImage,
                     0,
                     $authExtensions,
                     $authMimeType
                 );
-            } else {
-                // PrestaShop < 1.7.7
-                $validUpload = false;
-                $mimeType = ReassuranceActivity::getMimeType($customImage['tmp_name']);
-                if ($mimeType && (
-                    !in_array($mimeType, $authMimeType)
-                    || !ImageManager::isCorrectImageFileExt($customImage['name'], $authExtensions)
-                    || preg_match('/\%00/', $customImage['name'])
-                )) {
-                    $validUpload = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png', [], 'Admin.Notifications.Error');
-                }
-                if ($customImage['error']) {
-                    $validUpload = Context::getContext()->getTranslator()->trans('Error while uploading image; please change your server\'s settings. (Error code: %s)', [$customImage['error']], 'Admin.Notifications.Error');
-                }
             }
             if (is_bool($validUpload) && $validUpload === false) {
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
-                $blockPsr->custom_icon = $this->module->img_path_perso . '/' . $filename;
-                $blockPsr->icon = '';
+                $blockPsr->setCustomIcon($this->module->img_path_perso . '/' . $filename);
+                $blockPsr->setIcon('');
             } else {
                 $errors[] = $validUpload;
             }
         }
+
         if (empty($errors)) {
+            $blockPsr->setDateUpd(new \DateTime('now', new \DateTimeZone('UTC')));
             if ($id_block) {
-                $blockPsr->update();
+                $reassuranceFormHandler->updateLangs($blockPsr, $psr_languages, $type_link, $id_cms);
             } else {
-                $blockPsr->add();
+                $blockPsr->setDateAdd(new \DateTime('now', new \DateTimeZone('UTC')));
+                $reassuranceFormHandler->createLangs($blockPsr, $psr_languages, $type_link, $id_cms);
             }
         }
 
