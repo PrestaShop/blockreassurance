@@ -63,6 +63,8 @@ class ReassuranceActivity extends ObjectModel
      * @param array $psr_languages
      * @param int $type_link
      * @param int $id_cms
+     *
+     * @deprecated 6.0.0 - migrated to src/Form/PsreassuranceFormDataHandler as createLangs and updateLangs
      */
     public function handleBlockValues($psr_languages, $type_link, $id_cms)
     {
@@ -115,6 +117,8 @@ class ReassuranceActivity extends ObjectModel
      * @return array
      *
      * @throws PrestaShopDatabaseException
+     *
+     * @deprecated 6.0.0 - migrated to src/Repository/PsreassuranceRepository
      */
     public static function getAllBlock()
     {
@@ -147,6 +151,8 @@ class ReassuranceActivity extends ObjectModel
      * @return array
      *
      * @throws PrestaShopDatabaseException
+     *
+     * @deprecated 6.0.0 - migrated to src/Repository/PsreassuranceRepository
      */
     public static function getAllBlockByStatus($id_lang = 1)
     {
@@ -169,6 +175,8 @@ class ReassuranceActivity extends ObjectModel
 
     /**
      * @return string|bool
+     *
+     * @deprecated since 6.0.0 - migrated to ImageManager since PS 1.7.7.0
      */
     public static function getMimeType(string $filename)
     {
