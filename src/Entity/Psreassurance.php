@@ -32,6 +32,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table()
+ *
  * @ORM\Entity(repositoryClass="PrestaShop\Module\BlockReassurance\Repository\PsreassuranceRepository")
  */
 class Psreassurance
@@ -44,7 +45,9 @@ class Psreassurance
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(name="id_psreassurance", type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;

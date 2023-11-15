@@ -16,40 +16,50 @@ use PrestaShopBundle\Entity\Lang;
 
 /**
  * @ORM\Table()
+ *
  * @ORM\Entity()
  */
 class PsreassuranceLang
 {
     /**
      * @var Psreassurance
+     *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="PrestaShop\Module\BlockReassurance\Entity\Psreassurance", inversedBy="psreassuranceLangs")
+     *
      * @ORM\JoinColumn(name="id_psreassurance", referencedColumnName="id_psreassurance", nullable=false)
      */
     private $psreassurance;
 
     /**
      * @var Lang
+     *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="PrestaShopBundle\Entity\Lang")
+     *
      * @ORM\JoinColumn(name="id_lang", referencedColumnName="id_lang", nullable=false, onDelete="CASCADE")
      */
     private $lang;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="title", type="string", nullable=false)
      */
     private $title;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="description", type="string", nullable=false)
      */
     private $description;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="link", type="string", nullable=true)
      */
     private $link;
