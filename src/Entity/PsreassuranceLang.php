@@ -74,10 +74,8 @@ class PsreassuranceLang
 
     /**
      * @param Psreassurance $psreassurance
-     *
-     * @return $this
      */
-    public function setPsreassurance(Psreassurance $psreassurance)
+    public function setPsreassurance(Psreassurance $psreassurance): self
     {
         $this->psreassurance = $psreassurance;
 
@@ -94,70 +92,44 @@ class PsreassuranceLang
 
     /**
      * @param Lang $lang
-     *
-     * @return $this
      */
-    public function setLang(Lang $lang)
+    public function setLang(Lang $lang): self
     {
         $this->lang = $lang;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle(string $title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return $this
-     */
-    public function setDescription(string $description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->link;
     }
 
-    /**
-     * @param string $link
-     *
-     * @return $this
-     */
-    public function setLink(string $link)
+    public function setLink(string $link): self
     {
         $this->link = $link;
 

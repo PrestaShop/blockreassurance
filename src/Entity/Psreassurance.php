@@ -112,10 +112,7 @@ class Psreassurance
         $this->psreassuranceLangs = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -144,12 +141,7 @@ class Psreassurance
         return null;
     }
 
-    /**
-     * @param PsreassuranceLang $psreassuranceLang
-     *
-     * @return $this
-     */
-    public function addPsreassuranceLang(PsreassuranceLang $psreassuranceLang)
+    public function addPsreassuranceLang(PsreassuranceLang $psreassuranceLang): self
     {
         $psreassuranceLang->setPsreassurance($this);
         $this->psreassuranceLangs->add($psreassuranceLang);
@@ -157,10 +149,7 @@ class Psreassurance
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPsreassuranceTitle()
+    public function getPsreassuranceTitle(): string
     {
         if ($this->psreassuranceLangs->count() <= 0) {
             return '';
@@ -171,10 +160,7 @@ class Psreassurance
         return $psreassuranceLang->getTitle();
     }
 
-    /**
-     * @return string
-     */
-    public function getPsreassuranceDescription()
+    public function getPsreassuranceDescription(): string
     {
         if ($this->psreassuranceLangs->count() <= 0) {
             return '';
@@ -185,120 +171,72 @@ class Psreassurance
         return $psreassuranceLang->getDescription();
     }
 
-    /**
-     * @return string
-     */
-    public function getIcon()
+    public function getIcon(): string
     {
         return $this->icon;
     }
 
-    /**
-     * @param string $title
-     *
-     * @return Psreassurance
-     */
-    public function setIcon($icon)
+    public function setIcon(string $icon): self
     {
         $this->icon = $icon;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomIcon()
+    public function getCustomIcon(): string
     {
         return $this->customIcon;
     }
 
-    /**
-     * @param string $customIcon
-     *
-     * @return Psreassurance
-     */
-    public function setCustomIcon($customIcon)
+    public function setCustomIcon(string $customIcon): self
     {
         $this->customIcon = $customIcon;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     *
-     * @return Psreassurance
-     */
-    public function setStatus($status)
+    public function setStatus(int $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     *
-     * @return Psreassurance
-     */
-    public function setPosition($position)
+    public function setPosition(int $position): self
     {
         $this->position = $position;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLinkType()
+    public function getLinkType(): int
     {
         return $this->linkType;
     }
 
-    /**
-     * @param int $linkType
-     *
-     * @return Psreassurance
-     */
-    public function setLinkType($linkType)
+    public function setLinkType(int $linkType): self
     {
         $this->linkType = $linkType;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getCmsId()
+    public function getCmsId(): int
     {
         return $this->cmsId;
     }
 
-    /**
-     * @param int $cmsId
-     *
-     * @return Psreassurance
-     */
-    public function setCmsId($cmsId)
+    public function setCmsId(int $cmsId): self
     {
         $this->cmsId = $cmsId;
 
@@ -307,12 +245,8 @@ class Psreassurance
 
     /**
      * Set dateAdd.
-     *
-     * @param \DateTime $dateAdd
-     *
-     * @return $this
      */
-    public function setDateAdd(\DateTime $dateAdd)
+    public function setDateAdd(DateTime $dateAdd): self
     {
         $this->dateAdd = $dateAdd;
 
@@ -321,22 +255,16 @@ class Psreassurance
 
     /**
      * Get dateAdd.
-     *
-     * @return \DateTime
      */
-    public function getDateAdd()
+    public function getDateAdd(): DateTime
     {
         return $this->dateAdd;
     }
 
     /**
      * Set dateUpd.
-     *
-     * @param \DateTime $dateUpd
-     *
-     * @return $this
      */
-    public function setDateUpd(\DateTime $dateUpd)
+    public function setDateUpd(DateTime $dateUpd): self
     {
         $this->dateUpd = $dateUpd;
 
@@ -345,10 +273,8 @@ class Psreassurance
 
     /**
      * Get dateUpd.
-     *
-     * @return DateTime
      */
-    public function getDateUpd()
+    public function getDateUpd(): DateTime
     {
         return $this->dateUpd;
     }

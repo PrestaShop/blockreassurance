@@ -80,11 +80,9 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
      * @param int $type_link
      * @param int $id_cms
      *
-     * @return void
-     *
      * @todo migrate this temporary function to above standard function create
      */
-    public function createLangs($psreassurance, $psr_languages, $type_link, $id_cms)
+    public function createLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
     {
         foreach ($psr_languages as $langId => $langContent) {
             $lang = $this->langRepository->findOneById($langId);
@@ -120,11 +118,9 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
      * @param int $type_link
      * @param int $id_cms
      *
-     * @return void
-     *
      * @todo migrate this temporary function to above standard function update
      */
-    public function updateLangs($psreassurance, $psr_languages, $type_link, $id_cms)
+    public function updateLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
     {
         foreach ($psr_languages as $langId => $langContent) {
             $lang = $this->langRepository->findOneById($langId);
