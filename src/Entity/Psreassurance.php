@@ -246,7 +246,7 @@ class Psreassurance
     /**
      * Set dateAdd.
      */
-    public function setDateAdd(DateTime $dateAdd): self
+    public function setDateAdd(\DateTime $dateAdd): self
     {
         $this->dateAdd = $dateAdd;
 
@@ -256,7 +256,7 @@ class Psreassurance
     /**
      * Get dateAdd.
      */
-    public function getDateAdd(): DateTime
+    public function getDateAdd(): \DateTime
     {
         return $this->dateAdd;
     }
@@ -264,7 +264,7 @@ class Psreassurance
     /**
      * Set dateUpd.
      */
-    public function setDateUpd(DateTime $dateUpd): self
+    public function setDateUpd(\DateTime $dateUpd): self
     {
         $this->dateUpd = $dateUpd;
 
@@ -274,7 +274,7 @@ class Psreassurance
     /**
      * Get dateUpd.
      */
-    public function getDateUpd(): DateTime
+    public function getDateUpd(): \DateTime
     {
         return $this->dateUpd;
     }
