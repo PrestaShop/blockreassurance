@@ -65,13 +65,7 @@ class PsreassuranceRepository extends ServiceEntityRepository
         $this->databasePrefix = $databasePrefix;
     }
 
-    /**
-     * @param Psreassurance $entity
-     * @param bool $flush
-     *
-     * @return void
-     */
-    public function add($entity, $flush = false)
+    public function add(Psreassurance $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -80,13 +74,7 @@ class PsreassuranceRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @param Psreassurance $entity
-     * @param bool $flush
-     *
-     * @return void
-     */
-    public function remove($entity, $flush = false)
+    public function remove(Psreassurance $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
         if ($flush) {
