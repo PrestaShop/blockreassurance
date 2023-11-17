@@ -85,7 +85,7 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
     public function createLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
     {
         foreach ($psr_languages as $langId => $langContent) {
-            $lang = $this->langRepository->findOneById($langId);
+            $lang = $this->langRepository->find($langId);
             $psreassuranceLang = new PsreassuranceLang();
             $psreassuranceLang
                 ->setLang($lang)
@@ -123,7 +123,7 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
     public function updateLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
     {
         foreach ($psr_languages as $langId => $langContent) {
-            $lang = $this->langRepository->findOneById($langId);
+            $lang = $this->langRepository->find($langId);
             $psreassuranceLang = $psreassurance->getPsreassuranceLangByLangId($langId);
             if (null === $psreassuranceLang) {
                 continue;

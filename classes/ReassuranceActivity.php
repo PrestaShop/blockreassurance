@@ -176,7 +176,7 @@ class ReassuranceActivity extends ObjectModel
     /**
      * @return string|bool
      *
-     * @deprecated since 6.0.0 - migrated to ImageManager since PS 1.7.7.0
+     * @deprecated 6.0.0 - migrated to ImageManager since PS 1.7.7.0
      */
     public static function getMimeType(string $filename)
     {

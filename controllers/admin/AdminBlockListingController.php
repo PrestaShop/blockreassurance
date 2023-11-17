@@ -143,7 +143,7 @@ class AdminBlockListingController extends ModuleAdminController
         $picto = Tools::getValue('picto');
         $id_block = empty(Tools::getValue('id_block')) ? 0 : (int) Tools::getValue('id_block');
         $type_link = (int) Tools::getValue('typelink');
-        $id_cms = Tools::getValue('id_cms');
+        $id_cms = (int) Tools::getValue('id_cms');
         $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
         $authExtensions = ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg'];
         $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg', 'image/svg+xml'];
