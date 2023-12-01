@@ -36,7 +36,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {    
-    "sortablejs": "1.15.0",
+    "sortablejs": "1.15.1",
     "vue": "^2.7.15"
   }
 }
