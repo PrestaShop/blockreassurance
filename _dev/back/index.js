@@ -31,35 +31,47 @@ $(window).ready(() => {
     animation: 150,
     ghostClass: 'sortable-ghost',
     onUpdate() {
-      const blocks = [];
+      let blocks = '';
       $('.listing-general-rol').each(function blockPush() {
-        blocks.push($(this).attr('data-block'));
+        const blockItem = $(this).attr('data-block');
+        blocks += `&blocks[]=${blockItem}`;
       });
-
-      $.ajax({
-        type: 'POST',
-        dataType: 'JSON',
-        url: window.psr_controller_block_url,
-        data: {
-          ajax: true,
-          action: 'UpdatePosition',
-          blocks,
-        },
-        success(data) {
-          if (data === 'success') {
-            window.showSuccessMessage(window.successPosition);
-          } else {
-            window.showErrorMessage(window.errorPosition);
-          }
-        },
-      });
+      updateBlockPosition(blocks);
     },
   });
+
+  async function updateBlockPosition(blocks) {
+    try {
+      const response = await fetch(
+        window.psr_controller_block_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `ajax=true&action=UpdatePosition${blocks}`,
+        });
+
+      if (response.status === 200) {
+        const jsonData = await response.json();
+
+        if (jsonData === 'success') {
+          window.showNoticeMessage(window.successPosition);
+        } else {
+          window.showErrorMessage(window.errorPosition);
+        }
+      } else {
+        window.showErrorMessage(window.errorPosition);
+      }
+    } catch (error) {
+      window.showErrorMessage(error);
+    }
+  }
 
   // Tab Content : Set active/inactive
   $(document).on('click', '.listing-row .switch-input', (e) => {
     const switchIsOn = $(e.target).hasClass('-checked');
     const status = switchIsOn ? 1 : 0;
+    const idpsr = $(e.target).parent().attr('data-cart_psreassurance_id');
 
     $(e.target).parent().find('.switch_text').hide();
     if (switchIsOn) {
@@ -72,27 +84,35 @@ $(window).ready(() => {
       $(e.target).parent().find('.switch-on').show();
     }
 
-    $.ajax({
-      url: window.psr_controller_block_url,
-      type: 'POST',
-      dataType: 'JSON',
-      async: false,
-      data: {
-        controller: window.psr_controller_block,
-        action: 'changeBlockStatus',
-        idpsr: $(e.target).parent().attr('data-cart_psreassurance_id'),
-        status,
-        ajax: true,
-      },
-      success: (data) => {
-        if (data === 'success') {
+    updateBlockStatus(idpsr, status);
+  });
+
+  async function updateBlockStatus(idpsr, status) {
+    try {
+      const response = await fetch(
+        window.psr_controller_block_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `ajax=true&action=ChangeBlockStatus&idpsr=${idpsr}&status=${status}`,
+        });
+
+      if (response.status === 200) {
+        const jsonData = await response.json();
+
+        if (jsonData === 'success') {
           window.showNoticeMessage(window.block_updated);
         } else {
           window.showErrorMessage(window.active_error);
         }
-      },
-    });
-  });
+      } else {
+        window.showErrorMessage(window.active_error);
+      }
+    } catch (error) {
+      window.showErrorMessage(error);
+    }
+  }
 
   // Tab Content : Add
   $(document).on('click', '.psre-add', () => {
@@ -124,28 +144,36 @@ $(window).ready(() => {
     if (!window.confirm(window.txtConfirmRemoveBlock)) {
       return;
     }
-    $.ajax({
-      type: 'POST',
-      dataType: 'JSON',
-      url: window.psr_controller_block_url,
-      data: {
-        ajax: true,
-        action: 'DeleteBlock',
-        idBlock,
-      },
-      success(data) {
-        if (data === 'success') {
+    deleteBlock(idBlock);
+  });
+
+  async function deleteBlock(idBlock) {
+    try {
+      const response = await fetch(
+        window.psr_controller_block_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `ajax=true&action=DeleteBlock&idBlock=${idBlock}`,
+        });
+
+      if (response.status === 200) {
+        const jsonData = await response.json();
+
+        if (jsonData === 'success') {
           // Remove line
           $(`div[data-block="${idBlock}"]`).remove();
         } else {
           window.showErrorMessage(window.errorRemove);
         }
-      },
-      error(err) {
-        console.log(err);
-      },
-    });
-  });
+      } else {
+        window.showErrorMessage(window.errorRemove);
+      }
+    } catch (error) {
+      window.showErrorMessage(error);
+    }
+  }
 
   // Tab Content : Edit
   $(document).on('click', '.psre-edit', function editTabContent() {
