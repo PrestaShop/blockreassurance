@@ -149,7 +149,7 @@ class AdminBlockListingController extends ModuleAdminController
         $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg', 'image/svg+xml', 'image/avif'];
 
         if (!empty($picto) && !in_array(pathinfo($picto, PATHINFO_EXTENSION), $authExtensions)) {
-            $errors[] = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png', [], 'Admin.Notifications.Error');
+            $errors[] = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png, .svg, .avif', [], 'Admin.Notifications.Error');
 
             return $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
         }
