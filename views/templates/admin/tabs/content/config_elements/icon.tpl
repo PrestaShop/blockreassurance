@@ -46,7 +46,7 @@
             </label>
         </div>
         <div class="help-block">
-            {l s='Choose SVG for better customization. Other allowed formats are: .gif, .jpg, .png' d='Modules.Blockreassurance.Admin'}
+            {l s='Choose SVG for better customization. Other allowed formats are: .gif, .jpg, .png, .avif' d='Modules.Blockreassurance.Admin'}
         </div>
     </div>
     <div class="clearfix"></div>

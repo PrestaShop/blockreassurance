@@ -145,11 +145,11 @@ class AdminBlockListingController extends ModuleAdminController
         $type_link = (int) Tools::getValue('typelink');
         $id_cms = (int) Tools::getValue('id_cms');
         $psr_languages = (array) json_decode(Tools::getValue('lang_values'));
-        $authExtensions = ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg'];
-        $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg', 'image/svg+xml'];
+        $authExtensions = ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'svg', 'avif'];
+        $authMimeType = ['image/gif', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg', 'image/svg+xml', 'image/avif'];
 
         if (!empty($picto) && !in_array(pathinfo($picto, PATHINFO_EXTENSION), $authExtensions)) {
-            $errors[] = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png', [], 'Admin.Notifications.Error');
+            $errors[] = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png, .svg, .avif', [], 'Admin.Notifications.Error');
 
             return $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
         }
