@@ -37,6 +37,6 @@
   },
   "dependencies": {    
     "sortablejs": "1.15.3",
-    "vue": "^2.7.16"
+    "vue": "^3.0.0"
   }
 }
