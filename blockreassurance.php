@@ -89,6 +89,9 @@ class blockreassurance extends Module implements WidgetInterface
     public $folder_file_upload;
     /** @var string */
     private $templateFile;
+    public static $static_img_path;
+    public static $static_img_path_perso;
+    public static $static_folder_file_upload;
 
     public function __construct()
     {
@@ -123,6 +126,9 @@ class blockreassurance extends Module implements WidgetInterface
         $this->logo_path = $this->_path . 'logo.png';
         $this->module_path = $this->_path;
         $this->folder_file_upload = _PS_MODULE_DIR_ . $this->name . '/views/img/img_perso/';
+        self::$static_img_path = $this->img_path;
+        self::$static_img_path_perso = $this->img_path_perso;
+        self::$static_folder_file_upload = $this->folder_file_upload;
 
         // Confirm uninstall
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Blockreassurance.Admin');
@@ -162,9 +168,9 @@ class blockreassurance extends Module implements WidgetInterface
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
 
         $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (icon, custom_icon, status, position, type_link, id_cms, date_add) VALUES '
-            . "('" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, null, null, now()),"
-            . "('" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, null, null, now()),"
-            . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, null, null, now())";
+            . "('reassurance/pack2/security.svg', null, 1, 1, null, null, now()),"
+            . "('reassurance/pack2/carrier.svg', null, 1, 2, null, null, now()),"
+            . "('reassurance/pack2/parcel.svg', null, 1, 3, null, null, now())";
         foreach (Language::getLanguages(false) as $lang) {
             $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, title, description, link) VALUES '
                 . '(1, ' . $lang['id_lang'] . ", '" . $this->trans('Security policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
@@ -286,6 +292,15 @@ class blockreassurance extends Module implements WidgetInterface
             'actions' => $this->trans('Actions', [], 'Modules.Blockreassurance.Admin'),
         ];
 
+        $allblock = $reassuranceRepository->getAllBlock();
+        foreach ($allblock as &$block) {
+            if ($block['icon']) {
+                $block['icon'] = $this->img_path . $block['icon'];
+            } elseif ($block['custom_icon']) {
+                $block['custom_icon'] = $this->img_path_perso . '/' . $block['custom_icon'];
+            }
+        }
+
         $this->context->smarty->assign([
             'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
             'psr_hook_footer' => (int) Configuration::get('PSR_HOOK_FOOTER'),
@@ -295,7 +310,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'logo_path' => $this->logo_path,
             'languages' => Language::getLanguages(false),
-            'allblock' => $reassuranceRepository->getAllBlock(),
+            'allblock' => $allblock,
             'currentPage' => $currentPage,
             'moduleAdminLink' => $moduleAdminLink,
             'img_path' => $this->img_path,

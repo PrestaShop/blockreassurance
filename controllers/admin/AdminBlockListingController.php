@@ -168,9 +168,17 @@ class AdminBlockListingController extends ModuleAdminController
         }
 
         if (strpos($picto, $this->module->img_path_perso) !== false) {
+            if ($picto != '') {
+                $picto = basename($picto);
+            }
             $blockPsr->setIcon('');
             $blockPsr->setCustomIcon($picto);
         } else {
+            if ($picto != '') {
+                $parts = explode('/', $picto);
+                $parts = array_slice($parts , -3);
+                $picto = implode('/', $parts);
+            }
             $blockPsr->setIcon($picto);
             $blockPsr->setCustomIcon('');
         }
@@ -188,8 +196,15 @@ class AdminBlockListingController extends ModuleAdminController
             );
 
             if (is_bool($validUpload) && $validUpload === false) {
+                // Remove Custom icon
+                if ($blockPsr->getCustomIcon() != '') {
+                    $filePath = blockreassurance::$static_folder_file_upload . '/' . basename($blockPsr->getCustomIcon());
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
-                $blockPsr->setCustomIcon($this->module->img_path_perso . '/' . $filename);
+                $blockPsr->setCustomIcon($filename);
                 $blockPsr->setIcon('');
             } else {
                 $errors[] = $validUpload;
