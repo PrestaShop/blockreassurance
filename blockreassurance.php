@@ -98,7 +98,7 @@ class blockreassurance extends Module implements WidgetInterface
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'front_office_features';
-        $this->version = '6.0.0';
+        $this->version = '6.0.1';
         $this->author = 'PrestaShop';
         $this->need_instance = false;
 
@@ -148,8 +148,6 @@ class blockreassurance extends Module implements WidgetInterface
         $sqlQueries = [];
         $sqlQueries[] = ' CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'psreassurance` (
             `id_psreassurance` int(10) unsigned NOT NULL AUTO_INCREMENT,
-            `icon` varchar(255) NULL,
-            `custom_icon` varchar(255) NULL,
             `status` int(10) unsigned NOT NULL,
             `position` int(10) unsigned NOT NULL,
             `type_link` int(10) unsigned NULL,
@@ -161,21 +159,23 @@ class blockreassurance extends Module implements WidgetInterface
         $sqlQueries[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'psreassurance_lang` (
             `id_psreassurance` int(10) unsigned NOT NULL,
             `id_lang` int(10) unsigned NOT NULL,
+            `icon` varchar(255) NULL,
+            `custom_icon` varchar(255) NULL,
             `title` varchar(255) NOT NULL,
             `description` varchar(255) NOT NULL,
             `link` varchar(255) NOT NULL,
             PRIMARY KEY (`id_psreassurance`,`id_lang`)
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
 
-        $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (icon, custom_icon, status, position, type_link, id_cms, date_add) VALUES '
-            . "('reassurance/pack2/security.svg', null, 1, 1, null, null, now()),"
-            . "('reassurance/pack2/carrier.svg', null, 1, 2, null, null, now()),"
-            . "('reassurance/pack2/parcel.svg', null, 1, 3, null, null, now())";
+        $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (status, position, type_link, id_cms, date_add) VALUES '
+            . "(1, 1, null, null, now()),"
+            . "(1, 2, null, null, now()),"
+            . "(1, 3, null, null, now())";
         foreach (Language::getLanguages(false) as $lang) {
-            $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, title, description, link) VALUES '
-                . '(1, ' . $lang['id_lang'] . ", '" . $this->trans('Security policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
-                . '(2, ' . $lang['id_lang'] . ", '" . $this->trans('Delivery policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
-                . '(3, ' . $lang['id_lang'] . ", '" . $this->trans('Return policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '')";
+            $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, icon, custom_icon, title, description, link) VALUES '
+                . '(1, ' . $lang['id_lang'] . ", 'reassurance/pack2/security.svg', null, '" . $this->trans('Security policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
+                . '(2, ' . $lang['id_lang'] . ", 'reassurance/pack2/carrier.svg', null, '" . $this->trans('Delivery policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
+                . '(3, ' . $lang['id_lang'] . ", 'reassurance/pack2/parcel.svg', null, '" . $this->trans('Return policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '')";
         }
 
         foreach ($sqlQueries as $query) {
@@ -294,10 +294,20 @@ class blockreassurance extends Module implements WidgetInterface
 
         $allblock = $reassuranceRepository->getAllBlock();
         foreach ($allblock as &$block) {
-            if ($block['icon']) {
-                $block['icon'] = $this->img_path . $block['icon'];
-            } elseif ($block['custom_icon']) {
-                $block['custom_icon'] = $this->img_path_perso . '/' . $block['custom_icon'];
+            // Process multilingual icon arrays
+            if (isset($block['icon']) && is_array($block['icon'])) {
+                foreach ($block['icon'] as $langId => &$icon) {
+                    if ($icon && $icon != '' && $icon != 'undefined') {
+                        $icon = $this->img_path . $icon;
+                    }
+                }
+            }
+            if (isset($block['custom_icon']) && is_array($block['custom_icon'])) {
+                foreach ($block['custom_icon'] as $langId => &$customIcon) {
+                    if ($customIcon && $customIcon != '' && $customIcon != 'undefined') {
+                        $customIcon = $this->img_path_perso . '/' . $customIcon;
+                    }
+                }
             }
         }
 

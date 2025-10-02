@@ -47,20 +47,6 @@ class Psreassurance
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="icon", type="string", length=255)
-     */
-    private $icon;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="custom_icon", type="string", length=255)
-     */
-    private $customIcon;
-
-    /**
      * @var int
      *
      * @ORM\Column(name="status", type="integer")
@@ -169,30 +155,6 @@ class Psreassurance
         $psreassuranceLang = $this->psreassuranceLangs->first();
 
         return $psreassuranceLang->getDescription();
-    }
-
-    public function getIcon(): string
-    {
-        return $this->icon;
-    }
-
-    public function setIcon(string $icon): self
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    public function getCustomIcon(): string
-    {
-        return $this->customIcon;
-    }
-
-    public function setCustomIcon(string $customIcon): self
-    {
-        $this->customIcon = $customIcon;
-
-        return $this;
     }
 
     public function getStatus(): int

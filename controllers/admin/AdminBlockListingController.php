@@ -167,23 +167,10 @@ class AdminBlockListingController extends ModuleAdminController
             $blockPsr->setStatus(0);
         }
 
-        if (strpos($picto, $this->module->img_path_perso) !== false) {
-            if ($picto != '') {
-                $picto = basename($picto);
-            }
-            $blockPsr->setIcon('');
-            $blockPsr->setCustomIcon($picto);
-        } else {
-            if ($picto != '') {
-                $parts = explode('/', $picto);
-                $parts = array_slice($parts , -3);
-                $picto = implode('/', $parts);
-            }
-            $blockPsr->setIcon($picto);
-            $blockPsr->setCustomIcon('');
-        }
-
-        if (!empty($_FILES)) {
+        // Handle custom icon upload (applies to specific language only)
+        $uploadedCustomIcon = '';
+        $uploadedCustomIconLangId = (int) Tools::getValue('file_lang_id');
+        if (!empty($_FILES) && !empty($_FILES['file']) && !empty($_FILES['file']['name'])) {
             $customImage = $_FILES['file'];
             $fileTmpName = $customImage['tmp_name'];
             $filename = $customImage['name'];
@@ -196,18 +183,32 @@ class AdminBlockListingController extends ModuleAdminController
             );
 
             if (is_bool($validUpload) && $validUpload === false) {
-                // Remove Custom icon
-                if ($blockPsr->getCustomIcon() != '') {
-                    $filePath = blockreassurance::$static_folder_file_upload . '/' . basename($blockPsr->getCustomIcon());
-                    if (file_exists($filePath)) {
-                        unlink($filePath);
-                    }
-                }
                 move_uploaded_file($fileTmpName, $this->module->folder_file_upload . $filename);
-                $blockPsr->setCustomIcon($filename);
-                $blockPsr->setIcon('');
+                $uploadedCustomIcon = $filename;
             } else {
                 $errors[] = $validUpload;
+            }
+        }
+
+        // Process icon data per language from lang_values
+        foreach ($psr_languages as $langId => $langContent) {
+            // If a custom icon was uploaded for this specific language, apply it
+            if ($uploadedCustomIcon && $uploadedCustomIconLangId && $langId == $uploadedCustomIconLangId) {
+                $langContent->custom_icon = $uploadedCustomIcon;
+                $langContent->icon = '';
+            } elseif (isset($langContent->icon) && $langContent->icon) {
+                // Process the icon data for this language
+                // Determine if it's a custom icon or standard icon
+                if (strpos($langContent->icon, $this->module->img_path_perso) !== false) {
+                    $langContent->custom_icon = basename($langContent->icon);
+                    $langContent->icon = '';
+                } else {
+                    // Standard icon - normalize the path
+                    $parts = explode('/', $langContent->icon);
+                    $parts = array_slice($parts, -3);
+                    $langContent->icon = implode('/', $parts);
+                    $langContent->custom_icon = '';
+                }
             }
         }
 
