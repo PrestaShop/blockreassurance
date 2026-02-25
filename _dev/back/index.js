@@ -261,7 +261,7 @@ $(window).ready(() => {
   // Tab Content : Edit : Select none
   $(document).on('click', '#reassurance_block .select_none', () => {
     const psrPicto = $('.psr-picto:visible');
-    psrPicto.attr('src', 'undefined').hide();
+    psrPicto.attr('src', '').hide();
 
     // Un-select icon in the popin
     $('#reassurance_block .category_reassurance img.svg').removeClass('selected');
