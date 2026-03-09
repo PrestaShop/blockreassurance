@@ -44,8 +44,6 @@ class ReassuranceActivity extends ObjectModel
         'primary' => 'id_psreassurance',
         'multilang' => true,
         'fields' => [
-            'icon' => ['type' => self::TYPE_STRING, 'validate' => 'isCleanHtml', 'size' => 255],
-            'custom_icon' => ['type' => self::TYPE_STRING, 'validate' => 'isCleanHtml', 'size' => 255],
             'status' => ['type' => self::TYPE_BOOL, 'validate' => 'isBool', 'required' => true],
             'position' => ['type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => false],
             'type_link' => ['type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => false],
@@ -53,6 +51,8 @@ class ReassuranceActivity extends ObjectModel
             'date_add' => ['type' => self::TYPE_DATE, 'validate' => 'isDate'],
             'date_upd' => ['type' => self::TYPE_DATE, 'validate' => 'isDate'],
             // lang fields
+            'icon' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
+            'custom_icon' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
             'title' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
             'description' => ['type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 2000],
             'link' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isUrl', 'required' => false, 'size' => 255],
@@ -77,6 +77,14 @@ class ReassuranceActivity extends ObjectModel
                 'description' => $value->description,
                 'url' => $value->url,
             ];
+        }
+
+        // Initialize icon arrays if not already arrays
+        if (!is_array($this->icon)) {
+            $this->icon = [];
+        }
+        if (!is_array($this->custom_icon)) {
+            $this->custom_icon = [];
         }
 
         foreach ($languages as $language) {
@@ -136,10 +144,14 @@ class ReassuranceActivity extends ObjectModel
                 $result[$value['id_psreassurance']]['title'] = [];
                 $result[$value['id_psreassurance']]['description'] = [];
                 $result[$value['id_psreassurance']]['url'] = [];
+                $result[$value['id_psreassurance']]['icon'] = [];
+                $result[$value['id_psreassurance']]['custom_icon'] = [];
             }
             $result[$value['id_psreassurance']]['title'][$value['id_lang']] = $value['title'];
             $result[$value['id_psreassurance']]['description'][$value['id_lang']] = $value['description'];
             $result[$value['id_psreassurance']]['url'][$value['id_lang']] = $value['link'];
+            $result[$value['id_psreassurance']]['icon'][$value['id_lang']] = $value['icon'];
+            $result[$value['id_psreassurance']]['custom_icon'][$value['id_lang']] = $value['custom_icon'];
         }
 
         return $result;

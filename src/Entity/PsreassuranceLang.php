@@ -65,6 +65,20 @@ class PsreassuranceLang
     private $link;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", nullable=true)
+     */
+    private $icon;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_icon", type="string", nullable=true)
+     */
+    private $customIcon;
+
+    /**
      * @return Psreassurance
      */
     public function getPsreassurance()
@@ -132,6 +146,30 @@ class PsreassuranceLang
     public function setLink(string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): self
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getCustomIcon(): ?string
+    {
+        return $this->customIcon;
+    }
+
+    public function setCustomIcon(?string $customIcon): self
+    {
+        $this->customIcon = $customIcon;
 
         return $this;
     }

@@ -105,10 +105,14 @@ class PsreassuranceRepository extends ServiceEntityRepository
                 $result[$value['id_psreassurance']]['title'] = [];
                 $result[$value['id_psreassurance']]['description'] = [];
                 $result[$value['id_psreassurance']]['url'] = [];
+                $result[$value['id_psreassurance']]['icon'] = [];
+                $result[$value['id_psreassurance']]['custom_icon'] = [];
             }
             $result[$value['id_psreassurance']]['title'][$value['id_lang']] = $value['title'];
             $result[$value['id_psreassurance']]['description'][$value['id_lang']] = $value['description'];
             $result[$value['id_psreassurance']]['url'][$value['id_lang']] = $value['link'];
+            $result[$value['id_psreassurance']]['icon'][$value['id_lang']] = $value['icon'];
+            $result[$value['id_psreassurance']]['custom_icon'][$value['id_lang']] = $value['custom_icon'];
         }
 
         return $result;

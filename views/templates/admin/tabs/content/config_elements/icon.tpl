@@ -1,23 +1,29 @@
-{**
- * Copyright since 2007 PrestaShop SA and Contributors
- * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License version 3.0
- * that is bundled with this package in the file LICENSE.md.
- * It is also available through the world-wide-web at this URL:
- * https://opensource.org/licenses/AFL-3.0
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@prestashop.com so we can send you a copy immediately.
- *
- * @author    PrestaShop SA and Contributors <contact@prestashop.com>
- * @copyright Since 2007 PrestaShop SA and Contributors
- * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *}
+{*
+* 2007-2019 PrestaShop
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author    PrestaShop SA <contact@prestashop.com>
+*  @copyright 2007-2019 PrestaShop SA
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  International Registered Trademark & Property of PrestaShop SA
+*}
 
-<div class="form-group">
+<div class="form-group content_by_lang lang-{$language.id_lang|escape:'htmlall':'UTF-8'} {if $language.id_lang != $defaultFormLanguage}inactive{/if}" data-type="icon" data-lang="{$language.id_lang|escape:'htmlall':'UTF-8'}">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3 first-block">
         <div class="text-right">
             <label class="control-label">
@@ -27,26 +33,31 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 first-block">
         <div class="psr_picto_showing input-group col-lg-4">
-            <img class="psr-picto picto_by_module svg"
-                 src="{if isset($block) && $block['icon']}{$block['icon']}{elseif isset($block) && $block['custom_icon']}{$block['custom_icon']}{/if}"/>
-            <div class="svg_chosed_here">
-                <img class="image-preview-lang img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
+            {assign var="iconSrc" value=""}
+            {if isset($block) && isset($block['icon'][$language.id_lang]) && $block['icon'][$language.id_lang] && $block['icon'][$language.id_lang] != 'undefined' && $block['icon'][$language.id_lang] != ''}
+                {assign var="iconSrc" value=$block['icon'][$language.id_lang]}
+            {elseif isset($block) && isset($block['custom_icon'][$language.id_lang]) && $block['custom_icon'][$language.id_lang] && $block['custom_icon'][$language.id_lang] != 'undefined' && $block['custom_icon'][$language.id_lang] != ''}
+                {assign var="iconSrc" value=$block['custom_icon'][$language.id_lang]}
+            {/if}
+            <img class="psr-picto picto_by_module svg icon-element" src="{$iconSrc}" data-has-icon="{if $iconSrc}1{else}0{/if}"/>
+            <div class="landscape-element">
+                <i class="material-icons landscape">landscape</i>
             </div>
-            <div>
-                <i class="material-icons">landscape</i>
+            <div class="svg_chosed_here">
+                <img class="image-preview-lang-{$language.id_lang|escape:'htmlall':'UTF-8'} img-thumbnail hide" src="" alt="" width="24px" height="24px"/>
             </div>
             <span class="modify_icon" data-id="{if isset($block)}{$block['id_psreassurance']}{/if}">{l s='Modify icon' d='Modules.Blockreassurance.Admin'}</span>
         </div>
         <div class="input-group upload_file_button">
-            <label class="file_label" for="file{if isset($block)}{$block['id_psreassurance']}{/if}" data-label="{l s='or upload file' d='Modules.Blockreassurance.Admin'}">{l s='or upload file' d='Modules.Blockreassurance.Admin'}</label>
+            <label class="file_label" for="file{if isset($block)}{$block['id_psreassurance']}{/if}_{$language.id_lang|escape:'htmlall':'UTF-8'}" data-label="{l s='or upload file' d='Modules.Blockreassurance.Admin'}">{l s='or upload file' d='Modules.Blockreassurance.Admin'}</label>
             <label class="input-group-btn">
                 <span>
-                    <i class="icon-file"></i><input id="file{if isset($block)}{$block['id_psreassurance']}{/if}" class="slide_image" data-preview="image-preview-lang" type="file" name="image-lang">
+                    <i class="icon-file"></i><input id="file{if isset($block)}{$block['id_psreassurance']}{/if}_{$language.id_lang|escape:'htmlall':'UTF-8'}" class="slide_image" data-preview="image-preview-lang-{$language.id_lang|escape:'htmlall':'UTF-8'}" type="file" name="image-lang-{$language.id_lang|escape:'htmlall':'UTF-8'}">
                 </span>
             </label>
         </div>
         <div class="help-block">
-            {l s='Choose SVG for better customization. Other allowed formats are: .gif, .jpg, .png, .avif' d='Modules.Blockreassurance.Admin'}
+            {l s='Choose SVG for better customization. Other allowed formats are: .gif, .jpg, .png' d='Modules.Blockreassurance.Admin'}
         </div>
     </div>
     <div class="clearfix"></div>

@@ -26,6 +26,33 @@ window.Vue = Vue;
 $(window).ready(() => {
   // Tab Content
   let imgSelected;
+  let imgSelectedLang;
+
+  // Check icon visibility on page load
+  setTimeout(() => {
+    $('.content_by_lang[data-type="icon"]').each(function() {
+      const pictoImg = $(this).find('.psr-picto');
+      const iconSrc = pictoImg.attr('src');
+      const svgChosen = $(this).find('.svg_chosed_here');
+      const landscapeElement = $(this).find('.landscape-element');
+
+      // Check if there's a valid icon
+      if (iconSrc && iconSrc !== '' && iconSrc !== 'undefined' && iconSrc.indexOf('/modules/') !== -1) {
+        // Valid icon exists - show it
+        pictoImg.css('display', 'block');
+        svgChosen.hide();
+        landscapeElement.hide();
+        landscapeElement.find('i').hide();
+      } else {
+        // No icon - show landscape placeholder
+        pictoImg.hide();
+        svgChosen.hide();
+        landscapeElement.css('display', 'block');
+        landscapeElement.find('i').css('display', 'block');
+      }
+    });
+  }, 100);
+
   // Tab Content : Change position
   new Sortable(document.getElementById('list-blockreassurance'), {
     animation: 150,
@@ -203,10 +230,37 @@ $(window).ready(() => {
   $(document).on('change', 'select[name="psr-language"]', (e) => {
     const lang = $(e.target).val();
 
-    $('.content_by_lang').removeClass('active').addClass('inactive');
-    $(`.content_by_lang.lang-${lang}`).addClass('active');
+    // Only affect content_by_lang elements in the currently active show-rea-block
+    const activeBlock = $('.show-rea-block.active');
+
+    activeBlock.find('.content_by_lang').removeClass('active').addClass('inactive');
+    activeBlock.find(`.content_by_lang.lang-${lang}`).addClass('active');
     $('.limit_text:visible').text($('.show-rea-block.active .content_by_lang:visible input[type="text"]').val().length);
     $('.limit_description:visible').text($('.show-rea-block.active .content_by_lang:visible textarea').val().length);
+
+    // Update icon visibility for the new language - scope to active block only
+    const activeIconBlock = activeBlock.find(`.content_by_lang.lang-${lang}[data-type="icon"]`);
+    const pictoImg = activeIconBlock.find('.psr-picto');
+    const iconSrc = pictoImg.attr('src');
+    const svgChosen = activeIconBlock.find('.svg_chosed_here');
+    const landscapeElement = activeIconBlock.find('.landscape-element');
+
+    console.log('Language changed to:', lang, 'Icon src:', iconSrc, 'Element found:', activeIconBlock.length);
+
+    // Check if there's a valid icon
+    if (iconSrc && iconSrc !== '' && iconSrc !== 'undefined' && iconSrc.indexOf('/modules/') !== -1) {
+      // Valid icon exists - show it
+      pictoImg.css('display', 'block');
+      svgChosen.css('display', 'none');
+      landscapeElement.css('display', 'none');
+      landscapeElement.find('i').css('display', 'none');
+    } else {
+      // No icon - show landscape placeholder
+      pictoImg.css('display', 'none');
+      svgChosen.css('display', 'none');
+      landscapeElement.css('display', 'block');
+      landscapeElement.find('i').css('display', 'block');
+    }
   });
 
   // Tab Content : Edit : Modify icon
@@ -248,27 +302,37 @@ $(window).ready(() => {
     // Popin : select the icon
     $('#reassurance_block .category_reassurance img.svg.selected').removeClass('selected');
     $(e.target).addClass('selected');
+
+    // Only update the currently visible language's icon
+    const activeBlock = $('.show-rea-block.active .content_by_lang.active[data-type="icon"]');
+
+    // Update the icon src and mark it as having an icon
+    activeBlock.find('.psr-picto').attr('src', $(e.target).attr('src')).attr('data-has-icon', '1');
+
     // Hide the initial icon
-    $('.landscape').hide();
-    $('.psr-picto').hide();
+    activeBlock.find('.landscape-element').hide();
+    activeBlock.find('.icon-element').hide();
     // Show the image
-    $('.svg_chosed_here').show();
-    $('.svg_chosed_here:visible').html(svg);
+    activeBlock.find('.svg_chosed_here').show().html(svg);
     // Popin : hide it
     $('#reassurance_block').fadeOut(300);
   });
 
   // Tab Content : Edit : Select none
   $(document).on('click', '#reassurance_block .select_none', () => {
-    const psrPicto = $('.psr-picto:visible');
-    psrPicto.attr('src', 'undefined').hide();
+    // Only update the currently visible language's icon
+    const activeBlock = $('.show-rea-block.active .content_by_lang.active[data-type="icon"]');
+
+    const psrPicto = activeBlock.find('.psr-picto');
+    psrPicto.attr('src', '').attr('data-has-icon', '0');
+    activeBlock.find('.icon-element').hide();
 
     // Un-select icon in the popin
     $('#reassurance_block .category_reassurance img.svg').removeClass('selected');
-    // Hide the icon seected
-    $('.svg_chosed_here:visible').hide();
+    // Hide the icon selected
+    activeBlock.find('.svg_chosed_here').hide();
     // Display the landscape icon
-    $('.landscape').show();
+    activeBlock.find('.landscape-element').show();
     // Hide the popin
     $('#reassurance_block').fadeOut(300);
   });
@@ -276,6 +340,12 @@ $(window).ready(() => {
   // Tab Content : Edit : Custom Icon
   $(document).on('change', '.show-rea-block.active input[type="file"]', function editTabContentCustomIcon() {
     const {files} = $(this)[0];
+    // Get the language ID from the currently active language tab
+    const activeLangBlock = $(this).closest('.content_by_lang');
+    imgSelectedLang = activeLangBlock.attr('data-lang');
+
+    console.log('File selected for language:', imgSelectedLang);
+
     // Change the label
     const jqLabel = $(this).parents('.input-group').find('label.file_label');
     let label = jqLabel.attr('data-label');
@@ -302,12 +372,12 @@ $(window).ready(() => {
 
       [imgSelected] = files;
 
-      // Hide the initial icon
-      $('.landscape').hide();
-      $('.psr-picto').hide();
-      $('.picto_by_module').hide();
+      // Hide the initial icon and show preview - only for the active language
+      activeLangBlock.find('.landscape-element').hide();
+      activeLangBlock.find('.psr-picto').hide();
+      activeLangBlock.find('.picto_by_module').hide();
       // Show the image
-      $('.svg_chosed_here').show();
+      activeLangBlock.find('.svg_chosed_here').show();
     }
   });
 
@@ -390,6 +460,8 @@ $(window).ready(() => {
       iconSrc = iconReplaced;
     }
 
+    console.log('Collecting form data...');
+
     let minimalData = false;
     $('.show-rea-block.active .content_by_lang').each((index, elem) => {
       const lang = parseInt($(elem).attr('data-lang'), 10);
@@ -401,7 +473,16 @@ $(window).ready(() => {
       if (!Object.prototype.hasOwnProperty.call(dataToSave[lang], dataType)) {
         dataToSave[lang][dataType] = '';
       }
-      if (dataType === 'description') {
+      if (dataType === 'icon') {
+        // Get icon source for this language
+        const pictoImg = $(elem).find('img.psr-picto');
+        const svgChosen = $(elem).find('.svg_chosed_here img.svg');
+        let langIconSrc = pictoImg.attr('src');
+        if (svgChosen.length > 0 && typeof svgChosen.attr('src') !== 'undefined') {
+          langIconSrc = svgChosen.attr('src');
+        }
+        dataToSave[lang][dataType] = langIconSrc || '';
+      } else if (dataType === 'description') {
         dataToSave[lang][dataType] = $('textarea', elem).val();
       } else if (typeof ($('input', elem).val()) !== 'undefined') {
         dataToSave[lang][dataType] = $('input', elem).val();
@@ -412,6 +493,8 @@ $(window).ready(() => {
       }
     });
 
+    console.log('Data to save:', dataToSave);
+
     if (!minimalData) {
       window.showErrorMessage(window.min_field_error);
       return;
@@ -421,6 +504,7 @@ $(window).ready(() => {
     formData.append('ajax', true);
     formData.append('action', 'SaveBlockContent');
     formData.append('file', imgSelected);
+    formData.append('file_lang_id', imgSelectedLang || '');
     formData.append('id_block', blockId);
     formData.append('lang_values', JSON.stringify(dataToSave));
     formData.append('picto', iconSrc);

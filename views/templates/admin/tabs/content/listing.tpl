@@ -1,21 +1,27 @@
-{**
- * Copyright since 2007 PrestaShop SA and Contributors
- * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License version 3.0
- * that is bundled with this package in the file LICENSE.md.
- * It is also available through the world-wide-web at this URL:
- * https://opensource.org/licenses/AFL-3.0
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@prestashop.com so we can send you a copy immediately.
- *
- * @author    PrestaShop SA and Contributors <contact@prestashop.com>
- * @copyright Since 2007 PrestaShop SA and Contributors
- * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *}
+{*
+* 2007-2019 PrestaShop
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author    PrestaShop SA <contact@prestashop.com>
+*  @copyright 2007-2019 PrestaShop SA
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  International Registered Trademark & Property of PrestaShop SA
+*}
 
 <div id="reminder_listing" class="panel panel-default panel-blockreassurance col-lg-10 col-lg-offset-1 col-xs-12 col-xs-offset-0">
     <div class="panel-heading">
@@ -26,53 +32,35 @@
         <div class="clearfix">
             <div class="listing-table col-xs-12">
                 <div class="listing-head row">
-                    <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs content-header">{$fields_captions.position}</div>
-                    <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs content-header">{$fields_captions.image}</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.title}</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs content-header">{$fields_captions.description}</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.redirection}</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs content-header">{$fields_captions.actions}</div>
+                    <div class="col-xs-1 content-header">{l s='Position' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-1 content-header">{l s='Image' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-2 content-header">{l s='Title' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-4 content-header">{l s='Description' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-2 content-header">{l s='Redirection' d='Modules.Blockreassurance.Admin'}</div>
+                    <div class="col-xs-2 content-header">{l s='Actions' d='Modules.Blockreassurance.Admin'}</div>
                 </div>
-                <div id="list-blockreassurance" class="listing-body col-lg-12 col-xs-12">
+                <div id="list-blockreassurance" class="listing-body col-lg-12  col-xs-12">
                     {foreach from=$allblock item=$block key=$key}
                         <div class="listing-general-rol row" data-block="{$block.id_psreassurance}">
                             <div class="listing-row row">
-                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
-                                    {$fields_captions.position}
+                                <div class="col-xs-1">
+                                    <i class="material-icons">drag_indicator</i>
                                 </div>
-                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-8">
-                                    <a class="toolbar-button" href="#">
-                                        <i class="material-icons">drag_handle</i>
-                                    </a>
-                                </div>
-                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
-                                    {$fields_captions.image}
-                                </div>                                
-                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-8">
-                                    {if $block['icon'] != 'undefined'}
-                                        <img class="svg"
-                                             src="{if $block['icon']}{$block['icon']}{else if $block['custom_icon']}{$block['custom_icon']}{/if}"
-                                        />
+                                <div class="col-xs-1">
+                                    {if isset($block['icon'][$defaultFormLanguage]) && $block['icon'][$defaultFormLanguage] != 'undefined' && $block['icon'][$defaultFormLanguage] != ''}
+                                        <img class="svg" src="{$block['icon'][$defaultFormLanguage]}" />
+                                    {elseif isset($block['custom_icon'][$defaultFormLanguage]) && $block['custom_icon'][$defaultFormLanguage] != 'undefined' && $block['custom_icon'][$defaultFormLanguage] != ''}
+                                        <img class="svg" src="{$block['custom_icon'][$defaultFormLanguage]}" />
                                     {else}
                                         {l s='none' d='Modules.Blockreassurance.Admin'}
                                     {/if}
-                                </div>
-                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
-                                    {$fields_captions.title}
-                                </div>                                
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
+                                </div>                                <div class="col-xs-2">
                                     {$block['title'][{$defaultFormLanguage}]}
                                 </div>
-                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
-                                    {$fields_captions.description}
-                                </div>                                
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
+                                <div class="col-xs-4">
                                     {$block['description'][{$defaultFormLanguage}]}
                                 </div>
-                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
-                                    {$fields_captions.redirection}
-                                </div>                                
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
+                                <div class="col-xs-2">
                                     {if $block['type_link'] == $LINK_TYPE_NONE}
                                         {l s='None' d='Modules.Blockreassurance.Admin'}
                                     {elseif $block['type_link'] == $LINK_TYPE_URL}
@@ -81,10 +69,7 @@
                                         {l s='CMS Page' d='Modules.Blockreassurance.Admin'}
                                     {/if}
                                 </div>
-                                <div class="hidden-lg hidden-md hidden-sm col-xs-4">
-                                    {$fields_captions.actions}
-                                </div>                                
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8 inline-flex">
+                                <div class="col-xs-2 inline-flex">
                                     <label class="col-lg-12 col-xs-12 status-toggle"
                                            id="reminder_active_{$block['id_psreassurance']}"
                                            for="reminder_active_{$block['id_psreassurance']}"
@@ -106,7 +91,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-xs-12">
                                 <div id="_more_info" class="col-lg-12 more_info ajax_return"></div>
                             </div>
                         </div>

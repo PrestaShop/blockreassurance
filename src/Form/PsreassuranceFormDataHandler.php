@@ -79,10 +79,11 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
      * @param array $psr_languages
      * @param int $type_link
      * @param int $id_cms
+     * @param array $iconData
      *
      * @todo migrate this temporary function to above standard function create
      */
-    public function createLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
+    public function createLangs($psreassurance, $psr_languages, $type_link, $id_cms, $iconData = []): void
     {
         foreach ($psr_languages as $langId => $langContent) {
             $lang = $this->langRepository->find($langId);
@@ -93,6 +94,15 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
                 ->setDescription($langContent->description)
                 ->setLink($langContent->url)
             ;
+
+            // Set icon data per language
+            if (isset($langContent->icon)) {
+                $psreassuranceLang->setIcon($langContent->icon ?? '');
+            }
+            if (isset($langContent->custom_icon)) {
+                $psreassuranceLang->setCustomIcon($langContent->custom_icon ?? '');
+            }
+
             if (!empty($id_cms) && $type_link === Psreassurance::TYPE_LINK_CMS_PAGE) {
                 $psreassurance->setCmsId($id_cms);
                 $link = \Context::getContext()->link;
@@ -117,10 +127,11 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
      * @param array $psr_languages
      * @param int $type_link
      * @param int $id_cms
+     * @param array $iconData
      *
      * @todo migrate this temporary function to above standard function update
      */
-    public function updateLangs($psreassurance, $psr_languages, $type_link, $id_cms): void
+    public function updateLangs($psreassurance, $psr_languages, $type_link, $id_cms, $iconData = []): void
     {
         foreach ($psr_languages as $langId => $langContent) {
             $lang = $this->langRepository->find($langId);
@@ -133,6 +144,15 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
                 ->setDescription($langContent->description)
                 ->setLink($langContent->url)
             ;
+
+            // Set icon data per language
+            if (isset($langContent->icon)) {
+                $psreassuranceLang->setIcon($langContent->icon ?? '');
+            }
+            if (isset($langContent->custom_icon)) {
+                $psreassuranceLang->setCustomIcon($langContent->custom_icon ?? '');
+            }
+
             if (!empty($id_cms) && $type_link === Psreassurance::TYPE_LINK_CMS_PAGE) {
                 $psreassurance->setCmsId($id_cms);
                 $link = \Context::getContext()->link;
