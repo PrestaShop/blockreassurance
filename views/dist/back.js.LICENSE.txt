@@ -1,5 +1,5 @@
 /*!
- * Vue.js v2.7.16
+ * Vue.js v2.7.15
  * (c) 2014-2023 Evan You
  * Released under the MIT License.
  */
@@ -24,7 +24,7 @@
  */
 
 /**!
- * Sortable 1.15.2
+ * Sortable 1.15.0
  * @author	RubaXa   <trash@rubaxa.org>
  * @author	owenm    <owen23355@gmail.com>
  * @license MIT

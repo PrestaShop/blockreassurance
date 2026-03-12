@@ -49,9 +49,9 @@
                                     {$fields_captions.image}
                                 </div>                                
                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-8">
-                                    {if $block['icon'] != 'undefined'}
+                                    {if $block['icon'] || $block['custom_icon']}
                                         <img class="svg"
-                                             src="{if $block['icon']}{$block['icon']}{else if $block['custom_icon']}{$block['custom_icon']}{/if}"
+                                             src="{if $block['icon']}{$block['icon']}{else}{$block['custom_icon']}{/if}"
                                         />
                                     {else}
                                         {l s='none' d='Modules.Blockreassurance.Admin'}

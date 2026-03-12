@@ -260,7 +260,7 @@ $(window).ready(() => {
 
   // Tab Content : Edit : Select none
   $(document).on('click', '#reassurance_block .select_none', () => {
-    const psrPicto = $('.psr-picto:visible');
+    const psrPicto = $('.show-rea-block.active .psr-picto');
     psrPicto.attr('src', 'undefined').hide();
 
     // Un-select icon in the popin
@@ -384,10 +384,12 @@ $(window).ready(() => {
     const blockId = $(this).attr('data-id');
     const imgIcon = $('.psr_picto_showing:visible img.psr-picto');
     let iconSrc = imgIcon.attr('src');
-    const iconReplaced = $('.svg_chosed_here img.svg').attr('src');
+    const iconReplaced = $('.svg_chosed_here:visible img.svg').attr('src');
 
     if (typeof iconReplaced !== 'undefined') {
       iconSrc = iconReplaced;
+    } else if (!iconSrc || iconSrc === 'undefined') {
+      iconSrc = '';
     }
 
     let minimalData = false;
