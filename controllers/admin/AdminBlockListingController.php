@@ -141,6 +141,9 @@ class AdminBlockListingController extends ModuleAdminController
         $errors = [];
 
         $picto = Tools::getValue('picto');
+        if ($picto === 'undefined') {
+            $picto = '';
+        }
         $id_block = empty(Tools::getValue('id_block')) ? 0 : (int) Tools::getValue('id_block');
         $type_link = (int) Tools::getValue('typelink');
         $id_cms = (int) Tools::getValue('id_cms');
