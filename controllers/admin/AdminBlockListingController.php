@@ -18,6 +18,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 use PrestaShop\Module\BlockReassurance\Entity\Psreassurance;
+use PrestaShop\Module\BlockReassurance\Repository\PsreassuranceRepository;
 
 class AdminBlockListingController extends ModuleAdminController
 {
@@ -151,9 +152,10 @@ class AdminBlockListingController extends ModuleAdminController
         if (!empty($picto) && !in_array(pathinfo($picto, PATHINFO_EXTENSION), $authExtensions)) {
             $errors[] = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png, .svg, .avif', [], 'Admin.Notifications.Error');
 
-            return $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
+            return $this->ajaxRenderJson('error');
         }
 
+        /** @var PsreassuranceRepository $reassuranceRepository */
         $reassuranceRepository = $this->context->controller->getContainer()->get('block_reassurance_repository');
         $reassuranceFormHandler = $this->context->controller->getContainer()->get('block_reassurance_form_data_handler');
 

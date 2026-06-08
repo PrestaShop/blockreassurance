@@ -6,6 +6,5 @@ services:
         class: 'PrestaShop\Module\BlockReassurance\Form\PsreassuranceFormDataHandler'
         public: true
         arguments:
-            - '@block_reassurance_repository'
             - '@prestashop.core.admin.lang.repository'
             - '@doctrine.orm.default_entity_manager'
