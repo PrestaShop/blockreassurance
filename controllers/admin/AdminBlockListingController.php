@@ -176,7 +176,7 @@ class AdminBlockListingController extends ModuleAdminController
         } else {
             if ($picto != '') {
                 $parts = explode('/', $picto);
-                $parts = array_slice($parts , -3);
+                $parts = array_slice($parts, -3);
                 $picto = implode('/', $parts);
             }
             $blockPsr->setIcon($picto);

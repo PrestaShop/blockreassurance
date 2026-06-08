@@ -33,20 +33,18 @@ function upgrade_module_6_0_0($module)
     $rows = Db::getInstance()->executeS($sql);
 
     foreach ($rows as $row) {
-
         $data = [];
 
         if ($row['icon']) {
-
             $parts = explode('/', $row['icon']);
-            $parts = array_slice($parts , -3);
+            $parts = array_slice($parts, -3);
 
             $data = [
-                'icon' => implode('/', $parts)
+                'icon' => implode('/', $parts),
             ];
         } elseif ($row['custom_icon']) {
             $data = [
-                'custom_icon' => basename($row['custom_icon'])
+                'custom_icon' => basename($row['custom_icon']),
             ];
         }
 
