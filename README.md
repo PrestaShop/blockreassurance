@@ -13,12 +13,12 @@ Connect with your visitors and reassure them about secure payment, free shipping
 
 ## Compatibility
 
-PrestaShop: `1.7.7.0` or later
+PrestaShop: `1.7.8.0` or later
 
 ## Multistore compatibility
 
-This module is compatible with the multistore :heavy_check_mark: <br/>
-The module can only specify if block reasassurance is displayed from one shop to another but the configuration is common to all shops.
+This module is not compatible with the multistore :x: <br/>
+The module can not specify if block reasassurance is displayed from one shop to another, and the configuration is common to all shops.
 
 ## Reporting issues
 
