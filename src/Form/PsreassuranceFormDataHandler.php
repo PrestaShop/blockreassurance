@@ -24,17 +24,11 @@ namespace PrestaShop\Module\BlockReassurance\Form;
 use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\Module\BlockReassurance\Entity\Psreassurance;
 use PrestaShop\Module\BlockReassurance\Entity\PsreassuranceLang;
-use PrestaShop\Module\BlockReassurance\Repository\PsreassuranceRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
 use PrestaShopBundle\Entity\Repository\LangRepository;
 
 class PsreassuranceFormDataHandler implements FormDataHandlerInterface
 {
-    /**
-     * @var PsreassuranceRepository
-     */
-    private $psreassuranceRepository;
-
     /**
      * @var LangRepository
      */
@@ -46,16 +40,13 @@ class PsreassuranceFormDataHandler implements FormDataHandlerInterface
     private $entityManager;
 
     /**
-     * @param PsreassuranceeRepository $psreassuranceRepository
      * @param LangRepository $langRepository
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        PsreassuranceRepository $psreassuranceRepository,
         LangRepository $langRepository,
         EntityManagerInterface $entityManager
     ) {
-        $this->psreassuranceRepository = $psreassuranceRepository;
         $this->langRepository = $langRepository;
         $this->entityManager = $entityManager;
     }

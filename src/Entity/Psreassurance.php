@@ -128,7 +128,7 @@ class Psreassurance
     /**
      * @param int $langId
      *
-     * @return QuoteLang|null
+     * @return PsreassuranceLang|null
      */
     public function getPsreassuranceLangByLangId(int $langId)
     {

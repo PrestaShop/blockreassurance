@@ -27,6 +27,7 @@ if (file_exists($autoloadPath)) {
 }
 
 use PrestaShop\Module\BlockReassurance\Entity\Psreassurance;
+use PrestaShop\Module\BlockReassurance\Repository\PsreassuranceRepository;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
@@ -53,8 +54,6 @@ class blockreassurance extends Module implements WidgetInterface
     public $version;
     /** @var string */
     public $author;
-    /** @var bool */
-    public $need_instance;
     /** @var string */
     public $controller_name;
     /** @var bool */
@@ -100,7 +99,7 @@ class blockreassurance extends Module implements WidgetInterface
         $this->tab = 'front_office_features';
         $this->version = '6.0.0';
         $this->author = 'PrestaShop';
-        $this->need_instance = false;
+        $this->need_instance = 0;
 
         $this->bootstrap = true;
         parent::__construct();
@@ -280,6 +279,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         $moduleAdminLink = Context::getContext()->link->getAdminLink('AdminModules', true) . '&configure=' . $this->name . '&module_name=' . $this->name;
 
+        /** @var PsreassuranceRepository $reassuranceRepository */
         $reassuranceRepository = $this->get('block_reassurance_repository');
 
         $allCms = CMS::listCms($id_lang);
@@ -450,6 +450,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
+        /** @var PsreassuranceRepository $reassuranceRepository */
         $reassuranceRepository = $this->get('block_reassurance_repository');
         $blocks = $reassuranceRepository->getAllBlockByStatus(
             $this->context->language->id
@@ -511,6 +512,7 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function renderTemplateInHook($template)
     {
+        /** @var PsreassuranceRepository $reassuranceRepository */
         $reassuranceRepository = $this->get('block_reassurance_repository');
         $id_lang = $this->context->language->id;
 
