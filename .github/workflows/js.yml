@@ -6,13 +6,18 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-versions: [ '18' ]
+                # PS 8.2 : Node 16
+                # PS 9.1 : Node 20
+                # PS 9.2 : Node 20
+                node-versions: [ '16', '20' ]
         steps:
             - name: Checkout
               uses: actions/checkout@v6
-            - uses: actions/setup-node@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
               with:
                   node-version: ${{ matrix.node-versions }}
-            - run: npm install
+            - name: Install dependencies
+              run: npm install
             - name: Lint
               run: npm run lint
