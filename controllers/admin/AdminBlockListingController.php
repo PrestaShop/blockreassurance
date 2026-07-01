@@ -34,6 +34,13 @@ class AdminBlockListingController extends ModuleAdminController
     {
         header('Content-Type: application/json');
         $this->ajaxRender(json_encode($content));
+        // Stop here so the response body stays a clean JSON payload.
+        // Without this, the controller keeps running after the echo and can
+        // append extra output (footer, profiler, PHP notices), which makes the
+        // strict `fetch().json()` parsing on the client throw. The delete
+        // handler would then never remove the row, leaving the list out of sync
+        // with the database until a manual page reload.
+        exit;
     }
 
     /**
