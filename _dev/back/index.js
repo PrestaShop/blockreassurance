@@ -435,9 +435,16 @@ $(window).ready(() => {
       contentType: false,
       processData: false,
       data: formData,
-      success() {
-        window.showSuccessMessage(window.psre_success);
-        setTimeout(window.location.reload(), 1800);
+      success(response) {
+        if (response === 'success') {
+          window.showSuccessMessage(window.psre_success);
+          setTimeout(() => window.location.reload(), 1800);
+        } else {
+          window.showErrorMessage(response || window.active_error);
+        }
+      },
+      error() {
+        window.showErrorMessage(window.active_error);
       },
     });
   });
