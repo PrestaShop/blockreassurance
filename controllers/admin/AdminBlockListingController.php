@@ -153,7 +153,7 @@ class AdminBlockListingController extends ModuleAdminController
         if (!empty($picto) && !in_array(pathinfo($picto, PATHINFO_EXTENSION), $authExtensions)) {
             $errors[] = Context::getContext()->getTranslator()->trans('Image format not recognized, allowed formats are: .gif, .jpg, .png, .svg, .avif', [], 'Admin.Notifications.Error');
 
-            return $this->ajaxRenderJson('error');
+            return $this->ajaxRenderJson(implode(' ', $errors));
         }
 
         /** @var PsreassuranceRepository $reassuranceRepository */
@@ -225,7 +225,7 @@ class AdminBlockListingController extends ModuleAdminController
         }
 
         // Response
-        $this->ajaxRenderJson(empty($errors) ? 'success' : 'error');
+        $this->ajaxRenderJson(empty($errors) ? 'success' : implode(' ', $errors));
     }
 
     /**
