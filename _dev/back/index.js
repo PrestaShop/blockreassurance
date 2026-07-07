@@ -164,6 +164,7 @@ $(window).ready(() => {
         if (jsonData === 'success') {
           // Remove line
           $(`div[data-block="${idBlock}"]`).remove();
+          window.showSuccessMessage(window.successRemove);
         } else {
           window.showErrorMessage(window.errorRemove);
         }

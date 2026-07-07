@@ -34,6 +34,7 @@ class AdminBlockListingController extends ModuleAdminController
     {
         header('Content-Type: application/json');
         $this->ajaxRender(json_encode($content));
+        exit;
     }
 
     /**
