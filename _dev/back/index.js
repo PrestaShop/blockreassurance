@@ -26,6 +26,21 @@ window.Vue = Vue;
 $(window).ready(() => {
   // Tab Content
   let imgSelected;
+
+  // Discard a pending file upload so it is no longer sent on save.
+  // Used when the merchant switches to a predefined icon (or "Select none")
+  // after selecting a file, otherwise the previous upload is still submitted
+  // and re-validated by the controller.
+  const resetUploadedImage = () => {
+    imgSelected = undefined;
+    const fileInput = $('.show-rea-block.active input[type="file"]');
+    fileInput.val('');
+    fileInput.each((index, elem) => {
+      const jqLabel = $(elem).parents('.input-group').find('label.file_label');
+      jqLabel.html(jqLabel.attr('data-label'));
+    });
+    $('.show-rea-block.active .image-preview-lang').attr('src', '').addClass('hide');
+  };
   // Tab Content : Change position
   new Sortable(document.getElementById('list-blockreassurance'), {
     animation: 150,
@@ -246,6 +261,9 @@ $(window).ready(() => {
   $(document).on('click', '#reassurance_block .category_reassurance .svg', (e) => {
     const svg = $(e.target)[0].outerHTML;
 
+    // Discard any pending file upload so it is not sent instead of the icon
+    resetUploadedImage();
+
     // Popin : select the icon
     $('#reassurance_block .category_reassurance img.svg.selected').removeClass('selected');
     $(e.target).addClass('selected');
@@ -263,6 +281,9 @@ $(window).ready(() => {
   $(document).on('click', '#reassurance_block .select_none', () => {
     const psrPicto = $('.psr-picto:visible');
     psrPicto.attr('src', '').hide();
+
+    // Discard any pending file upload so it is not sent on save
+    resetUploadedImage();
 
     // Un-select icon in the popin
     $('#reassurance_block .category_reassurance img.svg').removeClass('selected');
