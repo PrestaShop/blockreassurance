@@ -1,0 +1,6 @@
+includes:
+	- %currentWorkingDirectory%/tests/php/phpstan/phpstan.neon
+
+parameters:
+	ignoreErrors:
+		- '#Property PrestaShop\\Module\\BlockReassurance\\Entity\\Psreassurance::\$id is never written, only read\.#'

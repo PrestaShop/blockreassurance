@@ -63,6 +63,8 @@ class ReassuranceActivity extends ObjectModel
      * @param array $psr_languages
      * @param int $type_link
      * @param int $id_cms
+     *
+     * @deprecated 6.0.0 - migrated to src/Form/PsreassuranceFormDataHandler as createLangs and updateLangs
      */
     public function handleBlockValues($psr_languages, $type_link, $id_cms)
     {
@@ -115,6 +117,8 @@ class ReassuranceActivity extends ObjectModel
      * @return array
      *
      * @throws PrestaShopDatabaseException
+     *
+     * @deprecated 6.0.0 - migrated to src/Repository/PsreassuranceRepository
      */
     public static function getAllBlock()
     {
@@ -147,6 +151,8 @@ class ReassuranceActivity extends ObjectModel
      * @return array
      *
      * @throws PrestaShopDatabaseException
+     *
+     * @deprecated 6.0.0 - migrated to src/Repository/PsreassuranceRepository
      */
     public static function getAllBlockByStatus($id_lang = 1)
     {
@@ -161,47 +167,9 @@ class ReassuranceActivity extends ObjectModel
         $xmlMimes = ['image/svg', 'image/svg+xml'];
         foreach ($result as &$item) {
             $item['is_svg'] = !empty($item['custom_icon'])
-                && (in_array(self::getMimeType(_PS_ROOT_DIR_ . $item['custom_icon']), $xmlMimes));
+                && in_array(ImageManager::getMimeType(_PS_ROOT_DIR_ . $item['custom_icon']), $xmlMimes);
         }
 
         return $result;
-    }
-
-    /**
-     * @return string|bool
-     */
-    public static function getMimeType(string $filename)
-    {
-        $mimeType = false;
-        // Try with GD
-        if (function_exists('getimagesize')) {
-            $imageInfo = @getimagesize($filename);
-            if ($imageInfo) {
-                $mimeType = $imageInfo['mime'];
-            }
-        }
-        // Try with FileInfo
-        if (!$mimeType && function_exists('finfo_open')) {
-            $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
-            $finfo = finfo_open($const);
-            $mimeType = finfo_file($finfo, $filename);
-            finfo_close($finfo);
-        }
-        // Try with Mime
-        if (!$mimeType && function_exists('mime_content_type')) {
-            $mimeType = mime_content_type($filename);
-        }
-        // Try with exec command and file binary
-        if (!$mimeType && function_exists('exec')) {
-            $mimeType = trim(exec('file -b --mime-type ' . escapeshellarg($filename)));
-            if (!$mimeType) {
-                $mimeType = trim(exec('file --mime ' . escapeshellarg($filename)));
-            }
-            if (!$mimeType) {
-                $mimeType = trim(exec('file -bi ' . escapeshellarg($filename)));
-            }
-        }
-
-        return $mimeType;
     }
 }

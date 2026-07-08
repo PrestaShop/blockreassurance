@@ -26,40 +26,67 @@ window.Vue = Vue;
 $(window).ready(() => {
   // Tab Content
   let imgSelected;
+
+  // Discard a pending file upload so it is no longer sent on save.
+  // Used when the merchant switches to a predefined icon (or "Select none")
+  // after selecting a file, otherwise the previous upload is still submitted
+  // and re-validated by the controller.
+  const resetUploadedImage = () => {
+    imgSelected = undefined;
+    const fileInput = $('.show-rea-block.active input[type="file"]');
+    fileInput.val('');
+    fileInput.each((index, elem) => {
+      const jqLabel = $(elem).parents('.input-group').find('label.file_label');
+      jqLabel.html(jqLabel.attr('data-label'));
+    });
+    $('.show-rea-block.active .image-preview-lang').attr('src', '').addClass('hide');
+  };
   // Tab Content : Change position
   new Sortable(document.getElementById('list-blockreassurance'), {
     animation: 150,
     ghostClass: 'sortable-ghost',
     onUpdate() {
-      const blocks = [];
+      let blocks = '';
       $('.listing-general-rol').each(function blockPush() {
-        blocks.push($(this).attr('data-block'));
+        const blockItem = $(this).attr('data-block');
+        blocks += `&blocks[]=${blockItem}`;
       });
-
-      $.ajax({
-        type: 'POST',
-        dataType: 'JSON',
-        url: window.psr_controller_block_url,
-        data: {
-          ajax: true,
-          action: 'UpdatePosition',
-          blocks,
-        },
-        success(data) {
-          if (data === 'success') {
-            window.showSuccessMessage(window.successPosition);
-          } else {
-            window.showErrorMessage(window.errorPosition);
-          }
-        },
-      });
+      updateBlockPosition(blocks);
     },
   });
+
+  async function updateBlockPosition(blocks) {
+    try {
+      const response = await fetch(
+        window.psr_controller_block_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `ajax=true&action=UpdatePosition${blocks}`,
+        });
+
+      if (response.status === 200) {
+        const jsonData = await response.json();
+
+        if (jsonData === 'success') {
+          window.showNoticeMessage(window.successPosition);
+        } else {
+          window.showErrorMessage(window.errorPosition);
+        }
+      } else {
+        window.showErrorMessage(window.errorPosition);
+      }
+    } catch (error) {
+      window.showErrorMessage(error);
+    }
+  }
 
   // Tab Content : Set active/inactive
   $(document).on('click', '.listing-row .switch-input', (e) => {
     const switchIsOn = $(e.target).hasClass('-checked');
     const status = switchIsOn ? 1 : 0;
+    const idpsr = $(e.target).parent().attr('data-cart_psreassurance_id');
 
     $(e.target).parent().find('.switch_text').hide();
     if (switchIsOn) {
@@ -72,27 +99,35 @@ $(window).ready(() => {
       $(e.target).parent().find('.switch-on').show();
     }
 
-    $.ajax({
-      url: window.psr_controller_block_url,
-      type: 'POST',
-      dataType: 'JSON',
-      async: false,
-      data: {
-        controller: window.psr_controller_block,
-        action: 'changeBlockStatus',
-        idpsr: $(e.target).parent().attr('data-cart_psreassurance_id'),
-        status,
-        ajax: true,
-      },
-      success: (data) => {
-        if (data === 'success') {
+    updateBlockStatus(idpsr, status);
+  });
+
+  async function updateBlockStatus(idpsr, status) {
+    try {
+      const response = await fetch(
+        window.psr_controller_block_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `ajax=true&action=ChangeBlockStatus&idpsr=${idpsr}&status=${status}`,
+        });
+
+      if (response.status === 200) {
+        const jsonData = await response.json();
+
+        if (jsonData === 'success') {
           window.showNoticeMessage(window.block_updated);
         } else {
           window.showErrorMessage(window.active_error);
         }
-      },
-    });
-  });
+      } else {
+        window.showErrorMessage(window.active_error);
+      }
+    } catch (error) {
+      window.showErrorMessage(error);
+    }
+  }
 
   // Tab Content : Add
   $(document).on('click', '.psre-add', () => {
@@ -124,28 +159,37 @@ $(window).ready(() => {
     if (!window.confirm(window.txtConfirmRemoveBlock)) {
       return;
     }
-    $.ajax({
-      type: 'POST',
-      dataType: 'JSON',
-      url: window.psr_controller_block_url,
-      data: {
-        ajax: true,
-        action: 'DeleteBlock',
-        idBlock,
-      },
-      success(data) {
-        if (data === 'success') {
+    deleteBlock(idBlock);
+  });
+
+  async function deleteBlock(idBlock) {
+    try {
+      const response = await fetch(
+        window.psr_controller_block_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `ajax=true&action=DeleteBlock&idBlock=${idBlock}`,
+        });
+
+      if (response.status === 200) {
+        const jsonData = await response.json();
+
+        if (jsonData === 'success') {
           // Remove line
           $(`div[data-block="${idBlock}"]`).remove();
+          window.showSuccessMessage(window.successRemove);
         } else {
           window.showErrorMessage(window.errorRemove);
         }
-      },
-      error(err) {
-        console.log(err);
-      },
-    });
-  });
+      } else {
+        window.showErrorMessage(window.errorRemove);
+      }
+    } catch (error) {
+      window.showErrorMessage(error);
+    }
+  }
 
   // Tab Content : Edit
   $(document).on('click', '.psre-edit', function editTabContent() {
@@ -217,6 +261,9 @@ $(window).ready(() => {
   $(document).on('click', '#reassurance_block .category_reassurance .svg', (e) => {
     const svg = $(e.target)[0].outerHTML;
 
+    // Discard any pending file upload so it is not sent instead of the icon
+    resetUploadedImage();
+
     // Popin : select the icon
     $('#reassurance_block .category_reassurance img.svg.selected').removeClass('selected');
     $(e.target).addClass('selected');
@@ -233,7 +280,10 @@ $(window).ready(() => {
   // Tab Content : Edit : Select none
   $(document).on('click', '#reassurance_block .select_none', () => {
     const psrPicto = $('.psr-picto:visible');
-    psrPicto.attr('src', 'undefined').hide();
+    psrPicto.attr('src', '').hide();
+
+    // Discard any pending file upload so it is not sent on save
+    resetUploadedImage();
 
     // Un-select icon in the popin
     $('#reassurance_block .category_reassurance img.svg').removeClass('selected');
@@ -406,9 +456,16 @@ $(window).ready(() => {
       contentType: false,
       processData: false,
       data: formData,
-      success() {
-        window.showSuccessMessage(window.psre_success);
-        setTimeout(window.location.reload(), 1800);
+      success(response) {
+        if (response === 'success') {
+          window.showSuccessMessage(window.psre_success);
+          setTimeout(() => window.location.reload(), 1800);
+        } else {
+          window.showErrorMessage(response || window.active_error);
+        }
+      },
+      error() {
+        window.showErrorMessage(window.active_error);
       },
     });
   });

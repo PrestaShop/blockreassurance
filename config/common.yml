@@ -1,0 +1,8 @@
+services:
+  block_reassurance_repository:
+    class: PrestaShop\Module\BlockReassurance\Repository\PsreassuranceRepository
+    public: true
+    arguments:
+      - '@doctrine'
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'

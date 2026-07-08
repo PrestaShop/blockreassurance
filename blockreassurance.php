@@ -26,6 +26,8 @@ if (file_exists($autoloadPath)) {
     require_once $autoloadPath;
 }
 
+use PrestaShop\Module\BlockReassurance\Entity\Psreassurance;
+use PrestaShop\Module\BlockReassurance\Repository\PsreassuranceRepository;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class blockreassurance extends Module implements WidgetInterface
@@ -52,8 +54,6 @@ class blockreassurance extends Module implements WidgetInterface
     public $version;
     /** @var string */
     public $author;
-    /** @var bool */
-    public $need_instance;
     /** @var string */
     public $controller_name;
     /** @var bool */
@@ -88,15 +88,18 @@ class blockreassurance extends Module implements WidgetInterface
     public $folder_file_upload;
     /** @var string */
     private $templateFile;
+    public static $static_img_path;
+    public static $static_img_path_perso;
+    public static $static_folder_file_upload;
 
     public function __construct()
     {
         // Settings
         $this->name = 'blockreassurance';
         $this->tab = 'front_office_features';
-        $this->version = '5.1.4';
+        $this->version = '6.0.0';
         $this->author = 'PrestaShop';
-        $this->need_instance = false;
+        $this->need_instance = 0;
 
         $this->bootstrap = true;
         parent::__construct();
@@ -122,11 +125,14 @@ class blockreassurance extends Module implements WidgetInterface
         $this->logo_path = $this->_path . 'logo.png';
         $this->module_path = $this->_path;
         $this->folder_file_upload = _PS_MODULE_DIR_ . $this->name . '/views/img/img_perso/';
+        self::$static_img_path = $this->img_path;
+        self::$static_img_path_perso = $this->img_path_perso;
+        self::$static_folder_file_upload = $this->folder_file_upload;
 
         // Confirm uninstall
         $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Blockreassurance.Admin');
         $this->ps_url = $this->context->link->getBaseLink();
-        $this->ps_versions_compliancy = ['min' => '1.7', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '8.2.0', 'max' => _PS_VERSION_];
         $this->templateFile = 'module:blockreassurance/views/templates/hook/blockreassurance.tpl';
     }
 
@@ -161,9 +167,9 @@ class blockreassurance extends Module implements WidgetInterface
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;';
 
         $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance (icon, custom_icon, status, position, type_link, id_cms, date_add) VALUES '
-            . "('" . $this->img_path . "reassurance/pack2/security.svg', null, 1, 1, null, null, now()),"
-            . "('" . $this->img_path . "reassurance/pack2/carrier.svg', null, 1, 2, null, null, now()),"
-            . "('" . $this->img_path . "reassurance/pack2/parcel.svg', null, 1, 3, null, null, now())";
+            . "('reassurance/pack2/security.svg', null, 1, 1, null, null, now()),"
+            . "('reassurance/pack2/carrier.svg', null, 1, 2, null, null, now()),"
+            . "('reassurance/pack2/parcel.svg', null, 1, 3, null, null, now())";
         foreach (Language::getLanguages(false) as $lang) {
             $sqlQueries[] = 'INSERT INTO ' . _DB_PREFIX_ . 'psreassurance_lang (id_psreassurance, id_lang, title, description, link) VALUES '
                 . '(1, ' . $lang['id_lang'] . ", '" . $this->trans('Security policy', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', '" . $this->trans('(edit with the Customer Reassurance module)', [], 'Modules.Blockreassurance.Shop', $lang['locale']) . "', ''),"
@@ -186,13 +192,13 @@ class blockreassurance extends Module implements WidgetInterface
         Configuration::updateValue('PSR_TEXT_COLOR', '#000000');
 
         // Hooks
-        if (parent::install() &&
-            $this->registerHook('displayAfterBodyOpeningTag') &&
-            $this->registerHook('displayNavFullWidth') &&
-            $this->registerHook('displayFooterAfter') &&
-            $this->registerHook('displayFooterBefore') &&
-            $this->registerHook('displayReassurance') &&
-            $this->registerHook('actionFrontControllerSetMedia')
+        if (parent::install()
+            && $this->registerHook('displayAfterBodyOpeningTag')
+            && $this->registerHook('displayNavFullWidth')
+            && $this->registerHook('displayFooterAfter')
+            && $this->registerHook('displayFooterBefore')
+            && $this->registerHook('displayReassurance')
+            && $this->registerHook('actionFrontControllerSetMedia')
         ) {
             return true;
         }
@@ -273,6 +279,9 @@ class blockreassurance extends Module implements WidgetInterface
 
         $moduleAdminLink = Context::getContext()->link->getAdminLink('AdminModules', true) . '&configure=' . $this->name . '&module_name=' . $this->name;
 
+        /** @var PsreassuranceRepository $reassuranceRepository */
+        $reassuranceRepository = $this->get('block_reassurance_repository');
+
         $allCms = CMS::listCms($id_lang);
         $fields_captions = [
             'position' => $this->trans('Position', [], 'Modules.Blockreassurance.Admin'),
@@ -283,6 +292,15 @@ class blockreassurance extends Module implements WidgetInterface
             'actions' => $this->trans('Actions', [], 'Modules.Blockreassurance.Admin'),
         ];
 
+        $allblock = $reassuranceRepository->getAllBlock();
+        foreach ($allblock as &$block) {
+            if ($block['icon']) {
+                $block['icon'] = $this->img_path . $block['icon'];
+            } elseif ($block['custom_icon']) {
+                $block['custom_icon'] = $this->img_path_perso . '/' . $block['custom_icon'];
+            }
+        }
+
         $this->context->smarty->assign([
             'psr_hook_header' => (int) Configuration::get('PSR_HOOK_HEADER'),
             'psr_hook_footer' => (int) Configuration::get('PSR_HOOK_FOOTER'),
@@ -292,7 +310,7 @@ class blockreassurance extends Module implements WidgetInterface
             'psr_icon_color' => Configuration::get('PSR_ICON_COLOR'),
             'logo_path' => $this->logo_path,
             'languages' => Language::getLanguages(false),
-            'allblock' => ReassuranceActivity::getAllBlock(),
+            'allblock' => $allblock,
             'currentPage' => $currentPage,
             'moduleAdminLink' => $moduleAdminLink,
             'img_path' => $this->img_path,
@@ -303,9 +321,9 @@ class blockreassurance extends Module implements WidgetInterface
             'folderIsWritable' => $this->folderUploadFilesHasGoodRights(),
             'folderPath' => $this->img_path_perso,
             // constants
-            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
-            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
-            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+            'LINK_TYPE_NONE' => Psreassurance::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => Psreassurance::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => Psreassurance::TYPE_LINK_URL,
             'fields_captions' => $fields_captions,
         ]);
 
@@ -432,7 +450,9 @@ class blockreassurance extends Module implements WidgetInterface
      */
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
-        $blocks = ReassuranceActivity::getAllBlockByStatus(
+        /** @var PsreassuranceRepository $reassuranceRepository */
+        $reassuranceRepository = $this->get('block_reassurance_repository');
+        $blocks = $reassuranceRepository->getAllBlockByStatus(
             $this->context->language->id
         );
 
@@ -455,7 +475,7 @@ class blockreassurance extends Module implements WidgetInterface
 
         return [
             'elements' => $elements,
-            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
+            'LINK_TYPE_NONE' => Psreassurance::TYPE_LINK_NONE,
         ];
     }
 
@@ -492,16 +512,18 @@ class blockreassurance extends Module implements WidgetInterface
      */
     private function renderTemplateInHook($template)
     {
+        /** @var PsreassuranceRepository $reassuranceRepository */
+        $reassuranceRepository = $this->get('block_reassurance_repository');
         $id_lang = $this->context->language->id;
 
         $this->context->smarty->assign([
-            'blocks' => ReassuranceActivity::getAllBlockByStatus($id_lang),
+            'blocks' => $reassuranceRepository->getAllBlockByStatus($id_lang),
             'iconColor' => Configuration::get('PSR_ICON_COLOR'),
             'textColor' => Configuration::get('PSR_TEXT_COLOR'),
             // constants
-            'LINK_TYPE_NONE' => ReassuranceActivity::TYPE_LINK_NONE,
-            'LINK_TYPE_CMS' => ReassuranceActivity::TYPE_LINK_CMS_PAGE,
-            'LINK_TYPE_URL' => ReassuranceActivity::TYPE_LINK_URL,
+            'LINK_TYPE_NONE' => Psreassurance::TYPE_LINK_NONE,
+            'LINK_TYPE_CMS' => Psreassurance::TYPE_LINK_CMS_PAGE,
+            'LINK_TYPE_URL' => Psreassurance::TYPE_LINK_URL,
         ]);
 
         return $this->display(__FILE__, 'views/templates/hook/' . $template);
@@ -525,6 +547,7 @@ class blockreassurance extends Module implements WidgetInterface
             'successPosition' => $this->trans('Position changed successfully!', [], 'Modules.Blockreassurance.Admin'),
             'errorPosition' => $this->trans('An error occurred when switching position', [], 'Modules.Blockreassurance.Admin'),
             'txtConfirmRemoveBlock' => $this->trans('Are you sure?', [], 'Admin.Notifications.Warning'),
+            'successRemove' => $this->trans('Block deleted successfully!', [], 'Modules.Blockreassurance.Admin'),
             'errorRemove' => $this->trans('An error occurred when removing block', [], 'Modules.Blockreassurance.Admin'),
         ]);
     }

@@ -1,0 +1,10 @@
+imports:
+  - { resource: ../common.yml }
+
+services:
+    block_reassurance_form_data_handler:
+        class: 'PrestaShop\Module\BlockReassurance\Form\PsreassuranceFormDataHandler'
+        public: true
+        arguments:
+            - '@prestashop.core.admin.lang.repository'
+            - '@doctrine.orm.default_entity_manager'
