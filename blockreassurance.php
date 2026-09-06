@@ -250,14 +250,24 @@ class blockreassurance extends Module implements WidgetInterface
     }
 
     /**
-     * Check if folder img_perso is writable and executable
+     * Check that the upload folder can actually receive an uploaded file.
      *
      * @return bool
      */
     private function folderUploadFilesHasGoodRights()
     {
-        // do not check is_executable on windows platform (https://www.php.net/manual/en/function.is-executable.php#refsect1-function.is-executable-notes)
-        return is_writable($this->folder_file_upload) && !(preg_match('/^[a-zA-Z]{1}\:{1}\\\\{1}/', $this->folder_file_upload) !== 1) || is_executable($this->folder_file_upload);
+        if (!is_writable($this->folder_file_upload)) {
+            return false;
+        }
+
+        /*
+         * WHY: creating a file inside a directory needs the write permission AND the traverse
+         * permission, so both are required. Windows has no traverse bit, and is_executable() answers
+         * there about file extensions instead, so it reports false for every directory - asking it
+         * would reject a folder that works perfectly well.
+         * https://www.php.net/manual/en/function.is-executable.php#refsect1-function.is-executable-notes
+         */
+        return '\\' === DIRECTORY_SEPARATOR || is_executable($this->folder_file_upload);
     }
 
     /**
