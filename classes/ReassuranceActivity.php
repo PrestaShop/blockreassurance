@@ -156,9 +156,12 @@ class ReassuranceActivity extends ObjectModel
      */
     public static function getAllBlockByStatus($id_lang = 1)
     {
+        $id_shop = (int) Context::getContext()->shop->id;
+
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'psreassurance` pr
             LEFT JOIN ' . _DB_PREFIX_ . 'psreassurance_lang prl ON (pr.id_psreassurance = prl.id_psreassurance)
             WHERE prl.id_lang = "' . (int) $id_lang . '"
+                AND prl.id_shop = "' . (int) $id_shop . '"
                 AND pr.status = 1
             ORDER BY pr.position';
 
